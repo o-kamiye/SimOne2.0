@@ -1,12 +1,5 @@
-### FOR NEW FEATURES, FOLLOW THIS FORMAT:
-#### TITLE: 
-    As a user, I want to <task> so that <goal>
-#### DESCRIPTION:
-    Given I am a <user>
-    And I want to <task>
-    When I <action>
-    Then <goal>
-
+### FOR NEW FEATURES, SIMPLY COPY STORY TITLE AND DETAILS FROM PIVOTAL TRACKER AND INCLUDE THE TAG
+    e.g Create user table [Pivotal Tag - #12345789]
 
 ### FOR BUG FIXES AND ERRORS, OR OTHER ISSUES, FOLLOW THIS FORMAT:
 #### TITLE:
