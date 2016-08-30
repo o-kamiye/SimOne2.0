@@ -9,3 +9,5 @@
     <actual behavior>
     <Suggested steps to reproduce the problem if any>
     Specifications and details like the Android version, device, etc
+    
+Commit messages should include the tag `<enter tag number here>`
