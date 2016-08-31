@@ -4,8 +4,6 @@ import android.databinding.BindingAdapter;
 import android.graphics.Typeface;
 import android.widget.TextView;
 
-import ng.com.tinweb.www.simone20.SimOneApplication;
-
 /**
  * Created by kamiye on 30/08/2016.
  */
@@ -20,14 +18,14 @@ public class Font {
 
         switch (fontIdentifier) {
             case APPNAME:
-                setAppNameFront(textView);
+                setAppNameFont(textView);
                 break;
         }
     }
 
-    private static void setAppNameFront(TextView textView) {
+    private static void setAppNameFont(TextView textView) {
         if (appNameFont == null) {
-            appNameFont = Typeface.createFromAsset(SimOneApplication.getContext()
+            appNameFont = Typeface.createFromAsset(textView.getContext()
                     .getAssets(), "fonts/phosphate.ttf");
         }
         textView.setTypeface(appNameFont);
