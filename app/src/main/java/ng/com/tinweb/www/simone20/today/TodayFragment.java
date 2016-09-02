@@ -1,15 +1,17 @@
-package ng.com.tinweb.www.simone20.reminder;
+package ng.com.tinweb.www.simone20.today;
 
 import android.content.res.Resources;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import ng.com.tinweb.www.simone20.R;
 import ng.com.tinweb.www.simone20.databinding.FragmentReminderBinding;
+import ng.com.tinweb.www.simone20.util.LinearLayoutDecorator;
 
 public class TodayFragment extends Fragment {
 
@@ -38,8 +40,13 @@ public class TodayFragment extends Fragment {
         setFragmentTitle();
         int remindersCount = getRemindersCount();
         Resources res = getResources();
-        fragmentReminderBinding.totalDailyCalls.setText(res.getQuantityString(R.plurals.no_of_calls_today,
+        fragmentReminderBinding.todayCallsTextView.setText(res.getQuantityString(R.plurals.no_of_calls_today,
                 remindersCount, remindersCount));
+
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+        fragmentReminderBinding.todayCallsRecyclerView.setLayoutManager(layoutManager);
+        fragmentReminderBinding.todayCallsRecyclerView.setAdapter(new TodayAdapter());
+        fragmentReminderBinding.todayCallsRecyclerView.addItemDecoration(new LinearLayoutDecorator(getContext(), null));
     }
 
     private int getRemindersCount() {

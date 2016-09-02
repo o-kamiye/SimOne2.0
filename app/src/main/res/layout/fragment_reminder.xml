@@ -5,10 +5,10 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        tools:context=".reminder.TodayFragment">
+        tools:context=".today.TodayFragment">
 
         <TextView
-            android:id="@+id/total_daily_calls"
+            android:id="@+id/todayCallsTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
@@ -22,7 +22,7 @@
             android:textColor="@color/listSummaryColor" />
 
         <android.support.v7.widget.RecyclerView
-            android:id="@+id/todayCallsList"
+            android:id="@+id/todayCallsRecyclerView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
     </LinearLayout>
