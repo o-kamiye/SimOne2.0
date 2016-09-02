@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="no_of_calls_today">
+        <item quantity="one">You have %d call due today</item>
+        <item quantity="other">You have %d calls due today</item>
+    </plurals>
+</resources>
