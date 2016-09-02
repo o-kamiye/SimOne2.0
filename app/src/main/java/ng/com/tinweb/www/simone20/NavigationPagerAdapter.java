@@ -4,7 +4,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-import ng.com.tinweb.www.simone20.reminder.TodayFragment;
+import ng.com.tinweb.www.simone20.today.TodayFragment;
 
 /**
  * Created by kamiye on 02/09/2016.

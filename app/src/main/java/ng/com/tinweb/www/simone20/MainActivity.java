@@ -18,23 +18,17 @@ import ng.com.tinweb.www.simone20.databinding.ActivityMainBinding;
 public class MainActivity extends AppCompatActivity {
 
 
-    private NavigationPagerAdapter mSectionsPagerAdapter;
+    private NavigationPagerAdapter navigationPagerAdapter;
     private ActivityMainBinding activityMainBinding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         activityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
-
         setSupportActionBar(activityMainBinding.toolbar);
 
-        String[] bottomNavTabs = getBottomNavMenu();
-        mSectionsPagerAdapter = new NavigationPagerAdapter(getSupportFragmentManager(), bottomNavTabs);
-
-        // Set up the ViewPager with the sections adapter.
-        activityMainBinding.container.setAdapter(mSectionsPagerAdapter);
+        setUpViewPager();
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -51,6 +45,14 @@ public class MainActivity extends AppCompatActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void setUpViewPager() {
+        String[] bottomNavTabs = getBottomNavMenu();
+        navigationPagerAdapter = new NavigationPagerAdapter(getSupportFragmentManager(), bottomNavTabs);
+
+        // Set up the ViewPager with the sections adapter.
+        activityMainBinding.container.setAdapter(navigationPagerAdapter);
     }
 
     public String[] getBottomNavMenu() {

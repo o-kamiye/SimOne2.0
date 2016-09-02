@@ -7,6 +7,7 @@
     <string name="section_format">Hello World from section: %1$d</string>
     <string name="action_search">Search</string>
     <string name="today_fragment_title">Today\'s Calls</string>
+    <string name="call_action">Call action</string>
 
     <string-array name="bottom_nav_tabs">
         <item>Today</item>

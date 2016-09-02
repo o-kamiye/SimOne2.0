@@ -8,5 +8,5 @@
     <color name="listSummaryColor">#979797</color>
     <color name="listSummaryTextShadow">#20000000</color>
     <color name="applicationBackground">#F8F9F1</color>
-    <color name="black">#000000</color>
+    <color name="defaultTextColour">#666666</color>
 </resources>

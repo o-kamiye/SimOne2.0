@@ -4,4 +4,8 @@
         <item quantity="one">You have %d call due today</item>
         <item quantity="other">You have %d calls due today</item>
     </plurals>
+    <plurals name="no_of_days_since_last_call">
+        <item quantity="one">%d\nday</item>
+        <item quantity="other">%d\ndays</item>
+    </plurals>
 </resources>
