@@ -9,7 +9,7 @@
     <string name="today_fragment_title">Today\'s Calls</string>
     <string name="call_action">Call action</string>
 
-    <string-array name="bottom_nav_tabs">
+    <string-array name="bottomNavMenu">
         <item>Today</item>
         <item>Reminders</item>
         <item>Groups</item>

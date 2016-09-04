@@ -5,9 +5,4 @@
         <item>@color/colorPrimaryDark</item>
         <item>@color/colorPrimaryDarkest</item>
     </array>
-    <array name="bottomNavIcons">
-        <item>@drawable/today_icon</item>
-        <item>@drawable/reminder_icon</item>
-        <item>@drawable/group_icon</item>
-    </array>
 </resources>
