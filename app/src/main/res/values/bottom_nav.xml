@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="bottomNavColours">
+        <item>@color/colorPrimary</item>
+        <item>@color/colorPrimaryDark</item>
+        <item>@color/colorPrimaryDarkest</item>
+    </array>
+    <array name="bottomNavIcons">
+        <item>@drawable/today_icon</item>
+        <item>@drawable/reminder_icon</item>
+        <item>@drawable/group_icon</item>
+    </array>
+</resources>

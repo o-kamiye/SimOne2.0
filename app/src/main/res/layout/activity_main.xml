@@ -35,6 +35,15 @@
             android:layout_height="match_parent"
             app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
+        <com.luseen.luseenbottomnavigation.BottomNavigation.BottomNavigationView
+            android:id="@+id/bottomNavigation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:bnv_viewpager_slide="true"
+            app:bnv_with_text="false"
+            app:bnv_active_color="@color/colorPrimary"
+            android:layout_gravity="bottom" />
+
     </android.support.design.widget.CoordinatorLayout>
 
 </layout>
