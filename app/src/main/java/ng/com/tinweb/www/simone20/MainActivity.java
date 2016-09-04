@@ -1,6 +1,9 @@
 package ng.com.tinweb.www.simone20;
 
 import android.databinding.DataBindingUtil;
+import android.support.annotation.IdRes;
+import android.support.design.widget.Snackbar;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 
 import android.support.v4.app.Fragment;
@@ -12,8 +15,13 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.luseen.luseenbottomnavigation.BottomNavigation.BottomNavigationView;
+import com.luseen.luseenbottomnavigation.BottomNavigation.OnBottomNavigationItemClickListener;
 
 import ng.com.tinweb.www.simone20.databinding.ActivityMainBinding;
+import ng.com.tinweb.www.simone20.util.BottomNavManager;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -28,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(activityMainBinding.toolbar);
 
         setUpViewPager();
+        setUpBottomNav();
     }
 
     @Override
@@ -55,10 +64,27 @@ public class MainActivity extends AppCompatActivity {
         activityMainBinding.container.setAdapter(navigationPagerAdapter);
     }
 
-    public String[] getBottomNavMenu() {
+    private String[] getBottomNavMenu() {
         return getResources().getStringArray(R.array.bottom_nav_tabs);
     }
 
+    private void setUpBottomNav() {
+        //BottomNavManager bottomNavManager = new BottomNavManager(activityMainBinding, getBottomNavMenu());
+        //BottomNavigationView bottomNavigation = bottomNavManager.getBottomNav();
+        activityMainBinding.bottomNavigation.setOnBottomNavigationItemClickListener(new OnBottomNavigationItemClickListener() {
+            @Override
+            public void onNavigationItemClick(int index) {
+                Toast.makeText(MainActivity.this, "Item " +index +" clicked", Toast.LENGTH_SHORT).show();
+            }
+        });
+        int[] colourResources = getResources().getIntArray(R.array.bottomNavColours);
+        int[] imageResources = new int[] {
+                R.drawable.today_icon,
+                R.drawable.reminder_icon,
+                R.drawable.group_icon
+        };
+        activityMainBinding.bottomNavigation.setUpWithViewPager(activityMainBinding.container, colourResources, imageResources);
+    }
 
     public static class PlaceholderFragment extends Fragment {
 
