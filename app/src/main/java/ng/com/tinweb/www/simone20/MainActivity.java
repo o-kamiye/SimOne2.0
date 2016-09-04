@@ -13,9 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.luseen.luseenbottomnavigation.BottomNavigation.OnBottomNavigationItemClickListener;
 import ng.com.tinweb.www.simone20.databinding.ActivityMainBinding;
 
 public class MainActivity extends AppCompatActivity implements ViewPager.OnPageChangeListener {
@@ -63,10 +61,8 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
     public void onPageScrollStateChanged(int state) {}
 
     private void setUpViewPager() {
-        navigationPagerAdapter = new NavigationPagerAdapter(getSupportFragmentManager(),
-                activityMainBinding.bottomNavigation);
+        navigationPagerAdapter = new NavigationPagerAdapter(getSupportFragmentManager());
 
-        // Set up the ViewPager with the sections adapter.
         activityMainBinding.container.setAdapter(navigationPagerAdapter);
         activityMainBinding.container.addOnPageChangeListener(this);
     }

@@ -15,8 +15,9 @@
             android:layout_margin="5dp"
             android:background="@drawable/today_badge"
             android:gravity="center"
+            android:lineSpacingExtra="-3dp"
             android:textColor="@color/white"
-            android:textSize="14sp" />
+            android:textSize="12sp" />
 
         <TextView
             android:id="@+id/contactNameTextView"
@@ -27,7 +28,7 @@
             android:layout_gravity="center"
             android:textSize="16sp"
             android:textColor="@color/defaultTextColour"
-            android:text="Something" />
+            android:text="Dele Momodu" />
 
         <ImageView
             android:id="@+id/callIconImageView"
