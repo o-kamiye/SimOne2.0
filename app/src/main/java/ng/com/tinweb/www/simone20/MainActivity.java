@@ -1,9 +1,7 @@
 package ng.com.tinweb.www.simone20;
 
 import android.databinding.DataBindingUtil;
-import android.support.annotation.IdRes;
-import android.support.design.widget.Snackbar;
-import android.support.v4.content.ContextCompat;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 
 import android.support.v4.app.Fragment;
@@ -17,13 +15,10 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.luseen.luseenbottomnavigation.BottomNavigation.BottomNavigationView;
 import com.luseen.luseenbottomnavigation.BottomNavigation.OnBottomNavigationItemClickListener;
-
 import ng.com.tinweb.www.simone20.databinding.ActivityMainBinding;
-import ng.com.tinweb.www.simone20.util.BottomNavManager;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements ViewPager.OnPageChangeListener {
 
 
     private NavigationPagerAdapter navigationPagerAdapter;
@@ -56,34 +51,35 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {}
+
+    @Override
+    public void onPageSelected(int position) {
+        activityMainBinding.bottomNavigation.selectTab(position);
+    }
+
+    @Override
+    public void onPageScrollStateChanged(int state) {}
+
     private void setUpViewPager() {
-        String[] bottomNavTabs = getBottomNavMenu();
-        navigationPagerAdapter = new NavigationPagerAdapter(getSupportFragmentManager(), bottomNavTabs);
+        navigationPagerAdapter = new NavigationPagerAdapter(getSupportFragmentManager(),
+                activityMainBinding.bottomNavigation);
 
         // Set up the ViewPager with the sections adapter.
         activityMainBinding.container.setAdapter(navigationPagerAdapter);
-    }
-
-    private String[] getBottomNavMenu() {
-        return getResources().getStringArray(R.array.bottom_nav_tabs);
+        activityMainBinding.container.addOnPageChangeListener(this);
     }
 
     private void setUpBottomNav() {
-        //BottomNavManager bottomNavManager = new BottomNavManager(activityMainBinding, getBottomNavMenu());
-        //BottomNavigationView bottomNavigation = bottomNavManager.getBottomNav();
-        activityMainBinding.bottomNavigation.setOnBottomNavigationItemClickListener(new OnBottomNavigationItemClickListener() {
-            @Override
-            public void onNavigationItemClick(int index) {
-                Toast.makeText(MainActivity.this, "Item " +index +" clicked", Toast.LENGTH_SHORT).show();
-            }
-        });
         int[] colourResources = getResources().getIntArray(R.array.bottomNavColours);
         int[] imageResources = new int[] {
                 R.drawable.today_icon,
                 R.drawable.reminder_icon,
                 R.drawable.group_icon
         };
-        activityMainBinding.bottomNavigation.setUpWithViewPager(activityMainBinding.container, colourResources, imageResources);
+        activityMainBinding.bottomNavigation.setUpWithViewPager(activityMainBinding.container,
+                colourResources, imageResources);
     }
 
     public static class PlaceholderFragment extends Fragment {
