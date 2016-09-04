@@ -1,7 +1,9 @@
 package ng.com.tinweb.www.simone20.today;
 
 import android.databinding.DataBindingUtil;
+import android.os.Build;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,7 +28,14 @@ public class TodayAdapter extends RecyclerView.Adapter<TodayAdapter.TodayViewHol
 
     @Override
     public void onBindViewHolder(TodayViewHolder holder, int position) {
-
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            callListBinding.contactInfoTextView.setText(Html.fromHtml("<big>4</big>" +  "<br />" +
+                    "<small>days</small>", Html.FROM_HTML_MODE_COMPACT));
+        }
+        else {
+            callListBinding.contactInfoTextView.setText(Html.fromHtml("<big>4</big>" +  "<br />" +
+                    "<small>days</small>"));
+        }
     }
 
     @Override

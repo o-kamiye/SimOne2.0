@@ -4,9 +4,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-import com.luseen.luseenbottomnavigation.BottomNavigation.BottomNavigationView;
-
-import ng.com.tinweb.www.simone20.databinding.ActivityMainBinding;
 import ng.com.tinweb.www.simone20.today.TodayFragment;
 
 /**
@@ -15,11 +12,9 @@ import ng.com.tinweb.www.simone20.today.TodayFragment;
 public class NavigationPagerAdapter extends FragmentPagerAdapter {
 
     private String[] navMenu = SimOneApplication.getNavMenu();
-    private BottomNavigationView bottomNavigationView;
 
-    public NavigationPagerAdapter(FragmentManager fragmentManager, BottomNavigationView bottomNavigationView) {
+    public NavigationPagerAdapter(FragmentManager fragmentManager) {
         super(fragmentManager);
-        this.bottomNavigationView = bottomNavigationView;
     }
 
     @Override
