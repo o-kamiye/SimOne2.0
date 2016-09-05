@@ -27,6 +27,8 @@ android {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile support.appcompat
+    compile support.design
+    compile support.support
     compile lib.bottomNav
 
     // Test dependencies
