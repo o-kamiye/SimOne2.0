@@ -26,24 +26,24 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile support.appcompat
+    compile support.design
+    compile support.support
+    compile lib.bottomNav
 
     // Test dependencies
-    testCompile 'junit:junit:4.12'
-    testCompile "org.mockito:mockito-all:1.10.19"
-    testCompile("org.powermock:powermock-module-junit4:1.6.2")
-    testCompile("org.powermock:powermock-api-mockito:1.6.2")
-    androidTestCompile 'com.android.support:support-annotations:24.2.0'
-    androidTestCompile 'com.android.support.test:runner:0.5'
-    androidTestCompile 'com.android.support.test:rules:0.5'
+    testCompile test.junit
+    testCompile test.mockito
+    testCompile test.powermock_module
+    testCompile test.powermock_api
+    androidTestCompile androidTest.support_annotations
+    androidTestCompile androidTest.support_test_runner
+    androidTestCompile androidTest.support_test_rules
     // Optional -- Hamcrest library
-    androidTestCompile 'org.hamcrest:hamcrest-library:1.3'
+    androidTestCompile androidTest.hamcrest
     // Optional -- UI testing with Espresso
-    androidTestCompile 'com.android.support.test.espresso:espresso-intents:2.2.2'
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+    androidTestCompile "com.android.support.test.espresso:espresso-intents:$rootProject.ESPRESSO_VERSION"
+    androidTestCompile ("com.android.support.test.espresso:espresso-core:$rootProject.ESPRESSO_VERSION" ,{
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    compile 'com.android.support:appcompat-v7:24.2.0'
-    compile 'com.android.support:design:24.2.0'
-    compile 'com.android.support:support-v4:24.2.0'
-    compile 'com.github.armcha:LuseenBottomNavigation:1.8.2'
 }

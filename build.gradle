@@ -18,6 +18,38 @@ allprojects {
     }
 }
 
+ext {
+    SUPPORT_LIB_VERSION = '24.2.0'
+    POWERMOCK_VERSION = '1.6.2'
+    TESTRUNNER_VERSION = '0.5'
+    MOCKITO_VERSION = '1.10.19'
+    JUNIT_VERSION = '4.12'
+    HAMCREST_LIB_VERSION = '1.3'
+    ESPRESSO_VERSION = '2.2.2'
+    BOTTOM_NAV_VERSION = '1.8.2'
+
+    support = [
+            appcompat: "com.android.support:appcompat-v7:$SUPPORT_LIB_VERSION",
+            design: "com.android.support:design:$SUPPORT_LIB_VERSION",
+            support: "com.android.support:support-v4:$SUPPORT_LIB_VERSION"
+    ]
+    lib = [
+            bottomNav: "com.github.armcha:LuseenBottomNavigation:$BOTTOM_NAV_VERSION"
+    ]
+    test = [
+            junit: "junit:junit:$JUNIT_VERSION",
+            mockito: "org.mockito:mockito-all:$MOCKITO_VERSION",
+            powermock_module: ("org.powermock:powermock-module-junit4:$POWERMOCK_VERSION"),
+            powermock_api: ("org.powermock:powermock-api-mockito:$POWERMOCK_VERSION")
+    ]
+    androidTest = [
+            support_annotations: "com.android.support:support-annotations:$SUPPORT_LIB_VERSION",
+            support_test_runner: "com.android.support.test:runner:$TESTRUNNER_VERSION",
+            support_test_rules: "com.android.support.test:rules:$TESTRUNNER_VERSION",
+            hamcrest: "org.hamcrest:hamcrest-library:$HAMCREST_LIB_VERSION"
+    ]
+}
+
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
