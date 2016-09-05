@@ -17,7 +17,12 @@ import ng.com.tinweb.www.simone20.databinding.TodayCallListBinding;
 public class TodayAdapter extends RecyclerView.Adapter<TodayAdapter.TodayViewHolder> {
 
     private TodayCallListBinding callListBinding;
-    private String[] array = new String[]{"Someone", "Another one"};
+    private String[] array = new String[2];
+    private TodayFragment.CallActionListener callActionListener;
+
+    public TodayAdapter(TodayFragment.CallActionListener callActionListener) {
+        this.callActionListener = callActionListener;
+    }
 
     @Override
     public TodayViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -43,11 +48,18 @@ public class TodayAdapter extends RecyclerView.Adapter<TodayAdapter.TodayViewHol
         return array.length;
     }
 
-    public class TodayViewHolder extends RecyclerView.ViewHolder {
+    public class TodayViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         public TodayViewHolder(View itemView) {
             super(itemView);
+            callListBinding.callIconImageView.setOnClickListener(this);
         }
 
+        @Override
+        public void onClick(View view) {
+            int position = getAdapterPosition();
+            String contactName = "Kamiye at postion " + position;
+            callActionListener.onCallClick(contactName);
+        }
     }
 }
