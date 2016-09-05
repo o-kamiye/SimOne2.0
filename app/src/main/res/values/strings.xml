@@ -1,6 +1,17 @@
 <resources>
     <string name="app_name">SimOne</string>
     <string name="logo_description">Launcher activity logo</string>
-    <string name="app_slogan">You\'ll never forget to call...</string>
+    <string name="app_slogan">You\'ll never forget to call…</string>
     <string name="get_started">Get Started</string>
+    <string name="action_settings">Settings</string>
+    <string name="section_format">Hello World from section: %1$d</string>
+    <string name="action_search">Search</string>
+    <string name="today_fragment_title">Today\'s Calls</string>
+    <string name="call_action">Call action</string>
+
+    <string-array name="bottomNavMenu">
+        <item>Today</item>
+        <item>Reminders</item>
+        <item>Groups</item>
+    </string-array>
 </resources>

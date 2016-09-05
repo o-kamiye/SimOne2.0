@@ -2,7 +2,13 @@
 <resources>
     <color name="colorPrimary">#3D619B</color>
     <color name="colorPrimaryDark">#304D7C</color>
+    <color name="colorPrimaryDarkest">#203a61</color>
     <color name="colorAccent">#DF8500</color>
     <color name="colorAccentDark">#F25E38</color>
     <color name="white">#FFFFFF</color>
+    <color name="listSummaryColor">#979797</color>
+    <color name="listSummaryTextShadow">#20000000</color>
+    <color name="applicationBackground">#F8F9F1</color>
+    <color name="defaultTextColour">#666666</color>
+
 </resources>

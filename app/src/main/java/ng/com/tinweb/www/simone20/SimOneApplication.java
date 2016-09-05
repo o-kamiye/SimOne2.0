@@ -9,6 +9,7 @@ import android.content.Context;
 public class SimOneApplication extends Application {
 
     private static Context context;
+    private static String[] navMenu;
 
     @Override
     public void onCreate() {
@@ -20,4 +21,10 @@ public class SimOneApplication extends Application {
     public static Context getContext() {
         return context;
     }
+
+    public static String[] getNavMenu() {
+        return context.getResources()
+                .getStringArray(R.array.bottomNavMenu);
+    }
+
 }
