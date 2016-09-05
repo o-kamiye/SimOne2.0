@@ -21,7 +21,7 @@ public class TodayPresenter implements ITodayPresenter {
     public void setReminderCount() {
         int remindersCount = 0;
         if (todayView.get() != null)
-            todayView.get().setSummaryDisplay(remindersCount);
+            todayView.get().setTotalReminders(remindersCount);
     }
 
     @Override
@@ -30,7 +30,4 @@ public class TodayPresenter implements ITodayPresenter {
                 .show();
     }
 
-    /**
-     * Define other presenter methods below to interact with the view
-     */
 }

@@ -59,7 +59,7 @@ public class TodayFragment extends Fragment implements ITodayView {
     }
 
     @Override
-    public void setSummaryDisplay(int remindersCount) {
+    public void setTotalReminders(int remindersCount) {
         fragmentReminderBinding.todayCallsTextView.setText(getResources()
                 .getQuantityString(R.plurals.no_of_calls_today,
                 remindersCount, remindersCount));

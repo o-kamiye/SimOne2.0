@@ -9,5 +9,5 @@ interface ITodayView {
      * Interface to interact with the presenter
      */
 
-    void setSummaryDisplay(int remindersCount);
+    void setTotalReminders(int remindersCount);
 }
