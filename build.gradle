@@ -29,7 +29,9 @@ ext {
     BOTTOM_NAV_VERSION = '1.8.2'
 
     support = [
-            appcompat: "com.android.support:appcompat-v7:$SUPPORT_LIB_VERSION"
+            appcompat: "com.android.support:appcompat-v7:$SUPPORT_LIB_VERSION",
+            design: "com.android.support:design:$SUPPORT_LIB_VERSION",
+            support: "com.android.support:support-v4:$SUPPORT_LIB_VERSION"
     ]
     lib = [
             bottomNav: "com.github.armcha:LuseenBottomNavigation:$BOTTOM_NAV_VERSION"
