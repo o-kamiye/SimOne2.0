@@ -19,7 +19,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.withId;
  */
 @RunWith(AndroidJUnit4.class)
 @LargeTest
-public class WelcomeActivityTest {
+public class WelcomeActivityUITest {
 
     @Rule
     public ActivityTestRule<WelcomeActivity> activityTestRule = new ActivityTestRule<>(WelcomeActivity.class);
