@@ -58,7 +58,7 @@ public class TodayAdapter extends RecyclerView.Adapter<TodayAdapter.TodayViewHol
         @Override
         public void onClick(View view) {
             int position = getAdapterPosition();
-            String contactName = "Kamiye at postion " + position;
+            String contactName = "Kamiye at position " + position;
             callActionListener.onCallClick(contactName);
         }
     }

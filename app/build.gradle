@@ -21,6 +21,10 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+
+        debug {
+            testCoverageEnabled true
+        }
     }
 }
 
@@ -46,4 +50,11 @@ dependencies {
     androidTestCompile ("com.android.support.test.espresso:espresso-core:$rootProject.ESPRESSO_VERSION" ,{
         exclude group: 'com.android.support', module: 'support-annotations'
     })
+    androidTestCompile("com.android.support.test.espresso:espresso-contrib:$rootProject.ESPRESSO_VERSION") {
+        exclude group: 'com.android.support', module: 'appcompat'
+        exclude group: 'com.android.support', module: 'support-v4'
+        exclude module: 'recyclerview-v7'
+        exclude module: 'appcompat-v7'
+        exclude module: 'design'
+    }
 }
