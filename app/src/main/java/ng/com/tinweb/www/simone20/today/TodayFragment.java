@@ -8,8 +8,10 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import ng.com.tinweb.www.simone20.R;
+import ng.com.tinweb.www.simone20.SimOneApplication;
 import ng.com.tinweb.www.simone20.databinding.FragmentReminderBinding;
 import ng.com.tinweb.www.simone20.util.LinearLayoutDecorator;
 
@@ -63,6 +65,12 @@ public class TodayFragment extends Fragment implements ITodayView {
         fragmentReminderBinding.todayCallsTextView.setText(getResources()
                 .getQuantityString(R.plurals.no_of_calls_today,
                 remindersCount, remindersCount));
+    }
+
+    @Override
+    public void callContact(String contactName) {
+        Toast.makeText(SimOneApplication.getContext(), "I am going to call " + contactName, Toast.LENGTH_LONG)
+                .show();
     }
 
     private void setUpTodayFragment() {
