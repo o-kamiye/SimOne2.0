@@ -26,8 +26,8 @@ public class TodayPresenter implements ITodayPresenter {
 
     @Override
     public void callContact(String contactName) {
-        Toast.makeText(SimOneApplication.getContext(), "I am going to call " + contactName, Toast.LENGTH_LONG)
-                .show();
+        if (todayView.get() != null )
+            todayView.get().callContact(contactName);
     }
 
 }
