@@ -1,8 +1,10 @@
-package ng.com.tinweb.www.simone20.helper;
+package ng.com.tinweb.www.simone20.util;
 
 import android.databinding.BindingAdapter;
 import android.graphics.Typeface;
 import android.widget.TextView;
+
+import com.luseen.luseenbottomnavigation.BottomNavigation.BottomNavigationView;
 
 /**
  * Created by kamiye on 30/08/2016.
@@ -29,5 +31,6 @@ public class Font {
                     .getAssets(), "fonts/phosphate.ttf");
         }
         textView.setTypeface(appNameFont);
+
     }
 }

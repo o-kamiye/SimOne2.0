@@ -31,6 +31,9 @@ public class WelcomeActivityTest {
 
         onView(withId(R.id.todayCallsTextView))
                 .check(matches(isDisplayed()));
+
+        onView(withId(R.id.todayCallsRecyclerView))
+                .check(matches(isDisplayed()));
     }
 
 }
