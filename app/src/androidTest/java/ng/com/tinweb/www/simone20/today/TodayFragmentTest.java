@@ -4,8 +4,6 @@ import android.support.test.filters.LargeTest;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
-import com.luseen.luseenbottomnavigation.BottomNavigation.BottomNavigationView;
-
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;

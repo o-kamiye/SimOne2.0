@@ -1,11 +1,13 @@
 package ng.com.tinweb.www.simone20;
 
+import android.content.Intent;
 import android.support.test.espresso.matcher.ViewMatchers;
 import android.support.test.filters.LargeTest;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 import android.support.v4.app.FragmentPagerAdapter;
 
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -37,6 +39,12 @@ public class MainActivityUITest {
     public ActivityTestRule<MainActivity> mainActivityTestRule =
             new ActivityTestRule<>(MainActivity.class);
 
+    @Before
+    public void resetActivity() {
+        Intent intent = new Intent();
+        mainActivityTestRule.launchActivity(intent);
+    }
+
     @Test
     public void testBottomNav_visible() {
         onView(withId(R.id.bottomNavigation)).check(matches(isDisplayed()));
@@ -44,6 +52,9 @@ public class MainActivityUITest {
 
     @Test
     public void testBottomNav_navigationWithSwipe() {
+        onView(allOf(withId(R.id.bottom_navigation_container), withChild(withText("Today"))))
+                .perform(click());
+
         onView(allOf(withId(R.id.bottom_navigation_item_title), withText("Today")))
                 .check(matches(isDisplayed()));
 
@@ -59,7 +70,31 @@ public class MainActivityUITest {
     }
 
     @Test
-    public void testActivityTitle() {
-        assertEquals("Today's Calls", mainActivityTestRule.getActivity().getTitle());
+    public void testBottomNav_navigationWithClick() {
+        onView(allOf(withId(R.id.bottom_navigation_container), withChild(withText("Today"))))
+                .perform(click());
+
+        onView(allOf(withId(R.id.bottom_navigation_item_title), withText("Today")))
+                .check(matches(isDisplayed()));
+
+        onView(allOf(withId(R.id.bottom_navigation_container), withChild(withText("Reminders"))))
+                .perform(click());
+
+        onView(allOf(withId(R.id.bottom_navigation_item_title), withText("Reminders")))
+                .check(matches(isDisplayed()));
+
+        onView(allOf(withId(R.id.bottom_navigation_container), withChild(withText("Groups"))))
+                .perform(click());
+
+        onView(allOf(withId(R.id.bottom_navigation_item_title), withText("Groups")))
+                .check(matches(isDisplayed()));
     }
+
+//    @Test
+//    public void testActivityTitle() {
+//        onView(allOf(withId(R.id.bottom_navigation_container), withChild(withText("Today"))))
+//                .perform(click());
+//
+//        assertEquals("Today's Calls", mainActivityTestRule.getActivity().getTitle());
+//    }
 }
