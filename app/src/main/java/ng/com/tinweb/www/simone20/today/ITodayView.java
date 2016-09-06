@@ -10,4 +10,6 @@ interface ITodayView {
      */
 
     void setTotalReminders(int remindersCount);
+
+    void callContact(String contactName);
 }
