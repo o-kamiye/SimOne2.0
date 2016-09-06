@@ -4,12 +4,21 @@ import android.support.test.filters.LargeTest;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
+import com.luseen.luseenbottomnavigation.BottomNavigation.BottomNavigationView;
+
 import org.junit.Rule;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import ng.com.tinweb.www.simone20.MainActivity;
+import ng.com.tinweb.www.simone20.R;
 
-import static org.junit.Assert.*;
+import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.action.ViewActions.swipeLeft;
+import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static android.support.test.espresso.matcher.ViewMatchers.withChild;
+import static android.support.test.espresso.matcher.ViewMatchers.withId;
 
 /**
  * Created by kamiye on 06/09/2016.
@@ -19,8 +28,14 @@ import static org.junit.Assert.*;
 public class TodayFragmentTest {
 
     @Rule
-    private ActivityTestRule<MainActivity> mainActivityTestRule =
+    public ActivityTestRule<MainActivity> mainActivityTestRule =
             new ActivityTestRule<>(MainActivity.class);
 
 
+    @Test
+    public void testFragmentChangingUI() {
+        onView(withChild(withId(R.id.todayCallsTextView))).perform(swipeLeft());
+
+        onView(withId(R.id.section_label)).check(matches(isDisplayed()));
+    }
 }
