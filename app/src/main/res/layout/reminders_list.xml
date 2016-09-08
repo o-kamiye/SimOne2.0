@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -8,16 +9,33 @@
         android:background="@color/white"
         android:padding="5dp">
 
-        <TextView
-            android:id="@+id/contactInfoTextView"
+        <RelativeLayout
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:layout_margin="5dp"
-            android:background="@drawable/today_badge"
-            android:gravity="center"
-            android:lineSpacingExtra="-3dp"
-            android:textColor="@color/white"
-            android:textSize="12sp" />
+            android:layout_gravity="center"
+            android:layout_margin="5dp">
+
+            <TextView
+                android:id="@+id/circularInfoTextView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:lineSpacingExtra="-3dp"
+                android:textColor="@color/progressRedAlert"
+                android:textSize="10sp" />
+
+            <com.mikhaellopez.circularprogressbar.CircularProgressBar
+                android:id="@+id/circularProgressBar"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                app:cpb_progress="75"
+                app:cpb_background_progressbar_width="0dp"
+                app:cpb_progressbar_color="@color/progressRedAlert"
+                app:cpb_progressbar_width="3dp" />
+
+        </RelativeLayout>
+
 
         <TextView
             android:id="@+id/contactNameTextView"
