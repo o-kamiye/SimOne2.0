@@ -7,6 +7,8 @@
     <string name="section_format">Hello World from section: %1$d</string>
     <string name="action_search">Search</string>
     <string name="today_fragment_title">Today\'s Calls</string>
+    <string name="reminder_fragment_title">Manage Reminders</string>
+    <string name="group_fragment_title">Manage Groups</string>
     <string name="call_action">Call action</string>
 
     <string-array name="bottomNavMenu">
@@ -14,4 +16,10 @@
         <item>Reminders</item>
         <item>Groups</item>
     </string-array>
+    <string-array name="pageTitles">
+        <item>@string/today_fragment_title</item>
+        <item>@string/reminder_fragment_title</item>
+        <item>@string/group_fragment_title</item>
+    </string-array>
+
 </resources>

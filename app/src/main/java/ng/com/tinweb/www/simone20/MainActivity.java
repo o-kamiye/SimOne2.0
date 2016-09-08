@@ -55,6 +55,8 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
     @Override
     public void onPageSelected(int position) {
         activityMainBinding.bottomNavigation.selectTab(position);
+        String[] pageTitles = SimOneApplication.getPageTitles();
+        setTitle(pageTitles[position]);
     }
 
     @Override
