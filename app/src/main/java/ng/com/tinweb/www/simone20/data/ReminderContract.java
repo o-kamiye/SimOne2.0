@@ -21,7 +21,8 @@ public final class ReminderContract {
                     ReminderSchema._ID + " INTEGER PRIMARY KEY," +
                     ReminderSchema.COLUMN_NAME_CONTACT_ID + TEXT_TYPE + COMMA_SEP +
                     ReminderSchema.COLUMN_NAME_CONTACT_NAME + TEXT_TYPE + COMMA_SEP +
-                    ReminderSchema.COLUMN_NAME_REMINDER_INTERVAL + INT_TYPE + " )";
+                    ReminderSchema.COLUMN_NAME_REMINDER_INTERVAL + INT_TYPE + COMMA_SEP +
+                    ReminderSchema.COLUMN_NAME_DATE_DUE + TEXT_TYPE + " )";
 
     public static final String SQL_DELETE_ENTRIES =
             "DROP TABLE IF EXISTS " + ReminderSchema.TABLE_NAME;
@@ -31,6 +32,7 @@ public final class ReminderContract {
         public static final String COLUMN_NAME_CONTACT_NAME = "contact_name";
         public static final String COLUMN_NAME_CONTACT_ID = "contact_id";
         public static final String COLUMN_NAME_REMINDER_INTERVAL = "interval";
+        public static final String COLUMN_NAME_DATE_DUE = "date_due";
     }
 
 }
