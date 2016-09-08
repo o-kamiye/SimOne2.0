@@ -18,7 +18,7 @@ public interface DataStore {
     interface ActionCallback {
         void onGetSuccess(String contactId, String contactname, int interval);
         void onGetError();
-        List<Reminder> onGetMultipleSuccess();
+        void onGetMultipleSuccess(List<Reminder> reminders);
         void onGetMultipleError();
     }
 
