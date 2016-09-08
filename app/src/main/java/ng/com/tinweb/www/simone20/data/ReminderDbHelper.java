@@ -12,7 +12,7 @@ import java.util.List;
 /**
  * Created by kamiye on 08/09/2016.
  */
-public class ReminderDbHelper extends SQLiteOpenHelper implements DataStore {
+public class ReminderDbHelper extends SQLiteOpenHelper implements ReminderDataStore {
     // If you change the database schema, you must increment the database version.
     public static final int DATABASE_VERSION = 1;
     public static final String DATABASE_NAME = "FeedReader.db";

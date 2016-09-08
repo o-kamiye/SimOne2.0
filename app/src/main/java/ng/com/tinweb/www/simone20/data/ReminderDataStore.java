@@ -1,13 +1,11 @@
 package ng.com.tinweb.www.simone20.data;
 
-import android.database.Cursor;
-
 import java.util.List;
 
 /**
  * Created by kamiye on 08/09/2016.
  */
-public interface DataStore {
+public interface ReminderDataStore {
 
     boolean save(String contactId, String contactName, int interval);
     boolean update(String contactId, String contactName, int interval);

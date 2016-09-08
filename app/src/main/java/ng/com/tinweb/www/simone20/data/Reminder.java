@@ -9,7 +9,7 @@ import ng.com.tinweb.www.simone20.SimOneApplication;
  */
 public class Reminder {
 
-    private DataStore dataStore;
+    private ReminderDataStore reminderDataStore;
     private String contactId;
     private String contactName;
     private int interval;
@@ -26,27 +26,23 @@ public class Reminder {
     }
 
     public boolean create() {
-        return dataStore.save(contactId, contactName, interval);
+        return reminderDataStore.save(contactId, contactName, interval);
     }
 
     public boolean update() {
-        return dataStore.update(contactId, contactName, interval);
+        return reminderDataStore.update(contactId, contactName, interval);
     }
 
     public void remove() {
-        if (contactId == null)
-            throw new NullPointerException("Contact Id needs to be set before remove method is called");
-        dataStore.delete(contactId);
+        reminderDataStore.delete(contactId);
     }
 
-    public void get(DataStore.ActionCallback callback) {
-        if (contactId == null)
-            throw new NullPointerException("Contact Id needs to be set before getSingle method is called");
-        dataStore.getSingle(contactId, callback);
+    public void get(ReminderDataStore.ActionCallback callback) {
+        reminderDataStore.getSingle(contactId, callback);
     }
 
-    public void getAll(DataStore.ActionCallback callback) {
-        dataStore.getMultiple(callback);
+    public void getAll(ReminderDataStore.ActionCallback callback) {
+        reminderDataStore.getMultiple(callback);
     }
 
     public String getContactId() {
@@ -75,6 +71,6 @@ public class Reminder {
 
     private void initialiseDataStore() {
         Context context = SimOneApplication.getContext();
-        dataStore = new ReminderDbHelper(context);
+        reminderDataStore = new ReminderDbHelper(context);
     }
 }
