@@ -34,7 +34,8 @@ ext {
             support: "com.android.support:support-v4:$SUPPORT_LIB_VERSION"
     ]
     lib = [
-            bottomNav: "com.github.armcha:LuseenBottomNavigation:$BOTTOM_NAV_VERSION"
+            bottomNav: "com.github.armcha:LuseenBottomNavigation:$BOTTOM_NAV_VERSION",
+            circularProgressView: "com.mikhaellopez:circularprogressbar:1.1.1"
     ]
     test = [
             junit: "junit:junit:$JUNIT_VERSION",
