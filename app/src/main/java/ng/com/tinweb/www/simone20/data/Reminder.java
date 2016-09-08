@@ -1,7 +1,6 @@
 package ng.com.tinweb.www.simone20.data;
 
 import android.content.Context;
-import android.database.Cursor;
 
 import ng.com.tinweb.www.simone20.SimOneApplication;
 
@@ -26,12 +25,12 @@ public class Reminder {
         this.interval = interval;
     }
 
-    public void create() {
-        dataStore.save(contactId, contactName, interval);
+    public boolean create() {
+        return dataStore.save(contactId, contactName, interval);
     }
 
-    public void update() {
-        dataStore.update(contactId, contactName, interval);
+    public boolean update() {
+        return dataStore.update(contactId, contactName, interval);
     }
 
     public void remove() {
@@ -42,8 +41,12 @@ public class Reminder {
 
     public void get(DataStore.ActionCallback callback) {
         if (contactId == null)
-            throw new NullPointerException("Contact Id needs to be set before get method is called");
-        dataStore.get(contactId, callback);
+            throw new NullPointerException("Contact Id needs to be set before getSingle method is called");
+        dataStore.getSingle(contactId, callback);
+    }
+
+    public void getAll(DataStore.ActionCallback callback) {
+        dataStore.getMultiple(callback);
     }
 
     public String getContactId() {

@@ -76,7 +76,7 @@ public class TodayFragment extends Fragment implements ITodayView {
     private void setUpTodayFragment() {
         setFragmentTitle();
 
-        // TODO use presenter here to interact with the model to get today's calls
+        // TODO use presenter here to interact with the model to getSingle today's calls
         todayPresenter.setReminderCount();
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());

@@ -51,11 +51,27 @@ public class ReminderDbHelper extends SQLiteOpenHelper implements DataStore {
 
     @Override
     public boolean update(String contactId, String contactName, int interval) {
-        return false;
+        SQLiteDatabase database = getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(ReminderContract.ReminderSchema.COLUMN_NAME_CONTACT_ID,
+                contactId);
+        values.put(ReminderContract.ReminderSchema.COLUMN_NAME_CONTACT_NAME,
+                contactName);
+        values.put(ReminderContract.ReminderSchema.COLUMN_NAME_REMINDER_INTERVAL,
+                interval);
+
+        String selection = ReminderContract.ReminderSchema.COLUMN_NAME_CONTACT_ID + " = ?";
+        String[] selectionArgs = {contactId};
+
+        int count = database.update(ReminderContract.ReminderSchema.TABLE_NAME,
+                values, selection, selectionArgs);
+
+        return count != 0;
     }
 
     @Override
-    public void get(String contactId, ActionCallback callback) {
+    public void getSingle(String contactId, ActionCallback callback) {
         SQLiteDatabase database = getReadableDatabase();
 
         String[] projection = {
@@ -88,6 +104,11 @@ public class ReminderDbHelper extends SQLiteOpenHelper implements DataStore {
         else {
             callback.onGetError();
         }
+    }
+
+    @Override
+    public void getMultiple(ActionCallback callback) {
+
     }
 
     @Override
