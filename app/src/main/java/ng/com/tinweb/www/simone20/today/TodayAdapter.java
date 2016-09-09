@@ -18,9 +18,9 @@ public class TodayAdapter extends RecyclerView.Adapter<TodayAdapter.TodayViewHol
 
     private TodayCallListBinding callListBinding;
     private String[] array = new String[2];
-    private TodayFragment.CallActionListener callActionListener;
+    private CallActionListener callActionListener;
 
-    public TodayAdapter(TodayFragment.CallActionListener callActionListener) {
+    public TodayAdapter(CallActionListener callActionListener) {
         this.callActionListener = callActionListener;
     }
 
@@ -33,6 +33,8 @@ public class TodayAdapter extends RecyclerView.Adapter<TodayAdapter.TodayViewHol
 
     @Override
     public void onBindViewHolder(TodayViewHolder holder, int position) {
+        // TODO add the dynamic data here
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             callListBinding.contactInfoTextView.setText(Html.fromHtml("<big>4</big>" +  "<br />" +
                     "<small>days</small>", Html.FROM_HTML_MODE_COMPACT));

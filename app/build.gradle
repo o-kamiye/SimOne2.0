@@ -34,6 +34,7 @@ dependencies {
     compile support.design
     compile support.support
     compile lib.bottomNav
+    compile lib.circularProgressView
 
     // Test dependencies
     testCompile test.junit
