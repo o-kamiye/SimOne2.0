@@ -1,10 +1,6 @@
 package ng.com.tinweb.www.simone20.today;
 
-import android.widget.Toast;
-
 import java.lang.ref.WeakReference;
-
-import ng.com.tinweb.www.simone20.SimOneApplication;
 
 /**
  * Created by kamiye on 04/09/2016.

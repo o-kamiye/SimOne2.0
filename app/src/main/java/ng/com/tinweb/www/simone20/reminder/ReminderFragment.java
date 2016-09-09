@@ -63,13 +63,28 @@ public class ReminderFragment extends Fragment implements IReminderView,
     }
 
     @Override
+    public void showEditReminderPopUp() {
+        Toast.makeText(getContext(), "Edit reminder pop will appear here", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void showDeleteSuccessInfo() {
+        // TODO implement delete successful message here
+    }
+
+    @Override
+    public void showDeleteErrorInfo() {
+        // TODO implement delete error message here
+    }
+
+    @Override
     public void onEditAction(String contactId) {
-        Toast.makeText(getContext(), "Editing item at "+contactId, Toast.LENGTH_SHORT).show();
+        reminderPresenter.editReminder(contactId);
     }
 
     @Override
     public void onDeleteAction(String contactId) {
-        Toast.makeText(getContext(), "Deleting item at "+contactId, Toast.LENGTH_SHORT).show();
+        reminderPresenter.deleteReminder(contactId);
     }
 
     private void initialisePresenter() {
@@ -82,5 +97,12 @@ public class ReminderFragment extends Fragment implements IReminderView,
         fragmentBinding.weeklyRemindersRecyclerView.setLayoutManager(linearLayoutManager);
         fragmentBinding.weeklyRemindersRecyclerView.setAdapter(new ReminderAdapter(this));
         fragmentBinding.weeklyRemindersRecyclerView.addItemDecoration(new LinearLayoutDecorator(getContext(), null));
+
+        fragmentBinding.FAB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(getContext(), "You don't need a Presenter for this", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }

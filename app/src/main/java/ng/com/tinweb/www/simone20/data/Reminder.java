@@ -33,8 +33,8 @@ public class Reminder {
         return reminderDataStore.update(contactId, contactName, interval);
     }
 
-    public void remove() {
-        reminderDataStore.delete(contactId);
+    public boolean remove(String contactId) {
+        return reminderDataStore.delete(contactId);
     }
 
     public void get(ReminderDataStore.ActionCallback callback) {
