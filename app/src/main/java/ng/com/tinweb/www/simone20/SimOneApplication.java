@@ -27,4 +27,9 @@ public class SimOneApplication extends Application {
                 .getStringArray(R.array.bottomNavMenu);
     }
 
+    public static String[] getPageTitles() {
+        return context.getResources()
+                .getStringArray(R.array.pageTitles);
+    }
+
 }

@@ -12,16 +12,16 @@ import android.widget.Toast;
 
 import ng.com.tinweb.www.simone20.R;
 import ng.com.tinweb.www.simone20.SimOneApplication;
-import ng.com.tinweb.www.simone20.databinding.FragmentReminderBinding;
+import ng.com.tinweb.www.simone20.databinding.FragmentTodayBinding;
 import ng.com.tinweb.www.simone20.util.LinearLayoutDecorator;
 
-public class TodayFragment extends Fragment implements ITodayView {
+public class TodayFragment extends Fragment implements ITodayView,
+        CallActionListener {
 
 
     private static TodayFragment todayFragment;
-    private FragmentReminderBinding fragmentReminderBinding;
+    private FragmentTodayBinding fragmentTodayBinding;
     private ITodayPresenter todayPresenter;
-    private CallActionListener callActionListener;
 
     public static TodayFragment newInstance() {
         if (todayFragment == null) {
@@ -34,35 +34,27 @@ public class TodayFragment extends Fragment implements ITodayView {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.todayPresenter = new TodayPresenter(this);
-        this.callActionListener = new CallActionListener() {
-            @Override
-            public void onCallClick(String contactName) {
-                todayPresenter.callContact(contactName);
-            }
-        };
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
         this.todayPresenter = null;
-        this.callActionListener = null;
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        fragmentReminderBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_reminder,
+        fragmentTodayBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_today,
                 container, false);
         setUpTodayFragment();
-        // TODO use the presenter to handle all UI callbacks and actions such as clicking on the call icon
-        return fragmentReminderBinding.getRoot();
+        return fragmentTodayBinding.getRoot();
     }
 
     @Override
     public void setTotalReminders(int remindersCount) {
-        fragmentReminderBinding.todayCallsTextView.setText(getResources()
+        fragmentTodayBinding.todayCallsTextView.setText(getResources()
                 .getQuantityString(R.plurals.no_of_calls_today,
                 remindersCount, remindersCount));
     }
@@ -73,24 +65,20 @@ public class TodayFragment extends Fragment implements ITodayView {
                 .show();
     }
 
-    private void setUpTodayFragment() {
-        setFragmentTitle();
+    @Override
+    public void onCallClick(String contactName) {
+        todayPresenter.callContact(contactName);
+    }
 
-        // TODO use presenter here to interact with the model to get today's calls
+    private void setUpTodayFragment() {
+
+        // TODO use presenter here to interact with the model to getSingle today's calls
         todayPresenter.setReminderCount();
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
-        fragmentReminderBinding.todayCallsRecyclerView.setLayoutManager(layoutManager);
-        fragmentReminderBinding.todayCallsRecyclerView.setAdapter(new TodayAdapter(callActionListener));
-        fragmentReminderBinding.todayCallsRecyclerView.addItemDecoration(new LinearLayoutDecorator(getContext(), null));
-    }
-
-    private void setFragmentTitle() {
-        getActivity().setTitle(R.string.today_fragment_title);
-    }
-
-    public interface CallActionListener {
-        void onCallClick(String contactName);
+        fragmentTodayBinding.todayCallsRecyclerView.setLayoutManager(layoutManager);
+        fragmentTodayBinding.todayCallsRecyclerView.setAdapter(new TodayAdapter(this));
+        fragmentTodayBinding.todayCallsRecyclerView.addItemDecoration(new LinearLayoutDecorator(getContext(), null));
     }
 
 }
