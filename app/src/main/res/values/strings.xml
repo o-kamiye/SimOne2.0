@@ -10,6 +10,7 @@
     <string name="reminder_fragment_title">Manage Reminders</string>
     <string name="group_fragment_title">Manage Groups</string>
     <string name="call_action">Call action</string>
+    <string name="some_calls_coming_up">Some calls coming up</string>
 
     <string-array name="bottomNavMenu">
         <item>Today</item>
