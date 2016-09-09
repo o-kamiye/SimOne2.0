@@ -15,6 +15,7 @@ public class ReminderPresenter implements IReminderPresenter {
 
     @Override
     public void setWeeklyReminderCount() {
+        // TODO calling view's setWeeklyReminder() method should be done asynchronously
         int weeklyRemindersCount = 2;
         if (reminderView.get() != null)
             reminderView.get().setWeeklyReminders(weeklyRemindersCount);
