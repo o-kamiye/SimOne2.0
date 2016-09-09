@@ -5,4 +5,8 @@ package ng.com.tinweb.www.simone20.reminder;
  */
 public interface IReminderPresenter {
     void setWeeklyReminderCount();
+
+    void editReminder(String contactId);
+
+    void deleteReminder(String contactId);
 }
