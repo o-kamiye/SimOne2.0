@@ -32,6 +32,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.withChild;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static ng.com.tinweb.www.simone20.helper.ToastMatcher.isToast;
+import static org.hamcrest.Matchers.not;
 
 /**
  * Created by kamiye on 06/09/2016.
@@ -58,7 +59,7 @@ public class TodayFragmentUITest {
     public void testFragmentChangingUI() {
         onView(withChild(withId(R.id.todayCallsTextView))).perform(swipeLeft());
 
-        onView(withId(R.id.section_label)).check(matches(isDisplayed()));
+        onView(withId(R.id.todayCallsTextView)).check(matches(not(isDisplayed())));
     }
 
     @Test
