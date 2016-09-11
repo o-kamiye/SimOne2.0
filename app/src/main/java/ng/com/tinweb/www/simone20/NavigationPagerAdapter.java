@@ -4,6 +4,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
+import ng.com.tinweb.www.simone20.group.GroupFragment;
 import ng.com.tinweb.www.simone20.reminder.ReminderFragment;
 import ng.com.tinweb.www.simone20.today.TodayFragment;
 
@@ -27,7 +28,7 @@ public class NavigationPagerAdapter extends FragmentPagerAdapter {
             case 1:
                 return ReminderFragment.newInstance();
             case 2:
-                return MainActivity.PlaceholderFragment.newInstance(position + 1);
+                return GroupFragment.newInstance();
         }
         return null;
     }
