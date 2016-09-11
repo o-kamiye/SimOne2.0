@@ -6,7 +6,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".reminder.ReminderFragment">
+        tools:context=".group.GroupFragment">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -14,7 +14,7 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/weeklyRemindersTextView"
+                android:id="@+id/totalGroupsTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
@@ -28,14 +28,14 @@
                 android:textColor="@color/listSummaryColor" />
 
             <android.support.v7.widget.RecyclerView
-                android:id="@+id/weeklyRemindersRecyclerView"
+                android:id="@+id/groupsRecyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
         </LinearLayout>
 
         <android.support.design.widget.FloatingActionButton
-            android:id="@+id/remindersFAB"
+            android:id="@+id/groupsFAB"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"

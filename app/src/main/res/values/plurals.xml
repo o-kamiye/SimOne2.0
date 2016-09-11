@@ -8,5 +8,9 @@
         <item quantity="one">You have %d call due this week</item>
         <item quantity="other">You have %d calls due this week</item>
     </plurals>
+    <plurals name="no_of_groups">
+        <item quantity="one">You have a total of %d group</item>
+        <item quantity="other">You have a total of %d groups</item>
+    </plurals>
 
 </resources>

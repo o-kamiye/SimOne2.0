@@ -38,8 +38,8 @@ public class ReminderFragment extends Fragment implements IReminderView,
     }
 
     @Override
-    public void onDestroyView() {
-        super.onDestroyView();
+    public void onDestroy() {
+        super.onDestroy();
         this.reminderPresenter = null;
     }
 
@@ -98,7 +98,7 @@ public class ReminderFragment extends Fragment implements IReminderView,
         fragmentBinding.weeklyRemindersRecyclerView.setAdapter(new ReminderAdapter(this));
         fragmentBinding.weeklyRemindersRecyclerView.addItemDecoration(new LinearLayoutDecorator(getContext(), null));
 
-        fragmentBinding.FAB.setOnClickListener(new View.OnClickListener() {
+        fragmentBinding.remindersFAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Toast.makeText(getContext(), "You don't need a Presenter for this", Toast.LENGTH_SHORT).show();
