@@ -8,6 +8,14 @@
         android:layout_height="match_parent"
         tools:context=".group.GroupFragment">
 
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:tint="@color/fragmentIconColorTint"
+            android:src="@drawable/group_icon"
+            android:contentDescription="@string/group_fragment_icon" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"

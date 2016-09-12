@@ -50,6 +50,11 @@ public class GroupFragmentUITest {
     }
 
     @Test
+    public void testGroupInfoVisible() {
+        // add this test when implemented
+    }
+
+    @Test
     public void testEditIconClick() {
         // edit icon not implemented yet
     }
