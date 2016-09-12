@@ -27,6 +27,7 @@ ext {
     HAMCREST_LIB_VERSION = '1.3'
     ESPRESSO_VERSION = '2.2.2'
     BOTTOM_NAV_VERSION = '1.8.2'
+    CIRCULAR_PROGRESS_VIEW_VERSION = '1.1.1'
 
     support = [
             appcompat: "com.android.support:appcompat-v7:$SUPPORT_LIB_VERSION",
@@ -35,7 +36,7 @@ ext {
     ]
     lib = [
             bottomNav: "com.github.armcha:LuseenBottomNavigation:$BOTTOM_NAV_VERSION",
-            circularProgressView: "com.mikhaellopez:circularprogressbar:1.1.1"
+            circularProgressView: "com.mikhaellopez:circularprogressbar:$CIRCULAR_PROGRESS_VIEW_VERSION"
     ]
     test = [
             junit: "junit:junit:$JUNIT_VERSION",

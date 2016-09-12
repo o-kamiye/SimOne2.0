@@ -2,31 +2,46 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
         tools:context=".today.TodayFragment">
 
-        <TextView
-            android:id="@+id/todayCallsTextView"
+        <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginTop="16dp"
-            android:shadowColor="@color/listSummaryTextShadow"
-            android:shadowDx="4"
-            android:shadowDy="4"
-            android:shadowRadius="4"
-            android:textColor="@color/listSummaryColor" />
+            android:layout_centerInParent="true"
+            android:tint="@color/fragmentIconColorTint"
+            android:src="@drawable/today_icon"
+            android:contentDescription="@string/today_fragment_icon" />
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/todayCallsRecyclerView"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-    </LinearLayout>
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/todayCallsTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="16dp"
+                android:shadowColor="@color/listSummaryTextShadow"
+                android:shadowDx="4"
+                android:shadowDy="4"
+                android:shadowRadius="4"
+                android:textColor="@color/listSummaryColor" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/todayCallsRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+    </RelativeLayout>
+
 
 </layout>
 
