@@ -11,4 +11,5 @@
     <color name="applicationBackground">#F8F9F1</color>
     <color name="defaultTextColour">#666666</color>
     <color name="progressRedAlert">#D85F41</color>
+    <color name="fragmentIconColorTint">#CDCDCD</color>
 </resources>

@@ -31,6 +31,11 @@ public class GroupPresenterTest {
     }
 
     @Test
+    public void testSetGroupInfo() {
+        // TODO add this test when this feature is implemented
+    }
+
+    @Test
     public void testEditGroup() {
         // TODO add edit group action here when implemented
     }
