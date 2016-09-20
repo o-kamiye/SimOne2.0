@@ -1,8 +1,9 @@
-package ng.com.tinweb.www.simone20.data;
+package ng.com.tinweb.www.simone20.data.reminder;
 
 import android.content.Context;
 
 import ng.com.tinweb.www.simone20.SimOne;
+import ng.com.tinweb.www.simone20.data.BaseDbHelper;
 
 /**
  * Created by kamiye on 08/09/2016.
@@ -12,21 +13,23 @@ public class Reminder {
     private ReminderDataStore reminderDataStore;
     private String contactId;
     private String contactName;
+    private String contactGroup;
     private int interval;
 
     public Reminder() {
         initialiseDataStore();
     }
 
-    public Reminder(String contactId, String contactName, int interval) {
+    public Reminder(String contactId, String contactName, String contactGroup, int interval) {
         super();
         this.contactId = contactId;
         this.contactName = contactName;
+        this.contactGroup = contactGroup;
         this.interval = interval;
     }
 
     public boolean create() {
-        return reminderDataStore.save(contactId, contactName, interval);
+        return reminderDataStore.save(contactId, contactName, contactGroup, interval);
     }
 
     public boolean update() {
@@ -53,6 +56,10 @@ public class Reminder {
         return contactName;
     }
 
+    public String getContactGroup() {
+        return contactGroup;
+    }
+
     public int getInterval() {
         return interval;
     }
@@ -65,12 +72,16 @@ public class Reminder {
         this.contactName = contactName;
     }
 
+    public void setContactGroup(String contactGroup) {
+        this.contactGroup = contactGroup;
+    }
+
     public void setInterval(int interval) {
         this.interval = interval;
     }
 
     private void initialiseDataStore() {
         Context context = SimOne.getContext();
-        reminderDataStore = new ReminderDbHelper(context);
+        reminderDataStore = new ReminderDb(context);
     }
 }
