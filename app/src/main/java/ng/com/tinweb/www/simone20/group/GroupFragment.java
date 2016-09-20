@@ -20,16 +20,8 @@ import ng.com.tinweb.www.simone20.util.LinearLayoutDecorator;
 public class GroupFragment extends Fragment implements IGroupView,
         GroupActionsListener {
 
-    private static GroupFragment groupFragment;
     private FragmentGroupBinding groupBinding;
     private IGroupPresenter groupPresenter;
-
-    public static GroupFragment newInstance() {
-        if (groupFragment == null) {
-            groupFragment = new GroupFragment();
-        }
-        return groupFragment;
-    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {

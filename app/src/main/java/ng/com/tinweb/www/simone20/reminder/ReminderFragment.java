@@ -20,16 +20,8 @@ import ng.com.tinweb.www.simone20.util.LinearLayoutDecorator;
 public class ReminderFragment extends Fragment implements IReminderView,
         ReminderActionsListener {
 
-    private static ReminderFragment reminderFragment;
     private IReminderPresenter reminderPresenter;
     private FragmentReminderBinding fragmentBinding;
-
-    public static ReminderFragment newInstance() {
-        if (reminderFragment == null) {
-            reminderFragment = new ReminderFragment();
-        }
-        return reminderFragment;
-    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
