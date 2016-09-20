@@ -3,6 +3,7 @@ package ng.com.tinweb.www.simone20;
 import android.support.test.filters.LargeTest;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
+import android.widget.EditText;
 
 import org.junit.Before;
 import org.junit.Rule;
@@ -12,9 +13,12 @@ import org.junit.runner.RunWith;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.swipeLeft;
+import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.matcher.ViewMatchers.isAssignableFrom;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withChild;
+import static android.support.test.espresso.matcher.ViewMatchers.withHint;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static junit.framework.Assert.assertEquals;
@@ -95,5 +99,13 @@ public class MainActivityUITest {
     @Test
     public void testActivityTitle() {
         assertEquals("Today's Calls", mainActivityTestRule.getActivity().getTitle());
+    }
+
+    @Test
+    public void testSearchIconClick() {
+        onView(withId(R.id.action_search)).perform(click());
+
+        onView(allOf(isAssignableFrom(EditText.class), withHint(R.string.action_search))).
+                check(matches(isDisplayed()));
     }
 }
