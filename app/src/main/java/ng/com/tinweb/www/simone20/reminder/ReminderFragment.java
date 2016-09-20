@@ -1,11 +1,17 @@
 package ng.com.tinweb.www.simone20.reminder;
 
+import android.app.SearchManager;
+import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.SearchView;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
@@ -22,10 +28,13 @@ public class ReminderFragment extends Fragment implements IReminderView,
 
     private IReminderPresenter reminderPresenter;
     private FragmentReminderBinding fragmentBinding;
+    private Menu activityMenu;
+    private SearchView searchView;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
         initialisePresenter();
     }
 
@@ -33,6 +42,16 @@ public class ReminderFragment extends Fragment implements IReminderView,
     public void onDestroy() {
         super.onDestroy();
         this.reminderPresenter = null;
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        activityMenu = menu;
+        SearchManager searchManager =
+                (SearchManager) getActivity().getSystemService(Context.SEARCH_SERVICE);
+        searchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(getActivity().getComponentName()));
     }
 
     @Nullable
@@ -93,7 +112,7 @@ public class ReminderFragment extends Fragment implements IReminderView,
         fragmentBinding.remindersFAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getContext(), "You don't need a Presenter for this", Toast.LENGTH_SHORT).show();
+                searchView.setIconified(false);
             }
         });
     }
