@@ -6,6 +6,8 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
@@ -20,21 +22,19 @@ import ng.com.tinweb.www.simone20.util.LinearLayoutDecorator;
 public class GroupFragment extends Fragment implements IGroupView,
         GroupActionsListener {
 
-    private static GroupFragment groupFragment;
     private FragmentGroupBinding groupBinding;
     private IGroupPresenter groupPresenter;
-
-    public static GroupFragment newInstance() {
-        if (groupFragment == null) {
-            groupFragment = new GroupFragment();
-        }
-        return groupFragment;
-    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
         initialisePresenter();
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
     }
 
     @Override

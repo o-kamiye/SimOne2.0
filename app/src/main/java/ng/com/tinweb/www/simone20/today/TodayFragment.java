@@ -6,12 +6,14 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
 import ng.com.tinweb.www.simone20.R;
-import ng.com.tinweb.www.simone20.SimOneApplication;
+import ng.com.tinweb.www.simone20.SimOne;
 import ng.com.tinweb.www.simone20.databinding.FragmentTodayBinding;
 import ng.com.tinweb.www.simone20.util.LinearLayoutDecorator;
 
@@ -19,21 +21,19 @@ public class TodayFragment extends Fragment implements ITodayView,
         CallActionListener {
 
 
-    private static TodayFragment todayFragment;
     private FragmentTodayBinding fragmentTodayBinding;
     private ITodayPresenter todayPresenter;
-
-    public static TodayFragment newInstance() {
-        if (todayFragment == null) {
-            todayFragment = new TodayFragment();
-        }
-        return todayFragment;
-    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
         this.todayPresenter = new TodayPresenter(this);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
     }
 
     @Override
@@ -61,7 +61,7 @@ public class TodayFragment extends Fragment implements ITodayView,
 
     @Override
     public void callContact(String contactName) {
-        Toast.makeText(SimOneApplication.getContext(), "I am going to call " + contactName, Toast.LENGTH_LONG)
+        Toast.makeText(SimOne.getContext(), "I am going to call " + contactName, Toast.LENGTH_LONG)
                 .show();
     }
 
