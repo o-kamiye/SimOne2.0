@@ -2,7 +2,7 @@ package ng.com.tinweb.www.simone20.data;
 
 import android.content.Context;
 
-import ng.com.tinweb.www.simone20.SimOneApplication;
+import ng.com.tinweb.www.simone20.SimOne;
 
 /**
  * Created by kamiye on 08/09/2016.
@@ -70,7 +70,7 @@ public class Reminder {
     }
 
     private void initialiseDataStore() {
-        Context context = SimOneApplication.getContext();
+        Context context = SimOne.getContext();
         reminderDataStore = new ReminderDbHelper(context);
     }
 }

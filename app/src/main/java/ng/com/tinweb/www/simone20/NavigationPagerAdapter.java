@@ -13,7 +13,7 @@ import ng.com.tinweb.www.simone20.today.TodayFragment;
  */
 public class NavigationPagerAdapter extends FragmentPagerAdapter {
 
-    private String[] navMenu = SimOneApplication.getNavMenu();
+    private String[] navMenu = SimOne.getNavMenu();
 
     public NavigationPagerAdapter(FragmentManager fragmentManager) {
         super(fragmentManager);
