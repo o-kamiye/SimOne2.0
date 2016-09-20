@@ -38,6 +38,7 @@
             tools:showIn="@layout/activity_contact_search">
 
             <TextView
+                android:id="@+id/contentSearchTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Something nice"/>
