@@ -11,11 +11,14 @@ import ng.com.tinweb.www.simone20.today.TodayFragment;
 /**
  * Created by kamiye on 02/09/2016.
  */
-public class NavigationPagerAdapter extends FragmentPagerAdapter {
+class NavigationPagerAdapter extends FragmentPagerAdapter {
 
-    private String[] navMenu = SimOneApplication.getNavMenu();
+    private String[] navMenu = SimOne.getNavMenu();
+    private TodayFragment todayFragment;
+    private ReminderFragment reminderFragment;
+    private GroupFragment groupFragment;
 
-    public NavigationPagerAdapter(FragmentManager fragmentManager) {
+    NavigationPagerAdapter(FragmentManager fragmentManager) {
         super(fragmentManager);
     }
 
@@ -24,11 +27,20 @@ public class NavigationPagerAdapter extends FragmentPagerAdapter {
         // getItem is called to instantiate the fragment for the given page.
         switch (position) {
             case 0:
-                return TodayFragment.newInstance();
+                if (todayFragment == null) {
+                    todayFragment = new TodayFragment();
+                }
+                return todayFragment;
             case 1:
-                return ReminderFragment.newInstance();
+                if (reminderFragment == null) {
+                    reminderFragment = new ReminderFragment();
+                }
+                return reminderFragment;
             case 2:
-                return GroupFragment.newInstance();
+                if (groupFragment == null) {
+                    groupFragment = new GroupFragment();
+                }
+                return groupFragment;
         }
         return null;
     }
