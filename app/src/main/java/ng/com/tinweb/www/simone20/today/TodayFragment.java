@@ -19,16 +19,8 @@ public class TodayFragment extends Fragment implements ITodayView,
         CallActionListener {
 
 
-    private static TodayFragment todayFragment;
     private FragmentTodayBinding fragmentTodayBinding;
     private ITodayPresenter todayPresenter;
-
-    public static TodayFragment newInstance() {
-        if (todayFragment == null) {
-            todayFragment = new TodayFragment();
-        }
-        return todayFragment;
-    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {

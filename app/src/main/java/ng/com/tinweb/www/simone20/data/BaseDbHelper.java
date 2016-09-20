@@ -1,13 +1,8 @@
 package ng.com.tinweb.www.simone20.data;
 
-import android.content.ContentValues;
 import android.content.Context;
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by kamiye on 08/09/2016.

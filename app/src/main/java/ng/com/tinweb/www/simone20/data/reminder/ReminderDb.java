@@ -137,13 +137,16 @@ public class ReminderDb extends BaseDbHelper implements ReminderDataStore {
                 String contactName = cursor.getString(
                         cursor.getColumnIndexOrThrow(DbContract.ReminderSchema.COLUMN_NAME_CONTACT_NAME)
                 );
+                String contactGroup = cursor.getString(
+                        cursor.getColumnIndexOrThrow(DbContract.ReminderSchema.COLUMN_NAME_CONTACT_GROUP)
+                );
                 int interval = cursor.getInt(
                         cursor.getColumnIndexOrThrow(DbContract.ReminderSchema.COLUMN_NAME_REMINDER_INTERVAL)
                 );
                 String dueDate = cursor.getString(
                         cursor.getColumnIndexOrThrow(DbContract.ReminderSchema.COLUMN_NAME_DATE_DUE)
                 );
-                reminders.add(new Reminder(contactId, contactName, interval));
+                reminders.add(new Reminder(contactId, contactName, contactGroup, interval));
             }
             callback.onGetMultipleSuccess(reminders);
         }
