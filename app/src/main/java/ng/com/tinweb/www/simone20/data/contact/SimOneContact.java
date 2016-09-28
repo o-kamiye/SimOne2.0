@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.provider.ContactsContract;
 import android.support.v4.util.LongSparseArray;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,7 +17,7 @@ import ng.com.tinweb.www.simone20.SimOne;
  * Created by kamiye on 28/09/2016.
  */
 
-public class SimOneContact {
+public class SimOneContact implements Serializable {
     protected int id;
     protected long contactId;
     protected String name;

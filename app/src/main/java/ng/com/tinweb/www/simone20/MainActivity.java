@@ -105,7 +105,7 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
             String searchQuery = intent.getStringExtra(SearchManager.QUERY);
 
             FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-            Fragment prev = getSupportFragmentManager().findFragmentByTag("dialog");
+            Fragment prev = getSupportFragmentManager().findFragmentByTag(FRAGMENT_TAG);
             if (prev != null) {
                 fragmentTransaction.remove(prev);
             }

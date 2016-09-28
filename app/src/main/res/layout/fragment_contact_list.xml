@@ -10,8 +10,7 @@
         android:orientation="vertical"
         android:paddingTop="@dimen/activity_default_margin"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        tools:context="ng.com.tinweb.www.simone20.contact.ContactSearchActivity"
-        tools:showIn="@layout/activity_contact_search">
+        tools:context="ng.com.tinweb.www.simone20.MainActivity">
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/contactListRecyclerView"
