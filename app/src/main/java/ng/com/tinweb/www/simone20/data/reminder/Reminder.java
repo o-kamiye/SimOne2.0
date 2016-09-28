@@ -3,15 +3,14 @@ package ng.com.tinweb.www.simone20.data.reminder;
 import android.content.Context;
 
 import ng.com.tinweb.www.simone20.SimOne;
-import ng.com.tinweb.www.simone20.data.BaseDbHelper;
 
 /**
  * Created by kamiye on 08/09/2016.
  */
 public class Reminder {
 
-    private ReminderDataStore reminderDataStore;
-    private String contactId;
+    private DataStore dataStore;
+    private int contactId;
     private String contactName;
     private String contactGroup;
     private int interval;
@@ -20,7 +19,7 @@ public class Reminder {
         initialiseDataStore();
     }
 
-    public Reminder(String contactId, String contactName, String contactGroup, int interval) {
+    public Reminder(int contactId, String contactName, String contactGroup, int interval) {
         super();
         this.contactId = contactId;
         this.contactName = contactName;
@@ -29,26 +28,26 @@ public class Reminder {
     }
 
     public boolean create() {
-        return reminderDataStore.save(contactId, contactName, contactGroup, interval);
+        return dataStore.save(contactId, contactGroup, interval, true);
     }
 
     public boolean update() {
-        return reminderDataStore.update(contactId, contactName, interval);
+        return dataStore.save(contactId, contactName, interval, false);
     }
 
-    public boolean remove(String contactId) {
-        return reminderDataStore.delete(contactId);
+    public boolean remove(int contactId) {
+        return dataStore.delete(contactId);
     }
 
-    public void get(ReminderDataStore.ActionCallback callback) {
-        reminderDataStore.getSingle(contactId, callback);
+    public void get(DataStore.ActionCallback callback) {
+        dataStore.getSingle(contactId, callback);
     }
 
-    public void getAll(ReminderDataStore.ActionCallback callback) {
-        reminderDataStore.getMultiple(callback);
+    public void getAll(DataStore.ActionCallback callback) {
+        dataStore.getMultiple(callback);
     }
 
-    public String getContactId() {
+    public int getContactId() {
         return contactId;
     }
 
@@ -64,7 +63,7 @@ public class Reminder {
         return interval;
     }
 
-    public void setContactId(String contactId) {
+    public void setContactId(int contactId) {
         this.contactId = contactId;
     }
 
@@ -82,6 +81,6 @@ public class Reminder {
 
     private void initialiseDataStore() {
         Context context = SimOne.getContext();
-        reminderDataStore = new ReminderDb(context);
+        dataStore = new ReminderDbHelper(context);
     }
 }
