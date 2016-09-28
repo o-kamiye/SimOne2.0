@@ -14,7 +14,7 @@ import ng.com.tinweb.www.simone20.databinding.RemindersListBinding;
 /**
  * Created by kamiye on 08/09/2016.
  */
-public class ReminderAdapter extends RecyclerView.Adapter<ReminderAdapter.ReminderViewHolder> {
+public class ReminderAdapter extends RecyclerView.Adapter<ReminderAdapter.ViewHolder> {
 
     private ReminderActionsListener reminderActionsListener;
     private String[] array = new String[5];
@@ -25,15 +25,15 @@ public class ReminderAdapter extends RecyclerView.Adapter<ReminderAdapter.Remind
     }
 
     @Override
-    public ReminderViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         remindersBinding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()),
                 R.layout.reminders_list, parent, false);
 
-        return new ReminderViewHolder(remindersBinding.getRoot());
+        return new ViewHolder(remindersBinding.getRoot());
     }
 
     @Override
-    public void onBindViewHolder(ReminderViewHolder holder, int position) {
+    public void onBindViewHolder(ViewHolder holder, int position) {
 
         // TODO getting this position will be dynamic
         if (position == 3) {
@@ -57,9 +57,9 @@ public class ReminderAdapter extends RecyclerView.Adapter<ReminderAdapter.Remind
         return array.length;
     }
 
-    public class ReminderViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        public ReminderViewHolder(View itemView) {
+        public ViewHolder(View itemView) {
             super(itemView);
             remindersBinding.editIconImageView.setOnClickListener(this);
             remindersBinding.deleteIconImageView.setOnClickListener(this);

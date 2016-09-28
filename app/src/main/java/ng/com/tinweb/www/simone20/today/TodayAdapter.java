@@ -14,7 +14,7 @@ import ng.com.tinweb.www.simone20.databinding.TodayCallListBinding;
 /**
  * Created by kamiye on 02/09/2016.
  */
-public class TodayAdapter extends RecyclerView.Adapter<TodayAdapter.TodayViewHolder> {
+public class TodayAdapter extends RecyclerView.Adapter<TodayAdapter.ViewHolder> {
 
     private TodayCallListBinding callListBinding;
     private String[] array = new String[2];
@@ -25,14 +25,14 @@ public class TodayAdapter extends RecyclerView.Adapter<TodayAdapter.TodayViewHol
     }
 
     @Override
-    public TodayViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         callListBinding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()),
                 R.layout.today_call_list, parent, false);
-        return new TodayViewHolder(callListBinding.getRoot());
+        return new ViewHolder(callListBinding.getRoot());
     }
 
     @Override
-    public void onBindViewHolder(TodayViewHolder holder, int position) {
+    public void onBindViewHolder(ViewHolder holder, int position) {
         // TODO add the dynamic data here
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
@@ -50,9 +50,9 @@ public class TodayAdapter extends RecyclerView.Adapter<TodayAdapter.TodayViewHol
         return array.length;
     }
 
-    public class TodayViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        public TodayViewHolder(View itemView) {
+        public ViewHolder(View itemView) {
             super(itemView);
             callListBinding.callIconImageView.setOnClickListener(this);
         }
