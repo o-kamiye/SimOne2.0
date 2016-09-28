@@ -16,13 +16,16 @@ import ng.com.tinweb.www.simone20.databinding.ContactListBinding;
  * Created by kamiye on 27/09/2016.
  */
 
-public class ContactListAdapter extends RecyclerView.Adapter<ContactListAdapter.ViewHolder> {
+class ContactListAdapter extends RecyclerView.Adapter<ContactListAdapter.ViewHolder> {
 
     private List<SimOneContact> contactList;
     private ContactListBinding contactListBinding;
+    private ContactActionListener contactActionListener;
 
-    public ContactListAdapter(List<SimOneContact> contactList) {
+    ContactListAdapter(List<SimOneContact> contactList,
+                              ContactActionListener contactActionListener) {
         this.contactList = contactList;
+        this.contactActionListener = contactActionListener;
     }
 
     @Override
@@ -46,14 +49,16 @@ public class ContactListAdapter extends RecyclerView.Adapter<ContactListAdapter.
         return contactList.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    class ViewHolder extends RecyclerView.ViewHolder {
 
-        public ViewHolder(View itemView) {
+        ViewHolder(View itemView) {
             super(itemView);
             contactListBinding.addIconImageView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-
+                    int position = getAdapterPosition();
+                    SimOneContact contact = contactList.get(position);
+                    contactActionListener.onClickAdd(contact);
                 }
             });
         }
