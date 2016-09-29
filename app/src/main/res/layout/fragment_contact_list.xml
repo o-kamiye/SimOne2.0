@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <LinearLayout
+        android:id="@+id/content_contact_search"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingTop="@dimen/activity_default_margin"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        tools:context="ng.com.tinweb.www.simone20.MainActivity">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/contactListRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+
+</layout>

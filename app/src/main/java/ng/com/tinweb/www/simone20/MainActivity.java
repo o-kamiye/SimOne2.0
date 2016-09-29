@@ -2,7 +2,10 @@ package ng.com.tinweb.www.simone20;
 
 import android.app.SearchManager;
 import android.content.Context;
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 
@@ -12,10 +15,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import ng.com.tinweb.www.simone20.contact.ContactListDialogFragment;
 import ng.com.tinweb.www.simone20.databinding.ActivityMainBinding;
 
 public class MainActivity extends AppCompatActivity implements ViewPager.OnPageChangeListener {
 
+    private static final String FRAGMENT_TAG = "search_result";
 
     private ActivityMainBinding activityMainBinding;
 
@@ -27,6 +32,14 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
 
         setUpViewPager();
         setUpBottomNav();
+
+        handleSearchIntent(getIntent());
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        handleSearchIntent(intent);
     }
 
     @Override
@@ -85,6 +98,21 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
         };
         activityMainBinding.bottomNavigation.setUpWithViewPager(activityMainBinding.container,
                 colourResources, imageResources);
+    }
+
+    private void handleSearchIntent(Intent intent) {
+        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
+            String searchQuery = intent.getStringExtra(SearchManager.QUERY);
+
+            FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+            Fragment prev = getSupportFragmentManager().findFragmentByTag(FRAGMENT_TAG);
+            if (prev != null) {
+                fragmentTransaction.remove(prev);
+            }
+            fragmentTransaction.addToBackStack(null);
+            ContactListDialogFragment dialogFragment = ContactListDialogFragment.getInstance(searchQuery);
+            dialogFragment.show(fragmentTransaction, FRAGMENT_TAG);
+        }
     }
 
 }
