@@ -121,6 +121,6 @@ public class MainActivityUITest {
         onView(allOf(isAssignableFrom(EditText.class), withHint(R.string.action_search))).
                 perform(pressKey(KeyEvent.KEYCODE_ENTER));
 
-        onView(withId(R.id.contentSearchTextView)).check(matches(isDisplayed()));
+        onView(withId(R.id.content_contact_search)).check(matches(isDisplayed()));
     }
 }

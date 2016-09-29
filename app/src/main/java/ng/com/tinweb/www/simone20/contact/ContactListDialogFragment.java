@@ -60,9 +60,6 @@ public class ContactListDialogFragment extends DialogFragment
         fragmentBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_contact_list,
                 container, false);
 
-        String title = getString(R.string.contact_search_title, searchQuery);
-        getDialog().setTitle(title);
-
         TextView titleTextView = (TextView) getDialog().findViewById(android.R.id.title);
         setTitleDimension(titleTextView);
 
@@ -92,6 +89,9 @@ public class ContactListDialogFragment extends DialogFragment
     }
 
     private void setTitleDimension(TextView titleTextView) {
+        String title = getString(R.string.contact_search_title, searchQuery);
+//        getDialog().setTitle(title);
+        titleTextView.setText(title);
         titleTextView.setTextColor(ContextCompat.getColor(getContext(), R.color.colorPrimaryDark));
         titleTextView.setTextSize(16);
         titleTextView.setPadding(40,40,0,5);
