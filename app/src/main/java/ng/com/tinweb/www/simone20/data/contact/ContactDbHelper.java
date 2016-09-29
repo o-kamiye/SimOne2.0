@@ -5,14 +5,12 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v4.util.LongSparseArray;
-import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import ng.com.tinweb.www.simone20.data.BaseDbHelper;
 import ng.com.tinweb.www.simone20.data.DbContract;
-import ng.com.tinweb.www.simone20.data.reminder.Reminder;
 
 /**
  * Created by kamiye on 28/09/2016.
@@ -57,8 +55,12 @@ class ContactDbHelper extends BaseDbHelper implements DataStore {
                 DbContract.ContactSchema.COLUMN_NAME_CONTACT_NAME,
         };
 
-        String selection = DbContract.ContactSchema.COLUMN_NAME_CONTACT_NAME + " LIKE ?";
-        String[] selectionArgs = { "%" + searchQuery + "%" };
+        String selection = DbContract.ContactSchema.COLUMN_NAME_CONTACT_NAME + " LIKE ?" +
+                " AND " + DbContract.ContactSchema.COLUMN_NAME_REMINDER_ACTIVATED + " = ?";
+        String[] selectionArgs = {
+                "%" + searchQuery + "%",
+                String.valueOf(DbContract.FALSE)
+        };
         String sortOrder = DbContract.ContactSchema.COLUMN_NAME_CONTACT_NAME + " ASC";
 
         Cursor cursor = database.query(

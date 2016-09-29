@@ -1,6 +1,5 @@
 package ng.com.tinweb.www.simone20.contact;
 
-import android.content.DialogInterface;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -13,14 +12,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.List;
 
 import ng.com.tinweb.www.simone20.R;
 import ng.com.tinweb.www.simone20.data.contact.SimOneContact;
-import ng.com.tinweb.www.simone20.databinding.FragmentAddReminderBinding;
 import ng.com.tinweb.www.simone20.databinding.FragmentContactListBinding;
+import ng.com.tinweb.www.simone20.helper.Injection;
 import ng.com.tinweb.www.simone20.reminder.AddReminderDialogFragment;
 import ng.com.tinweb.www.simone20.util.LinearLayoutDecorator;
 
@@ -68,13 +66,20 @@ public class ContactListDialogFragment extends DialogFragment
         TextView titleTextView = (TextView) getDialog().findViewById(android.R.id.title);
         setTitleDimension(titleTextView);
 
-        setupContactList();
+        contactPresenter.fetchContacts(searchQuery);
         return fragmentBinding.getRoot();
     }
 
     @Override
+    public void loadContacts(List<SimOneContact> contacts) {
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+        fragmentBinding.contactListRecyclerView.setLayoutManager(linearLayoutManager);
+        fragmentBinding.contactListRecyclerView.addItemDecoration(new LinearLayoutDecorator(getContext(), null));
+        fragmentBinding.contactListRecyclerView.setAdapter(new ContactListAdapter(contacts, this));
+    }
+
+    @Override
     public void onClickAdd(SimOneContact contact) {
-        Toast.makeText(getContext(), "Contact is: "+ contact.getName(), Toast.LENGTH_SHORT).show();
 
         FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
         Fragment prev = getActivity().getSupportFragmentManager().findFragmentByTag(FRAGMENT_TAG);
@@ -86,15 +91,6 @@ public class ContactListDialogFragment extends DialogFragment
         addReminderFragment.show(fragmentTransaction, FRAGMENT_TAG);
     }
 
-    private void setupContactList() {
-        List<SimOneContact> contacts = new SimOneContact().getList(searchQuery);
-
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
-        fragmentBinding.contactListRecyclerView.setLayoutManager(linearLayoutManager);
-        fragmentBinding.contactListRecyclerView.addItemDecoration(new LinearLayoutDecorator(getContext(), null));
-        fragmentBinding.contactListRecyclerView.setAdapter(new ContactListAdapter(contacts, this));
-    }
-
     private void setTitleDimension(TextView titleTextView) {
         titleTextView.setTextColor(ContextCompat.getColor(getContext(), R.color.colorPrimaryDark));
         titleTextView.setTextSize(16);
@@ -102,7 +98,6 @@ public class ContactListDialogFragment extends DialogFragment
     }
 
     private void initialisePresenter() {
-        this.contactPresenter = new Presenter(this);
+        this.contactPresenter = new Presenter(this, Injection.getSimOneContact());
     }
-
 }
