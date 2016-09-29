@@ -5,4 +5,6 @@ package ng.com.tinweb.www.simone20.contact;
  */
 
 interface IContactPresenter {
+
+    void fetchContacts(String searchQuery);
 }
