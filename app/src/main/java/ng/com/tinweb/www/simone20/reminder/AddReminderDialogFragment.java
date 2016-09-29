@@ -8,6 +8,7 @@ import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import ng.com.tinweb.www.simone20.R;
@@ -18,7 +19,8 @@ import ng.com.tinweb.www.simone20.databinding.FragmentAddReminderBinding;
  * Created by kamiye on 28/09/2016.
  */
 
-public class AddReminderDialogFragment extends DialogFragment {
+public class AddReminderDialogFragment extends DialogFragment
+        implements RadioGroup.OnCheckedChangeListener {
 
     private static final String INPUT_BUNDLE = "input_fragment";
 
@@ -47,19 +49,29 @@ public class AddReminderDialogFragment extends DialogFragment {
                              @Nullable Bundle savedInstanceState) {
         fragmentAddReminderBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_add_reminder,
                 container, false);
-
-        String title = getString(R.string.add_reminder_fragment_title, contact.getName());
-        getDialog().setTitle(title);
-
-        TextView titleTextView = (TextView) getDialog().findViewById(android.R.id.title);
-        setTitleDimension(titleTextView);
-
+        setTitleDimension();
+        fragmentAddReminderBinding.reminderSelectionRadioGroup.setOnCheckedChangeListener(this);
         return fragmentAddReminderBinding.getRoot();
     }
 
-    private void setTitleDimension(TextView titleTextView) {
+    @Override
+    public void onCheckedChanged(RadioGroup radioGroup, int i) {
+        if (i == fragmentAddReminderBinding.intervalRadioButton.getId()) {
+            fragmentAddReminderBinding.intervalEditText.setVisibility(View.VISIBLE);
+            fragmentAddReminderBinding.groupListSpinner.setVisibility(View.GONE);
+        }
+        if (i == fragmentAddReminderBinding.groupRadioButton.getId()) {
+            fragmentAddReminderBinding.intervalEditText.setVisibility(View.GONE);
+            fragmentAddReminderBinding.groupListSpinner.setVisibility(View.VISIBLE);
+        }
+    }
+
+    private void setTitleDimension() {
+        TextView titleTextView = (TextView) getDialog().findViewById(android.R.id.title);
+        String title = getString(R.string.add_reminder_fragment_title, contact.getName());
+        titleTextView.setText(title);
         titleTextView.setTextColor(ContextCompat.getColor(getContext(), R.color.colorPrimaryDark));
         titleTextView.setTextSize(16);
-        titleTextView.setPadding(40,40,0,5);
+        titleTextView.setPadding(40,40,0,40);
     }
 }
