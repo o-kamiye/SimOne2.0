@@ -14,7 +14,7 @@ import ng.com.tinweb.www.simone20.databinding.GroupsListBinding;
 /**
  * Created by kamiye on 11/09/2016.
  */
-public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.GroupViewHolder> {
+public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolder> {
 
     private GroupsListBinding groupsListBinding;
     private GroupActionsListener actionsListener;
@@ -25,15 +25,15 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.GroupViewHol
     }
 
     @Override
-    public GroupViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         groupsListBinding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()),
                 R.layout.groups_list, parent, false);
 
-        return new GroupViewHolder(groupsListBinding.getRoot());
+        return new ViewHolder(groupsListBinding.getRoot());
     }
 
     @Override
-    public void onBindViewHolder(GroupViewHolder holder, int position) {
+    public void onBindViewHolder(ViewHolder holder, int position) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             groupsListBinding.groupInfoTextView.setText(Html.fromHtml("<big>4</big>" +  "<br />" +
                     "<small>days</small>", Html.FROM_HTML_MODE_COMPACT));
@@ -49,9 +49,9 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.GroupViewHol
         return array.length;
     }
 
-    public class GroupViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        public GroupViewHolder(View itemView) {
+        public ViewHolder(View itemView) {
             super(itemView);
             groupsListBinding.editIconImageView.setOnClickListener(this);
             groupsListBinding.deleteIconImageView.setOnClickListener(this);

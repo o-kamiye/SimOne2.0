@@ -28,7 +28,6 @@ public class ReminderFragment extends Fragment implements IReminderView,
 
     private IReminderPresenter reminderPresenter;
     private FragmentReminderBinding fragmentBinding;
-    private Menu activityMenu;
     private SearchView searchView;
 
     @Override
@@ -47,7 +46,6 @@ public class ReminderFragment extends Fragment implements IReminderView,
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
-        activityMenu = menu;
         SearchManager searchManager =
                 (SearchManager) getActivity().getSystemService(Context.SEARCH_SERVICE);
         searchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
