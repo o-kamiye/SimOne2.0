@@ -16,6 +16,12 @@
     <string name="group_fragment_icon">Group Fragment Icon</string>
     <string name="contact_search_title">Search results for \"%1s\"</string>
     <string name="add_reminder_fragment_title">Set reminder for %1s</string>
+    <string name="button_save">Save</string>
+    <string name="button_cancel">Cancel</string>
+    <string name="enter_interval">Enter interval</string>
+    <string name="interval_prompt">Enter interval</string>
+    <string name="group_prompt">Select Group</string>
+    <string name="interval_hint">Interval</string>
 
     <string-array name="bottomNavMenu">
         <item>Today</item>

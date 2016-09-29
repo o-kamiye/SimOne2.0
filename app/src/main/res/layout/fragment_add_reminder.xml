@@ -7,53 +7,89 @@
         android:id="@+id/content_reminder_add"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/white"
         android:orientation="vertical"
-        android:paddingTop="@dimen/activity_default_margin"
         android:paddingBottom="@dimen/activity_default_margin"
         android:paddingLeft="@dimen/activity_default_margin"
         android:paddingRight="@dimen/activity_default_margin"
+        android:paddingTop="@dimen/activity_default_margin"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         tools:context="ng.com.tinweb.www.simone20.MainActivity">
 
-            <EditText
-                android:layout_width="match_parent"
+        <RadioGroup
+            android:id="@+id/reminderSelectionRadioGroup"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/intervalRadioButton"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColorHint="@color/colorPrimary"
-                android:textSize="16sp"
-                android:hint="Enter interval"/>
+                android:checked="true"
+                android:text="@string/interval_prompt"
+                android:textColor="@color/colorPrimaryDark" />
 
-            <Spinner
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+            <RadioButton
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:visibility="invisible" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
+            <RadioButton
+                android:id="@+id/groupRadioButton"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                style="?attr/buttonBarStyle"
-                android:orientation="horizontal">
+                android:text="@string/group_prompt"
+                android:textColor="@color/colorPrimaryDark" />
 
-                <Button
-                    android:id="@+id/cancelButton"
-                    android:layout_width="wrap_content"
-                    style="?attr/buttonBarButtonStyle"
-                    android:text="Cancel"
-                    android:layout_height="wrap_content" />
+        </RadioGroup>
 
-                <Button
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:visibility="invisible"
-                    style="?attr/buttonBarButtonStyle"
-                    android:layout_height="match_parent" />
+        <Spinner
+            android:id="@+id/groupListSpinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone" />
 
-                <Button
-                    android:id="@+id/saveButton"
-                    android:layout_width="wrap_content"
-                    style="?attr/buttonBarButtonStyle"
-                    android:text="Save"
-                    android:layout_height="wrap_content" />
+        <EditText
+            android:id="@+id/intervalEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/interval_hint"
+            android:textColorHint="@color/colorPrimary"
+            android:textSize="16sp"
+            android:inputType="number" />
 
-            </LinearLayout>
+        <LinearLayout
+            style="?attr/buttonBarStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                style="?attr/buttonBarButtonStyle"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:visibility="invisible" />
+
+            <Button
+                android:id="@+id/cancelButton"
+                style="?attr/buttonBarButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/button_cancel"
+                android:textColor="@color/listSummaryColor" />
+
+            <Button
+                android:id="@+id/saveButton"
+                style="?attr/buttonBarButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/button_save"
+                android:textColor="@color/colorPrimaryDark" />
+
+        </LinearLayout>
 
     </LinearLayout>
 

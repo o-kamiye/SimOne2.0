@@ -20,7 +20,7 @@ import ng.com.tinweb.www.simone20.databinding.ActivityMainBinding;
 
 public class MainActivity extends AppCompatActivity implements ViewPager.OnPageChangeListener {
 
-    private static final String FRAGMENT_TAG = "search_result";
+    public static final String CONTACT_LIST_FRAGMENT_TAG = "search_result";
 
     private ActivityMainBinding activityMainBinding;
 
@@ -105,13 +105,13 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
             String searchQuery = intent.getStringExtra(SearchManager.QUERY);
 
             FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-            Fragment prev = getSupportFragmentManager().findFragmentByTag(FRAGMENT_TAG);
+            Fragment prev = getSupportFragmentManager().findFragmentByTag(CONTACT_LIST_FRAGMENT_TAG);
             if (prev != null) {
                 fragmentTransaction.remove(prev);
             }
             fragmentTransaction.addToBackStack(null);
             ContactListDialogFragment dialogFragment = ContactListDialogFragment.getInstance(searchQuery);
-            dialogFragment.show(fragmentTransaction, FRAGMENT_TAG);
+            dialogFragment.show(fragmentTransaction, CONTACT_LIST_FRAGMENT_TAG);
         }
     }
 
