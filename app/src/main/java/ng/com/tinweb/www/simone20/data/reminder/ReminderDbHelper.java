@@ -15,9 +15,9 @@ import ng.com.tinweb.www.simone20.data.DbContract;
  * Created by kamiye on 20/09/2016.
  */
 
-public class ReminderDbHelper extends BaseDbHelper implements DataStore {
+class ReminderDbHelper extends BaseDbHelper implements DataStore {
 
-    public ReminderDbHelper(Context context) {
+    ReminderDbHelper(Context context) {
         super(context);
     }
 
