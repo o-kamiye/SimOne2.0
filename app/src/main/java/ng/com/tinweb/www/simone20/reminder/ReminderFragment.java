@@ -65,7 +65,7 @@ public class ReminderFragment extends Fragment implements IReminderView,
     }
 
     @Override
-    public void setWeeklyReminders(int total) {
+    public void setWeekReminderTextView(int total) {
         fragmentBinding.weeklyRemindersTextView.setText(getResources()
                 .getQuantityString(R.plurals.no_of_calls_this_week,
                         total, total));
