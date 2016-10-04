@@ -31,13 +31,13 @@ public class SimOneContact implements Serializable {
     }
 
     public SimOneContact(int id, String name) {
-        super();
+        this();
         this.id = id;
         this.name = name;
     }
 
     public SimOneContact(long contactId, String name) {
-        super();
+        this();
         this.contactId = contactId;
         this.name = name;
     }

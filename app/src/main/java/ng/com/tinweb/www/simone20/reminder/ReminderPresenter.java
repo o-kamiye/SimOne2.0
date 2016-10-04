@@ -49,21 +49,16 @@ class ReminderPresenter implements IReminderPresenter {
 
         private WeakReference<IReminderView.IReminderFragmentView> fragmentView;
         private Reminder reminder;
-        private Group group;
 
         AddReminderPresenter(IReminderView.IReminderFragmentView fragmentView,
-                             Reminder reminder, Group group) {
+                             Reminder reminder) {
             this.fragmentView = new WeakReference<>(fragmentView);
             this.reminder = reminder;
-            this.group = group;
         }
 
         @Override
         public void addReminder(String contactGroup, int interval) {
             if (fragmentView.get() != null) {
-                if (contactGroup != null) {
-                    interval = getInterval();
-                }
                 reminder.setContactGroup(contactGroup);
                 reminder.setInterval(interval);
                 if (reminder.create()) {
@@ -75,9 +70,6 @@ class ReminderPresenter implements IReminderPresenter {
             }
         }
 
-        private int getInterval() {
-            return 0;
-        }
     }
 
 }

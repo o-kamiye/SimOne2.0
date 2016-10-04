@@ -22,6 +22,7 @@
     <string name="interval_prompt">Enter interval</string>
     <string name="group_prompt">Select Group</string>
     <string name="interval_hint">Interval</string>
+    <string name="date_format">yyyy-MM-dd</string>
 
     <string-array name="bottomNavMenu">
         <item>Today</item>
