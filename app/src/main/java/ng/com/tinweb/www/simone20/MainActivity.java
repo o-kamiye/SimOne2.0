@@ -64,7 +64,8 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
             Toast.makeText(this, "Search selected", Toast.LENGTH_SHORT).show();
         }
         if (id == R.id.action_settings) {
-            return true;
+            // TODO implement settings here
+            Toast.makeText(this, "Settings selected", Toast.LENGTH_SHORT).show();
         }
         return super.onOptionsItemSelected(item);
     }

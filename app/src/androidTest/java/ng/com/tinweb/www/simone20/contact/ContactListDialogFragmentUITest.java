@@ -95,4 +95,8 @@ public class ContactListDialogFragmentUITest {
 
         onView(withId(android.R.id.title)).check(matches(withText(containsString(contact))));
     }
+
+    // TODO test contact removed when user adds reminder
+
+    // TODO test database addition and removal
 }
