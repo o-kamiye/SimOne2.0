@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ng.com.tinweb.www.simone20.SimOne;
+import ng.com.tinweb.www.simone20.data.DbContract;
 
 
 /**
@@ -31,13 +32,13 @@ public class SimOneContact implements Serializable {
     }
 
     public SimOneContact(int id, String name) {
-        super();
+        this();
         this.id = id;
         this.name = name;
     }
 
     public SimOneContact(long contactId, String name) {
-        super();
+        this();
         this.contactId = contactId;
         this.name = name;
     }
@@ -82,10 +83,29 @@ public class SimOneContact implements Serializable {
             LongSparseArray<SimOneContact> contacts = generateContactsMap(cursor);
             if (dataStore.save(contacts)) {
                 callback.onSuccess();
-            }
-            else {
+            } else {
                 callback.onError("Contacts not successfully synchronised");
             }
+        }
+    }
+
+    public void syncOne(String name, SyncCallback callback) {
+        initialiseDataStore();
+
+        if (dataStore.saveOne(name)) {
+            callback.onSuccess();
+        } else {
+            callback.onError("Error adding new contact");
+        }
+    }
+
+    public void delete(String name, SyncCallback callback) {
+        initialiseDataStore();
+        if (dataStore.deleteOne(name)) {
+            callback.onSuccess();
+        }
+        else {
+            callback.onError("Error deleting " + name);
         }
     }
 
@@ -144,8 +164,9 @@ public class SimOneContact implements Serializable {
         }
     }
 
-    interface SyncCallback {
+    public interface SyncCallback {
         void onSuccess();
+
         void onError(String errorMessage);
     }
 }

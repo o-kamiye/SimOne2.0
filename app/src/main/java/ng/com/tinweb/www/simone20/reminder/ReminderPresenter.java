@@ -1,15 +1,18 @@
 package ng.com.tinweb.www.simone20.reminder;
 
 import java.lang.ref.WeakReference;
+import java.security.acl.Group;
+
+import ng.com.tinweb.www.simone20.data.reminder.Reminder;
 
 /**
  * Created by kamiye on 08/09/2016.
  */
-public class ReminderPresenter implements IReminderPresenter {
+class ReminderPresenter implements IReminderPresenter {
 
     private WeakReference<IReminderView> reminderView;
 
-    public ReminderPresenter(IReminderView reminderView) {
+    ReminderPresenter(IReminderView reminderView) {
         this.reminderView = new WeakReference<>(reminderView);
     }
 
@@ -18,7 +21,7 @@ public class ReminderPresenter implements IReminderPresenter {
         // TODO calling view's setWeeklyReminder() method should be done asynchronously
         int weeklyRemindersCount = 2;
         if (reminderView.get() != null)
-            reminderView.get().setWeeklyReminders(weeklyRemindersCount);
+            reminderView.get().setWeekReminderTextView(weeklyRemindersCount);
     }
 
     @Override
@@ -40,6 +43,33 @@ public class ReminderPresenter implements IReminderPresenter {
             // TODO if the removal was unsuccessful, then call the view's remove unsuccessful callback method
             reminderView.get().showDeleteErrorInfo();
         }
+    }
+
+    static class AddReminderPresenter implements IReminderFragmentPresenter {
+
+        private WeakReference<IReminderView.IReminderFragmentView> fragmentView;
+        private Reminder reminder;
+
+        AddReminderPresenter(IReminderView.IReminderFragmentView fragmentView,
+                             Reminder reminder) {
+            this.fragmentView = new WeakReference<>(fragmentView);
+            this.reminder = reminder;
+        }
+
+        @Override
+        public void addReminder(String contactGroup, int interval) {
+            if (fragmentView.get() != null) {
+                reminder.setContactGroup(contactGroup);
+                reminder.setInterval(interval);
+                if (reminder.create()) {
+                    fragmentView.get().onAddReminderSuccess();
+                }
+                else {
+                    fragmentView.get().onAddReminderError("Oops! Please try setting reminder again");
+                }
+            }
+        }
+
     }
 
 }
