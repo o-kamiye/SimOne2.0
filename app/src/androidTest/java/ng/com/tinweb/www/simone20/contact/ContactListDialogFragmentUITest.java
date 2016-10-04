@@ -7,6 +7,7 @@ import android.support.test.runner.AndroidJUnit4;
 import android.view.KeyEvent;
 import android.widget.EditText;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -95,4 +96,8 @@ public class ContactListDialogFragmentUITest {
 
         onView(withId(android.R.id.title)).check(matches(withText(containsString(contact))));
     }
+
+    // TODO test contact removed when user adds reminder
+
+    // TODO test database addition and removal
 }

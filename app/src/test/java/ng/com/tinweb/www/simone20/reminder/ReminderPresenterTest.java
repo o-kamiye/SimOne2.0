@@ -28,7 +28,7 @@ public class ReminderPresenterTest {
     public void testSetWeeklyReminderCount() {
         reminderPresenter.setWeeklyReminderCount();
 
-        verify(reminderView).setWeeklyReminders(2);
+        verify(reminderView).setWeekReminderTextView(2);
     }
 
     @Test

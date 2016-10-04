@@ -10,20 +10,24 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import ng.com.tinweb.www.simone20.R;
 import ng.com.tinweb.www.simone20.data.contact.SimOneContact;
 import ng.com.tinweb.www.simone20.databinding.FragmentAddReminderBinding;
+import ng.com.tinweb.www.simone20.helper.Injection;
 
 /**
  * Created by kamiye on 28/09/2016.
  */
 
 public class AddReminderDialogFragment extends DialogFragment
-        implements RadioGroup.OnCheckedChangeListener {
+        implements IReminderView.IReminderFragmentView, View.OnClickListener,
+        RadioGroup.OnCheckedChangeListener {
 
     private static final String INPUT_BUNDLE = "input_fragment";
 
+    private IReminderPresenter.IReminderFragmentPresenter fragmentPresenter;
     private FragmentAddReminderBinding fragmentAddReminderBinding;
     private SimOneContact contact;
 
@@ -41,6 +45,13 @@ public class AddReminderDialogFragment extends DialogFragment
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         contact = (SimOneContact) getArguments().getSerializable(INPUT_BUNDLE);
+        initialisePresenter();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        this.fragmentPresenter = null;
     }
 
     @Nullable
@@ -51,7 +62,46 @@ public class AddReminderDialogFragment extends DialogFragment
                 container, false);
         setTitleDimension();
         fragmentAddReminderBinding.reminderSelectionRadioGroup.setOnCheckedChangeListener(this);
+        fragmentAddReminderBinding.cancelButton.setOnClickListener(this);
+        fragmentAddReminderBinding.saveButton.setOnClickListener(this);
         return fragmentAddReminderBinding.getRoot();
+    }
+
+    @Override
+    public void onAddReminderSuccess() {
+        dismiss();
+        Toast.makeText(getContext(), getString(R.string.add_reminder_success_toast,
+                contact.getName()), Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onAddReminderError(String message) {
+
+    }
+
+    @Override
+    public void onClick(View view) {
+        if (view.getId() == fragmentAddReminderBinding.cancelButton.getId()) {
+            dismiss();
+        }
+        if (view.getId() == fragmentAddReminderBinding.saveButton.getId()) {
+            int checkedId = fragmentAddReminderBinding.reminderSelectionRadioGroup.getCheckedRadioButtonId();
+            if (checkedId == fragmentAddReminderBinding.intervalRadioButton.getId()) {
+                String intervalInput = fragmentAddReminderBinding.intervalEditText.getText().toString();
+                if (intervalInput.equals("")) {
+                    fragmentAddReminderBinding.inputErrorTextView.setVisibility(View.VISIBLE);
+                }
+                else {
+                    int interval = Integer.parseInt(intervalInput);
+                    fragmentPresenter.addReminder(null, interval);
+                }
+            }
+            // TODO add implementation for group option when group story has been defined
+//            else if (checkedId == fragmentAddReminderBinding.groupRadioButton.getId()) {
+//                String groupName = (String) fragmentAddReminderBinding.groupListSpinner.getSelectedItem();
+//                fragmentPresenter.addReminder(groupName, 0);
+//            }
+        }
     }
 
     @Override
@@ -64,6 +114,11 @@ public class AddReminderDialogFragment extends DialogFragment
             fragmentAddReminderBinding.intervalEditText.setVisibility(View.GONE);
             fragmentAddReminderBinding.groupListSpinner.setVisibility(View.VISIBLE);
         }
+    }
+
+    private void initialisePresenter() {
+        this.fragmentPresenter = new ReminderPresenter.AddReminderPresenter(this,
+                Injection.getReminder(contact.getId(), contact.getName()));
     }
 
     private void setTitleDimension() {

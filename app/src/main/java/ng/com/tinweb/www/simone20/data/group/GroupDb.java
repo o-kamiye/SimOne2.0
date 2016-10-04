@@ -8,7 +8,7 @@ import ng.com.tinweb.www.simone20.data.BaseDbHelper;
  * Created by kamiye on 20/09/2016.
  */
 
-public class GroupDb extends BaseDbHelper implements GroupDataStore {
+public class GroupDb extends BaseDbHelper implements DataStore {
 
 
     public GroupDb(Context context) {
@@ -38,5 +38,10 @@ public class GroupDb extends BaseDbHelper implements GroupDataStore {
     @Override
     public boolean delete() {
         return false;
+    }
+
+    @Override
+    public int getInterval(String groupName) {
+        return 0;
     }
 }

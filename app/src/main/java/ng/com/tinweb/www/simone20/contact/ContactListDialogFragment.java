@@ -54,6 +54,12 @@ public class ContactListDialogFragment extends DialogFragment
         initialisePresenter();
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        contactPresenter.fetchContacts(searchQuery);
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,

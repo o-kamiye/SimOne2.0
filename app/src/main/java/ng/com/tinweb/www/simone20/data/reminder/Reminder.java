@@ -19,8 +19,14 @@ public class Reminder {
         initialiseDataStore();
     }
 
+    public Reminder (int contactId, String contactName) {
+        this();
+        this.contactId = contactId;
+        this.contactName = contactName;
+    }
+
     public Reminder(int contactId, String contactName, String contactGroup, int interval) {
-        super();
+        this();
         this.contactId = contactId;
         this.contactName = contactName;
         this.contactGroup = contactGroup;
