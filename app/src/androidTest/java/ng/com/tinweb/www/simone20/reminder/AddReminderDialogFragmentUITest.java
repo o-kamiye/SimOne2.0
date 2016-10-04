@@ -50,9 +50,6 @@ public class AddReminderDialogFragmentUITest {
             new ActivityTestRule<>(MainActivity.class);
 
     private static String testContactName = "test_contact";
-    private String testContactNumber = "2348022007555";
-    private int reminderInterval = 3;
-
 
     @Before
     public void setUp() {
@@ -108,6 +105,7 @@ public class AddReminderDialogFragmentUITest {
 
     @Test
     public void testSaveButtonClickWithInput() {
+        int reminderInterval = 3;
         onView(withId(R.id.intervalEditText)).perform(typeText(String.valueOf(reminderInterval)));
         onView(withId(R.id.saveButton)).perform(click());
 
