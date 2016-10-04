@@ -23,18 +23,21 @@ public class AddReminderPresenterTest {
 
     private ReminderPresenter.AddReminderPresenter addReminderPresenter;
 
+    private String reminderGroup;
+    private int interval;
+
     @Before
     public void setupTest() {
         MockitoAnnotations.initMocks(this);
 
         addReminderPresenter = new ReminderPresenter.AddReminderPresenter(reminderFragmentView,
                 reminder);
+        reminderGroup = "family";
+        interval = 1;
     }
 
     @Test
     public void testAddReminderSuccess() {
-        String reminderGroup = "family";
-        int interval = 1;
         when(reminder.create()).thenReturn(true);
 
         addReminderPresenter.addReminder(reminderGroup, interval);
@@ -47,8 +50,7 @@ public class AddReminderPresenterTest {
 
     @Test
     public void testAddReminderError() {
-        String reminderGroup = "family";
-        int interval = 1;
+
         when(reminder.create()).thenReturn(false);
 
         addReminderPresenter.addReminder(reminderGroup, interval);
@@ -58,7 +60,5 @@ public class AddReminderPresenterTest {
         verify(reminder).create();
         verify(reminderFragmentView).onAddReminderError("Oops! Please try setting reminder again");
     }
-
-
 
 }
