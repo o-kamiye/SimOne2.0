@@ -10,13 +10,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import ng.com.tinweb.www.simone20.R;
 import ng.com.tinweb.www.simone20.data.contact.SimOneContact;
 import ng.com.tinweb.www.simone20.databinding.FragmentAddReminderBinding;
 import ng.com.tinweb.www.simone20.helper.Injection;
-
-import static ng.com.tinweb.www.simone20.R.id.reminderSelectionRadioGroup;
 
 /**
  * Created by kamiye on 28/09/2016.
@@ -70,7 +69,9 @@ public class AddReminderDialogFragment extends DialogFragment
 
     @Override
     public void onAddReminderSuccess() {
-
+        dismiss();
+        Toast.makeText(getContext(), "Reminder for " + contact.getName() +
+                " has been set", Toast.LENGTH_LONG).show();
     }
 
     @Override
@@ -90,10 +91,11 @@ public class AddReminderDialogFragment extends DialogFragment
                         fragmentAddReminderBinding.intervalEditText.getText().toString());
                 fragmentPresenter.addReminder(null, interval);
             }
-            else if (checkedId == fragmentAddReminderBinding.groupRadioButton.getId()) {
-                String groupName = (String) fragmentAddReminderBinding.groupListSpinner.getSelectedItem();
-                fragmentPresenter.addReminder(groupName, 0);
-            }
+            // TODO add implementation for group option when group story has been defined
+//            else if (checkedId == fragmentAddReminderBinding.groupRadioButton.getId()) {
+//                String groupName = (String) fragmentAddReminderBinding.groupListSpinner.getSelectedItem();
+//                fragmentPresenter.addReminder(groupName, 0);
+//            }
         }
     }
 

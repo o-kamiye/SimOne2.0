@@ -5,9 +5,13 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 
+import ng.com.tinweb.www.simone20.R;
 import ng.com.tinweb.www.simone20.data.BaseDbHelper;
 import ng.com.tinweb.www.simone20.data.DbContract;
 
@@ -17,8 +21,10 @@ import ng.com.tinweb.www.simone20.data.DbContract;
 
 class ReminderDbHelper extends BaseDbHelper implements DataStore {
 
+    private Context context;
     ReminderDbHelper(Context context) {
         super(context);
+        this.context = context;
     }
 
     @Override
@@ -26,9 +32,14 @@ class ReminderDbHelper extends BaseDbHelper implements DataStore {
                         int interval, boolean newSave) {
         SQLiteDatabase database = getWritableDatabase();
 
-        // TODO add date calculation to the mix
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.DATE, interval);
+        SimpleDateFormat sdf = new SimpleDateFormat(context.getString(R.string.date_format),
+                Locale.ENGLISH);
+        String dueDate = sdf.format(calendar.getTime());
 
         ContentValues values = new ContentValues();
+        values.put(DbContract.ContactSchema.COLUMN_NAME_DATE_DUE, dueDate);
         if (contactGroupId != null) {
             values.put(DbContract.ContactSchema.COLUMN_NAME_CONTACT_GROUP,
                     contactGroupId);
@@ -37,6 +48,8 @@ class ReminderDbHelper extends BaseDbHelper implements DataStore {
             values.put(DbContract.ContactSchema.COLUMN_NAME_REMINDER_INTERVAL,
                     interval);
         }
+        // TODO don't mess up duedate when updating a reminder.
+        // TODO check here first!!!
         if (newSave) {
             values.put(DbContract.ContactSchema.COLUMN_NAME_REMINDER_ACTIVATED,
                     DbContract.TRUE);

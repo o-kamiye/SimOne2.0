@@ -10,6 +10,7 @@ public final class DbContract {
     private DbContract() {}
 
     private static final String TEXT_TYPE = " TEXT";
+    private static final String NUMERIC_TYPE = " NUMERIC";
     private static final String INT_TYPE = " INT";
     private static final String COMMA_SEP = ",";
 
@@ -25,7 +26,7 @@ public final class DbContract {
                     ContactSchema.COLUMN_NAME_CONTACT_GROUP + TEXT_TYPE + COMMA_SEP +
                     ContactSchema.COLUMN_NAME_REMINDER_ACTIVATED + INT_TYPE + " DEFAULT " + FALSE + COMMA_SEP +
                     ContactSchema.COLUMN_NAME_REMINDER_INTERVAL + INT_TYPE + " DEFAULT " + FALSE + COMMA_SEP +
-                    ContactSchema.COLUMN_NAME_DATE_DUE + TEXT_TYPE + " )";
+                    ContactSchema.COLUMN_NAME_DATE_DUE + NUMERIC_TYPE + " )";
 
     static final String SQL_CREATE_GROUP_TABLE =
             "CREATE TABLE " + GroupSchema.TABLE_NAME + " (" +
