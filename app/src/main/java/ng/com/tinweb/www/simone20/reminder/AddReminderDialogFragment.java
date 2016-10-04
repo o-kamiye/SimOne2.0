@@ -70,8 +70,8 @@ public class AddReminderDialogFragment extends DialogFragment
     @Override
     public void onAddReminderSuccess() {
         dismiss();
-        Toast.makeText(getContext(), "Reminder for " + contact.getName() +
-                " has been set", Toast.LENGTH_LONG).show();
+        Toast.makeText(getContext(), getString(R.string.add_reminder_success_toast,
+                contact.getName()), Toast.LENGTH_LONG).show();
     }
 
     @Override
@@ -87,9 +87,14 @@ public class AddReminderDialogFragment extends DialogFragment
         if (view.getId() == fragmentAddReminderBinding.saveButton.getId()) {
             int checkedId = fragmentAddReminderBinding.reminderSelectionRadioGroup.getCheckedRadioButtonId();
             if (checkedId == fragmentAddReminderBinding.intervalRadioButton.getId()) {
-                int interval = Integer.parseInt(
-                        fragmentAddReminderBinding.intervalEditText.getText().toString());
-                fragmentPresenter.addReminder(null, interval);
+                String intervalInput = fragmentAddReminderBinding.intervalEditText.getText().toString();
+                if (intervalInput.equals("")) {
+                    fragmentAddReminderBinding.inputErrorTextView.setVisibility(View.VISIBLE);
+                }
+                else {
+                    int interval = Integer.parseInt(intervalInput);
+                    fragmentPresenter.addReminder(null, interval);
+                }
             }
             // TODO add implementation for group option when group story has been defined
 //            else if (checkedId == fragmentAddReminderBinding.groupRadioButton.getId()) {

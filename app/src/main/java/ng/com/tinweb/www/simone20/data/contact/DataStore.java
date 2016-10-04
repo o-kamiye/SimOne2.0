@@ -15,4 +15,7 @@ interface DataStore {
 
     List<SimOneContact> search(String searchQuery);
 
+    boolean saveOne(String contactName);
+
+    boolean deleteOne(String contactName);
 }

@@ -86,4 +86,28 @@ class ContactDbHelper extends BaseDbHelper implements DataStore {
         }
         return contacts;
     }
+
+    @Override
+    public boolean saveOne(String contactName) {
+        SQLiteDatabase database = getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+
+        values.put(DbContract.ContactSchema.COLUMN_NAME_CONTACT_NAME,
+                contactName);
+        long row = database.insert(DbContract.ContactSchema.TABLE_NAME, null, values);
+        database.close();
+        return row > 0;
+    }
+
+    @Override
+    public boolean deleteOne(String contactName) {
+        SQLiteDatabase database = getWritableDatabase();
+
+        String selection = DbContract.ContactSchema.COLUMN_NAME_CONTACT_NAME + " = ?";
+        String[] selectionArgs = { contactName };
+
+        int row = database.delete(DbContract.ContactSchema.TABLE_NAME, selection, selectionArgs);
+        return row > 0;
+    }
 }

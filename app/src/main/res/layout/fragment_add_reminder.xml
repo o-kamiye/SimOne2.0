@@ -51,6 +51,14 @@
             android:layout_height="wrap_content"
             android:visibility="gone" />
 
+        <TextView
+            android:id="@+id/inputErrorTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:textColor="@color/colorAccentDark"
+            android:text="@string/add_reminder_error"/>
+
         <EditText
             android:id="@+id/intervalEditText"
             android:layout_width="match_parent"
