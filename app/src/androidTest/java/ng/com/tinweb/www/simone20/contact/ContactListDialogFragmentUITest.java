@@ -7,6 +7,7 @@ import android.support.test.runner.AndroidJUnit4;
 import android.view.KeyEvent;
 import android.widget.EditText;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
