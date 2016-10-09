@@ -19,8 +19,6 @@ import ng.com.tinweb.www.simone20.databinding.FragmentAddGroupBinding;
 
 public class AddGroupDialogFragment extends DialogFragment implements View.OnClickListener {
 
-    private static final String INPUT_BUNDLE = "add_group_fragment";
-
     private FragmentAddGroupBinding fragmentAddGroupBinding;
 
     public static AddGroupDialogFragment getInstance() {
