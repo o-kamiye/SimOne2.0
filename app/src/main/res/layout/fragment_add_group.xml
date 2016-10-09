@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <LinearLayout
+        android:id="@+id/content_group_add"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:orientation="vertical"
+        android:paddingBottom="@dimen/activity_default_margin"
+        android:paddingLeft="@dimen/activity_default_margin"
+        android:paddingRight="@dimen/activity_default_margin"
+        android:paddingTop="@dimen/activity_default_margin"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        tools:context="ng.com.tinweb.www.simone20.MainActivity">
+
+        <EditText
+            android:id="@+id/groupNameEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/name"
+            android:textColorHint="@color/colorPrimary"
+            android:textSize="16sp"
+            android:inputType="textAutoComplete" />
+
+        <EditText
+            android:id="@+id/groupIntervalEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/interval_hint"
+            android:textColorHint="@color/colorPrimary"
+            android:textSize="16sp"
+            android:inputType="number" />
+
+        <LinearLayout
+            style="?attr/buttonBarStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                style="?attr/buttonBarButtonStyle"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:visibility="invisible" />
+
+            <Button
+                android:id="@+id/cancelButton"
+                style="?attr/buttonBarButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/button_cancel"
+                android:textColor="@color/listSummaryColor" />
+
+            <Button
+                android:id="@+id/saveButton"
+                style="?attr/buttonBarButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/button_save"
+                android:textColor="@color/colorPrimaryDark" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</layout>
