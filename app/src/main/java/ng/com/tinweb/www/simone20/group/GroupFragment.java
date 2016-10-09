@@ -4,6 +4,7 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -12,8 +13,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import ng.com.tinweb.www.simone20.MainActivity;
 import ng.com.tinweb.www.simone20.R;
 import ng.com.tinweb.www.simone20.databinding.FragmentGroupBinding;
+import ng.com.tinweb.www.simone20.reminder.AddReminderDialogFragment;
 import ng.com.tinweb.www.simone20.util.LinearLayoutDecorator;
 
 /**
@@ -21,6 +24,8 @@ import ng.com.tinweb.www.simone20.util.LinearLayoutDecorator;
  */
 public class GroupFragment extends Fragment implements IGroupView,
         GroupActionsListener {
+
+    private static final String ADD_GROUP_FRAGMENT_TAG = "add_new_group";
 
     private FragmentGroupBinding groupBinding;
     private IGroupPresenter groupPresenter;
@@ -84,7 +89,14 @@ public class GroupFragment extends Fragment implements IGroupView,
         groupBinding.groupsFAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getContext(), "You don't need a presenter action for this", Toast.LENGTH_SHORT).show();
+                FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+                Fragment prev = getActivity().getSupportFragmentManager().findFragmentByTag(ADD_GROUP_FRAGMENT_TAG);
+                if (prev != null) {
+                    fragmentTransaction.remove(prev);
+                }
+                fragmentTransaction.addToBackStack(null);
+                AddGroupDialogFragment addGroupDialogFragment = AddGroupDialogFragment.getInstance();
+                addGroupDialogFragment.show(fragmentTransaction, ADD_GROUP_FRAGMENT_TAG);
             }
         });
     }
