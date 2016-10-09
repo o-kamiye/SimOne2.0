@@ -11,12 +11,9 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
-import ng.com.tinweb.www.simone20.MainActivity;
 import ng.com.tinweb.www.simone20.R;
 import ng.com.tinweb.www.simone20.databinding.FragmentGroupBinding;
-import ng.com.tinweb.www.simone20.reminder.AddReminderDialogFragment;
 import ng.com.tinweb.www.simone20.util.LinearLayoutDecorator;
 
 /**
