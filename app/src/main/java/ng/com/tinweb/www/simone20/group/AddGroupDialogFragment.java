@@ -9,17 +9,21 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import ng.com.tinweb.www.simone20.R;
 import ng.com.tinweb.www.simone20.databinding.FragmentAddGroupBinding;
+import ng.com.tinweb.www.simone20.helper.Injection;
 
 /**
  * Created by kamiye on 09/10/2016.
  */
 
-public class AddGroupDialogFragment extends DialogFragment implements View.OnClickListener {
+public class AddGroupDialogFragment extends DialogFragment
+        implements View.OnClickListener, IGroupView.IGroupFragmentView {
 
     private FragmentAddGroupBinding fragmentAddGroupBinding;
+    private IGroupPresenter.IAddGroupPresenter fragmentPresenter;
 
     public static AddGroupDialogFragment getInstance() {
         return new AddGroupDialogFragment();
@@ -28,6 +32,7 @@ public class AddGroupDialogFragment extends DialogFragment implements View.OnCli
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        initialisePresenter();
     }
 
     @Override
@@ -49,12 +54,30 @@ public class AddGroupDialogFragment extends DialogFragment implements View.OnCli
 
     @Override
     public void onClick(View view) {
+        fragmentAddGroupBinding.inputErrorTextView.setVisibility(View.GONE);
         if (view.getId() == fragmentAddGroupBinding.cancelButton.getId()) {
             dismiss();
         }
         if (view.getId() == fragmentAddGroupBinding.saveButton.getId()) {
             // TODO implement saving new group logic here
+            String groupName = fragmentAddGroupBinding.groupNameEditText.getText().toString();
+            String intervalString = fragmentAddGroupBinding.groupIntervalEditText.getText().toString();
+            int groupInterval = intervalString.equals("") ? 0 : Integer.valueOf(intervalString);
+            fragmentPresenter.addGroup(groupName, groupInterval);
         }
+    }
+
+    @Override
+    public void onAddGroupSuccess() {
+        dismiss();
+        Toast.makeText(getContext(), "New group added successfully",
+                Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onAddGroupError(String message) {
+        fragmentAddGroupBinding.inputErrorTextView.setText(message);
+        fragmentAddGroupBinding.inputErrorTextView.setVisibility(View.VISIBLE);
     }
 
     private void setTitleDimension() {
@@ -66,4 +89,8 @@ public class AddGroupDialogFragment extends DialogFragment implements View.OnCli
         titleTextView.setPadding(40,40,0,40);
     }
 
+    private void initialisePresenter() {
+        fragmentPresenter = new GroupPresenter.AddGroupPresenter(this,
+                Injection.getSimOneGroup());
+    }
 }
