@@ -2,10 +2,15 @@ package ng.com.tinweb.www.simone20.group;
 
 import java.lang.ref.WeakReference;
 
+import ng.com.tinweb.www.simone20.data.group.SimOneGroup;
+
+import static ng.com.tinweb.www.simone20.data.group.SimOneGroup.DB_INSERT_ERROR;
+import static ng.com.tinweb.www.simone20.data.group.SimOneGroup.GROUP_EXISTS_ERROR;
+
 /**
  * Created by kamiye on 11/09/2016.
  */
-public class GroupPresenter implements IGroupPresenter {
+class GroupPresenter implements IGroupPresenter {
 
     private WeakReference<IGroupView> groupView;
 
@@ -38,5 +43,50 @@ public class GroupPresenter implements IGroupPresenter {
             // TODO if the removal was successful, then call the view's remove successful callback method
             // TODO if the removal was unsuccessful, then call the view's remove unsuccessful callback method
         }
+    }
+
+    static class AddGroupPresenter implements IGroupPresenter.IAddGroupPresenter{
+
+        private WeakReference<IGroupView.IGroupFragmentView> fragmentView;
+        private SimOneGroup simOneGroup;
+
+        AddGroupPresenter(IGroupView.IGroupFragmentView fragmentView, SimOneGroup simOneGroup) {
+            this.fragmentView = new WeakReference<>(fragmentView);
+            this.simOneGroup = simOneGroup;
+        }
+
+        @Override
+        public void addGroup(String name, int interval) {
+            if (fragmentView.get() != null) {
+                // TODO validate group
+                if (name.isEmpty() || interval < 1) {
+                    fragmentView.get().onAddGroupError("Group name and interval should not be empty");
+                    return;
+                }
+                simOneGroup.setName(name);
+                simOneGroup.setInterval(interval);
+                simOneGroup.create(new SimOneGroup.ActionCallback() {
+                    @Override
+                    public void onSuccess() {
+                        fragmentView.get().onAddGroupSuccess();
+                    }
+
+                    @Override
+                    public void onError(int errorCode) {
+                        String errorMessage = "Oops! We didn't anticipate this one, please try again ;)";
+                        switch (errorCode) {
+                            case DB_INSERT_ERROR:
+                                errorMessage = "Hmmmm, something went wrong. Try again";
+                                break;
+                            case GROUP_EXISTS_ERROR:
+                                errorMessage = "You have a group with the same name already";
+                                break;
+                        }
+                        fragmentView.get().onAddGroupError(errorMessage);
+                    }
+                });
+            }
+        }
+
     }
 }

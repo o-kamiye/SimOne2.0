@@ -6,14 +6,11 @@ package ng.com.tinweb.www.simone20.data.group;
 
 interface DataStore {
 
-    boolean save();
-    boolean update();
+    void save(String name, int interval, SimOneGroup.ActionCallback callback);
+    boolean update(String name, String members, int interval);
     void getSingle();
     void getMultiple();
     boolean delete();
     int getInterval(String groupName);
 
-    interface ActionCallback {
-
-    }
 }
