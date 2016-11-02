@@ -1,6 +1,7 @@
 package ng.com.tinweb.www.simone20.group;
 
 import android.databinding.DataBindingUtil;
+import android.databinding.tool.util.StringUtils;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
@@ -53,6 +54,7 @@ public class AddGroupDialogFragment extends DialogFragment
 
     @Override
     public void onClick(View view) {
+        fragmentAddGroupBinding.inputErrorTextView.setVisibility(View.GONE);
         if (view.getId() == fragmentAddGroupBinding.cancelButton.getId()) {
             dismiss();
         }
@@ -60,19 +62,22 @@ public class AddGroupDialogFragment extends DialogFragment
             // TODO implement saving new group logic here
             String groupName = fragmentAddGroupBinding.groupNameEditText.getText().toString();
             String intervalString = fragmentAddGroupBinding.groupIntervalEditText.getText().toString();
-            int groupInterval = Integer.valueOf(intervalString);
+            int groupInterval = intervalString.equals("") ? 0 : Integer.valueOf(intervalString);
             fragmentPresenter.addGroup(groupName, groupInterval);
         }
     }
 
     @Override
     public void onAddGroupSuccess() {
-
+        dismiss();
+        Toast.makeText(getContext(), "New group added successfully",
+                Toast.LENGTH_LONG).show();
     }
 
     @Override
     public void onAddGroupError(String message) {
-
+        fragmentAddGroupBinding.inputErrorTextView.setText(message);
+        fragmentAddGroupBinding.inputErrorTextView.setVisibility(View.VISIBLE);
     }
 
     private void setTitleDimension() {
