@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import ng.com.tinweb.www.simone20.R;
 import ng.com.tinweb.www.simone20.databinding.FragmentAddGroupBinding;
@@ -17,9 +18,11 @@ import ng.com.tinweb.www.simone20.databinding.FragmentAddGroupBinding;
  * Created by kamiye on 09/10/2016.
  */
 
-public class AddGroupDialogFragment extends DialogFragment implements View.OnClickListener {
+public class AddGroupDialogFragment extends DialogFragment
+        implements View.OnClickListener, IGroupView.IGroupFragmentView {
 
     private FragmentAddGroupBinding fragmentAddGroupBinding;
+    private IGroupPresenter.IAddGroupPresenter fragmentPresenter;
 
     public static AddGroupDialogFragment getInstance() {
         return new AddGroupDialogFragment();
@@ -28,6 +31,7 @@ public class AddGroupDialogFragment extends DialogFragment implements View.OnCli
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        initialisePresenter();
     }
 
     @Override
@@ -54,7 +58,21 @@ public class AddGroupDialogFragment extends DialogFragment implements View.OnCli
         }
         if (view.getId() == fragmentAddGroupBinding.saveButton.getId()) {
             // TODO implement saving new group logic here
+            String groupName = fragmentAddGroupBinding.groupNameEditText.getText().toString();
+            String intervalString = fragmentAddGroupBinding.groupIntervalEditText.getText().toString();
+            int groupInterval = Integer.valueOf(intervalString);
+            fragmentPresenter.addGroup(groupName, groupInterval);
         }
+    }
+
+    @Override
+    public void onAddGroupSuccess() {
+
+    }
+
+    @Override
+    public void onAddGroupError(String message) {
+
     }
 
     private void setTitleDimension() {
@@ -66,4 +84,7 @@ public class AddGroupDialogFragment extends DialogFragment implements View.OnCli
         titleTextView.setPadding(40,40,0,40);
     }
 
+    private void initialisePresenter() {
+        fragmentPresenter = new GroupPresenter.AddGroupPresenter(this);
+    }
 }

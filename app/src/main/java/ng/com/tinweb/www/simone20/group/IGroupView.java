@@ -5,4 +5,11 @@ package ng.com.tinweb.www.simone20.group;
  */
 public interface IGroupView {
     void setGroupsCountTextView(int groupsCount);
+
+    interface IGroupFragmentView {
+
+        void onAddGroupSuccess();
+
+        void onAddGroupError(String message);
+    }
 }
