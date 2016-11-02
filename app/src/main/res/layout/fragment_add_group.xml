@@ -16,6 +16,13 @@
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         tools:context="ng.com.tinweb.www.simone20.MainActivity">
 
+        <TextView
+            android:id="@+id/inputErrorTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:textColor="@color/colorAccentDark"/>
+
         <EditText
             android:id="@+id/groupNameEditText"
             android:layout_width="match_parent"

@@ -57,6 +57,10 @@ class GroupPresenter implements IGroupPresenter {
         public void addGroup(String name, int interval) {
             if (fragmentView.get() != null) {
                 // TODO validate group
+                if (name.isEmpty() || interval < 1) {
+                    fragmentView.get().onAddGroupError("Group name and interval should not be empty");
+                    return;
+                }
                 SimOneGroup group = new SimOneGroup(name, interval);
                 group.create(new SimOneGroup.ActionCallback() {
                     @Override

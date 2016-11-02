@@ -47,12 +47,12 @@ class GroupDb extends BaseDbHelper implements DataStore {
                 null,
                 null
         );
-        if (cursor == null) {
+        if (cursor.getCount() == 0) {
             ContentValues values = new ContentValues();
             values.put(DbContract.GroupSchema.COLUMN_NAME_GROUP_NAME, name);
             values.put(DbContract.GroupSchema.COLUMN_NAME_GROUP_INTERVAL, interval);
 
-            long count = database.insert(DbContract.ContactSchema.TABLE_NAME, null, values);
+            long count = database.insert(DbContract.GroupSchema.TABLE_NAME, null, values);
             if (count != 0) {
                 callback.onSuccess();
             }
