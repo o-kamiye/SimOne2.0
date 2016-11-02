@@ -1,7 +1,6 @@
 package ng.com.tinweb.www.simone20.group;
 
 import android.databinding.DataBindingUtil;
-import android.databinding.tool.util.StringUtils;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
