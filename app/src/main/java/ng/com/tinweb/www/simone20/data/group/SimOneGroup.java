@@ -21,8 +21,13 @@ public class SimOneGroup {
     /**
      * TODO this class to be further implemented in the group story
      */
-    public SimOneGroup(String name, int interval) {
+
+    public SimOneGroup() {
         initialiseDateStore();
+    }
+
+    public SimOneGroup(String name, int interval) {
+        this();
         this.name = name;
         this.interval = interval;
     }

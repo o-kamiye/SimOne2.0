@@ -3,6 +3,7 @@ package ng.com.tinweb.www.simone20.helper;
 
 
 import ng.com.tinweb.www.simone20.data.contact.SimOneContact;
+import ng.com.tinweb.www.simone20.data.group.SimOneGroup;
 import ng.com.tinweb.www.simone20.data.reminder.Reminder;
 
 /**
@@ -19,4 +20,7 @@ public class Injection {
         return new Reminder(contactId, contactName);
     }
 
+    public static SimOneGroup getSimOneGroup() {
+        return new SimOneGroup();
+    }
 }

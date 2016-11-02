@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import ng.com.tinweb.www.simone20.R;
 import ng.com.tinweb.www.simone20.databinding.FragmentAddGroupBinding;
+import ng.com.tinweb.www.simone20.helper.Injection;
 
 /**
  * Created by kamiye on 09/10/2016.
@@ -89,6 +90,7 @@ public class AddGroupDialogFragment extends DialogFragment
     }
 
     private void initialisePresenter() {
-        fragmentPresenter = new GroupPresenter.AddGroupPresenter(this);
+        fragmentPresenter = new GroupPresenter.AddGroupPresenter(this,
+                Injection.getSimOneGroup());
     }
 }

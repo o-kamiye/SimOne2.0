@@ -48,9 +48,11 @@ class GroupPresenter implements IGroupPresenter {
     static class AddGroupPresenter implements IGroupPresenter.IAddGroupPresenter{
 
         private WeakReference<IGroupView.IGroupFragmentView> fragmentView;
+        private SimOneGroup simOneGroup;
 
-        AddGroupPresenter(IGroupView.IGroupFragmentView fragmentView) {
+        AddGroupPresenter(IGroupView.IGroupFragmentView fragmentView, SimOneGroup simOneGroup) {
             this.fragmentView = new WeakReference<>(fragmentView);
+            this.simOneGroup = simOneGroup;
         }
 
         @Override
@@ -61,8 +63,9 @@ class GroupPresenter implements IGroupPresenter {
                     fragmentView.get().onAddGroupError("Group name and interval should not be empty");
                     return;
                 }
-                SimOneGroup group = new SimOneGroup(name, interval);
-                group.create(new SimOneGroup.ActionCallback() {
+                simOneGroup.setName(name);
+                simOneGroup.setInterval(interval);
+                simOneGroup.create(new SimOneGroup.ActionCallback() {
                     @Override
                     public void onSuccess() {
                         fragmentView.get().onAddGroupSuccess();
