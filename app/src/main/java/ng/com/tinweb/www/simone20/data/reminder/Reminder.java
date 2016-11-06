@@ -33,12 +33,12 @@ public class Reminder {
         this.interval = interval;
     }
 
-    public boolean create() {
-        return dataStore.save(contactId, contactGroup, interval, true);
+    public void create(ActionCallback callback) {
+        dataStore.save(contactId, contactGroup, interval, true, callback);
     }
 
-    public boolean update() {
-        return dataStore.save(contactId, contactName, interval, false);
+    public void update(ActionCallback callback) {
+        dataStore.save(contactId, contactName, interval, false, callback);
     }
 
     public boolean remove(int contactId) {
@@ -88,5 +88,10 @@ public class Reminder {
     private void initialiseDataStore() {
         Context context = SimOne.getContext();
         dataStore = new ReminderDbHelper(context);
+    }
+
+    public interface ActionCallback {
+        void onSuccess();
+        void onError(int errorCode);
     }
 }

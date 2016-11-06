@@ -61,12 +61,17 @@ class ReminderPresenter implements IReminderPresenter {
             if (fragmentView.get() != null) {
                 reminder.setContactGroup(contactGroup);
                 reminder.setInterval(interval);
-                if (reminder.create()) {
-                    fragmentView.get().onAddReminderSuccess();
-                }
-                else {
-                    fragmentView.get().onAddReminderError("Oops! Please try setting reminder again");
-                }
+                reminder.create(new Reminder.ActionCallback() {
+                    @Override
+                    public void onSuccess() {
+                        fragmentView.get().onAddReminderSuccess();
+                    }
+
+                    @Override
+                    public void onError(int errorCode) {
+                        fragmentView.get().onAddReminderError("Oops! Please try setting reminder again");
+                    }
+                });
             }
         }
 

@@ -7,7 +7,7 @@ import java.util.List;
  */
 interface DataStore {
 
-    boolean save(int contactId, String contactGroupId, int interval, boolean newSave);
+    void save(int contactId, String contactGroupId, int interval, boolean newSave, Reminder.ActionCallback callback);
     void getSingle(int contactId, ActionCallback callback);
     void getMultiple(ActionCallback callback);
     boolean delete(int contactId);
