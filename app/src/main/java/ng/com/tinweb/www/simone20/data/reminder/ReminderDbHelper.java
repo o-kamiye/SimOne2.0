@@ -21,15 +21,18 @@ import ng.com.tinweb.www.simone20.data.DbContract;
 
 class ReminderDbHelper extends BaseDbHelper implements DataStore {
 
+    public static int UNKNOWN_ERROR = 13;
+
     private Context context;
+
     ReminderDbHelper(Context context) {
         super(context);
         this.context = context;
     }
 
     @Override
-    public boolean save(int contactId, String contactGroupId,
-                        int interval, boolean newSave) {
+    public void save(int contactId, String contactGroupId,
+                        int interval, boolean newSave, Reminder.ActionCallback callback) {
         SQLiteDatabase database = getWritableDatabase();
 
         Calendar calendar = Calendar.getInstance();
@@ -61,7 +64,12 @@ class ReminderDbHelper extends BaseDbHelper implements DataStore {
         int count = database.update(DbContract.ContactSchema.TABLE_NAME,
                 values, selection, selectionArgs);
 
-        return count != 0;
+        if (count != 0) {
+            callback.onSuccess();
+        }
+        else {
+            callback.onError(UNKNOWN_ERROR);
+        }
     }
 
     @Override
