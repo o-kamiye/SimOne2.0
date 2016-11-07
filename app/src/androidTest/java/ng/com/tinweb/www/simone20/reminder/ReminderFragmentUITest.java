@@ -26,6 +26,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.withHint;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static ng.com.tinweb.www.simone20.helper.ToastMatcher.isToast;
+import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.core.AllOf.allOf;
 
 /**
@@ -57,11 +58,13 @@ public class ReminderFragmentUITest {
 
     @Test
     public void testEditIconClick() {
+        String titleSubstring = "Update reminder";
         onView(withId(R.id.weeklyRemindersRecyclerView))
                 .perform(RecyclerViewActions.actionOnItemAtPosition(0,
                         RecyclerViewAction.clickCallIconImageView(R.id.editIconImageView)));
 
-        onView(withText("Edit reminder pop will appear here")).inRoot(isToast()).check(matches(isDisplayed()));
+        onView(withId(android.R.id.title)).check(matches(withText(containsString(titleSubstring))));
+        onView(withId(R.id.intervalEditText)).check(matches(isDisplayed()));
     }
 
     @Test

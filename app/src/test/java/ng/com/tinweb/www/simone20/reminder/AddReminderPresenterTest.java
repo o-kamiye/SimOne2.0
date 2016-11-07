@@ -2,13 +2,14 @@ package ng.com.tinweb.www.simone20.reminder;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import ng.com.tinweb.www.simone20.data.reminder.Reminder;
 
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 /**
  * Created by kamiye on 04/10/2016.
@@ -20,6 +21,9 @@ public class AddReminderPresenterTest {
 
     @Mock
     public Reminder reminder;
+
+    @Captor
+    private ArgumentCaptor<Reminder.ActionCallback> callbackArgumentCaptor;
 
     private ReminderPresenter.AddReminderPresenter addReminderPresenter;
 
@@ -38,26 +42,23 @@ public class AddReminderPresenterTest {
 
     @Test
     public void testAddReminderSuccess() {
-        when(reminder.create()).thenReturn(true);
-
         addReminderPresenter.addReminder(reminderGroup, interval);
 
         verify(reminder).setContactGroup(reminderGroup);
         verify(reminder).setInterval(interval);
-        verify(reminder).create();
+        verify(reminder).create(callbackArgumentCaptor.capture());
+        callbackArgumentCaptor.getValue().onSuccess();
         verify(reminderFragmentView).onAddReminderSuccess();
     }
 
     @Test
     public void testAddReminderError() {
-
-        when(reminder.create()).thenReturn(false);
-
         addReminderPresenter.addReminder(reminderGroup, interval);
 
         verify(reminder).setContactGroup(reminderGroup);
         verify(reminder).setInterval(interval);
-        verify(reminder).create();
+        verify(reminder).create(callbackArgumentCaptor.capture());
+        callbackArgumentCaptor.getValue().onError(13);
         verify(reminderFragmentView).onAddReminderError("Oops! Please try setting reminder again");
     }
 

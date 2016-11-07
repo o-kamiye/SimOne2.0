@@ -1,13 +1,19 @@
 package ng.com.tinweb.www.simone20.reminder;
 
+import java.util.List;
+
+import ng.com.tinweb.www.simone20.data.reminder.Reminder;
+
 /**
  * Created by kamiye on 08/09/2016.
  */
 interface IReminderView {
 
-    void setWeekReminderTextView(int total);
+    void onRemindersLoaded(List<Reminder> reminders);
 
-    void showEditReminderPopUp();
+    void onReminderLoadingError();
+
+    void setWeekReminderTextView(int total);
 
     void showDeleteSuccessInfo();
 

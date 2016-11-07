@@ -20,6 +20,10 @@ public class Injection {
         return new Reminder(contactId, contactName);
     }
 
+    public static Reminder getReminderObject() {
+        return new Reminder();
+    }
+
     public static SimOneGroup getSimOneGroup() {
         return new SimOneGroup();
     }
