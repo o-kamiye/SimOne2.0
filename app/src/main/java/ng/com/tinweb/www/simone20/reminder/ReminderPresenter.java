@@ -1,7 +1,7 @@
 package ng.com.tinweb.www.simone20.reminder;
 
 import java.lang.ref.WeakReference;
-import java.security.acl.Group;
+import java.util.List;
 
 import ng.com.tinweb.www.simone20.data.reminder.Reminder;
 
@@ -11,9 +11,30 @@ import ng.com.tinweb.www.simone20.data.reminder.Reminder;
 class ReminderPresenter implements IReminderPresenter {
 
     private WeakReference<IReminderView> reminderView;
+    private Reminder reminder;
 
-    ReminderPresenter(IReminderView reminderView) {
+    ReminderPresenter(Reminder reminder, IReminderView reminderView) {
+        this.reminder = reminder;
         this.reminderView = new WeakReference<>(reminderView);
+    }
+
+    @Override
+    public void loadReminders() {
+        reminder.getAll(new Reminder.GetAllCallback() {
+            @Override
+            public void onSuccess(List<Reminder> reminders) {
+                if (reminderView.get() != null) {
+                    reminderView.get().onRemindersLoaded(reminders);
+                }
+            }
+
+            @Override
+            public void onError(int errorCode) {
+                if (reminderView.get() != null) {
+                    reminderView.get().onReminderLoadingError();
+                }
+            }
+        });
     }
 
     @Override
