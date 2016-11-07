@@ -150,8 +150,9 @@ public class AddReminderDialogFragment extends DialogFragment
 
     private void setTitleDimension() {
         TextView titleTextView = (TextView) getDialog().findViewById(android.R.id.title);
-        String contactName = (isEditMode) ? ((Reminder) contact).getContactName() : contact.getName();
-        String title = getString(R.string.add_reminder_fragment_title, contactName);
+        String title = (isEditMode) ? getString(R.string.update_reminder_fragment_title,
+                ((Reminder) contact).getContactName()) :
+                getString(R.string.add_reminder_fragment_title, contact.getName());
         titleTextView.setText(title);
         titleTextView.setTextColor(ContextCompat.getColor(getContext(), R.color.colorPrimaryDark));
         titleTextView.setTextSize(16);
