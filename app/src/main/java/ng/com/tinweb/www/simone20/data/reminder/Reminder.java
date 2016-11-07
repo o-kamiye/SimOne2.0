@@ -3,6 +3,7 @@ package ng.com.tinweb.www.simone20.data.reminder;
 import android.content.Context;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 import ng.com.tinweb.www.simone20.SimOne;
@@ -29,18 +30,12 @@ public class Reminder {
         this.contactName = contactName;
     }
 
-    public Reminder(int contactId, String contactName, String contactGroup, int interval) {
+    public Reminder(int contactId, String contactName, String contactGroup, int interval, int daysLeft) {
         this();
         this.contactId = contactId;
         this.contactName = contactName;
         this.contactGroup = contactGroup;
         this.interval = interval;
-    }
-
-    Reminder (int contactId, String contactName, int daysLeft) {
-        this();
-        this.contactId = contactId;
-        this.contactName = contactName;
         this.daysLeft = daysLeft;
     }
 
@@ -116,7 +111,7 @@ public class Reminder {
     }
 
     public interface GetAllCallback {
-        void onSuccess(List<Reminder> reminders);
+        void onSuccess(HashMap<String, String> metaData, List<Reminder> reminders);
         void onError(int errorCode);
     }
 }

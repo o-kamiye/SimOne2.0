@@ -42,13 +42,15 @@ class ReminderAdapter extends RecyclerView.Adapter<ReminderAdapter.ViewHolder> {
         Reminder reminder = reminders.get(position);
         remindersBinding.contactNameTextView.setText(reminder.getContactName());
         int daysLeft = reminder.getDaysLeft();
+        int interval = reminder.getInterval();
+        int progress = (interval - daysLeft) * 100 / interval;
         // TODO getting this position will be dynamic
         if (position == 3) {
             remindersBinding.fartherRemindersTextView.setVisibility(View.VISIBLE);
         }
 
         // TODO add dynamic view addition here
-        // remindersBinding.circularProgressBar.setProgressWithAnimation(65, 5000);
+         remindersBinding.circularProgressBar.setProgressWithAnimation(progress, 5000);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             remindersBinding.circularInfoTextView.setText(Html.fromHtml("<big>"+ daysLeft +"</big>" +  "<br />" +
                     "<small>days</small>", Html.FROM_HTML_MODE_COMPACT));
