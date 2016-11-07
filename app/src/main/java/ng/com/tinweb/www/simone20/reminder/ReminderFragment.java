@@ -100,19 +100,6 @@ public class ReminderFragment extends Fragment implements IReminderView,
     }
 
     @Override
-    public void showEditReminderPopUp() {
-        Toast.makeText(getContext(), "Edit reminder pop will appear here", Toast.LENGTH_SHORT).show();
-//        FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
-//        Fragment prev = getActivity().getSupportFragmentManager().findFragmentByTag(MainActivity.CONTACT_LIST_FRAGMENT_TAG);
-//        if (prev != null) {
-//            fragmentTransaction.remove(prev);
-//        }
-//        fragmentTransaction.addToBackStack(null);
-//        AddReminderDialogFragment addReminderFragment = AddReminderDialogFragment.getInstance(contact);
-//        addReminderFragment.show(fragmentTransaction, EDIT_REMINDER_FRAGMENT_TAG);
-    }
-
-    @Override
     public void showDeleteSuccessInfo() {
         // TODO implement delete successful message here
     }
@@ -124,7 +111,6 @@ public class ReminderFragment extends Fragment implements IReminderView,
 
     @Override
     public void onEditAction(Reminder reminder) {
-        //reminderPresenter.editReminder(contactId);
         FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
         Fragment prev = getActivity().getSupportFragmentManager().findFragmentByTag(MainActivity.CONTACT_LIST_FRAGMENT_TAG);
         if (prev != null) {

@@ -7,8 +7,6 @@ interface IReminderPresenter {
 
     void loadReminders();
 
-    void editReminder(String contactId);
-
     void deleteReminder(String contactId);
 
     interface IReminderFragmentPresenter {
