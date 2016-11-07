@@ -79,10 +79,10 @@ class ReminderAdapter extends RecyclerView.Adapter<ReminderAdapter.ViewHolder> {
             int position = getAdapterPosition();
             Reminder reminder = reminders.get(position);
             if (view.getId() == remindersBinding.editIconImageView.getId()) {
-                reminderActionsListener.onEditAction(String.valueOf(reminder.getContactId()));
+                reminderActionsListener.onEditAction(reminder);
             }
             if (view.getId() == remindersBinding.deleteIconImageView.getId()) {
-                reminderActionsListener.onDeleteAction(String.valueOf(reminder.getContactId()));
+                reminderActionsListener.onDeleteAction(reminder);
             }
         }
     }

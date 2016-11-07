@@ -13,7 +13,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
@@ -26,8 +25,6 @@ import ng.com.tinweb.www.simone20.data.reminder.Reminder;
 import ng.com.tinweb.www.simone20.databinding.FragmentReminderBinding;
 import ng.com.tinweb.www.simone20.helper.Injection;
 import ng.com.tinweb.www.simone20.util.LinearLayoutDecorator;
-
-import static android.icu.lang.UCharacter.GraphemeClusterBreak.T;
 
 /**
  * Created by kamiye on 08/09/2016.
@@ -126,13 +123,22 @@ public class ReminderFragment extends Fragment implements IReminderView,
     }
 
     @Override
-    public void onEditAction(String contactId) {
-        reminderPresenter.editReminder(contactId);
+    public void onEditAction(Reminder reminder) {
+        //reminderPresenter.editReminder(contactId);
+        FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+        Fragment prev = getActivity().getSupportFragmentManager().findFragmentByTag(MainActivity.CONTACT_LIST_FRAGMENT_TAG);
+        if (prev != null) {
+            fragmentTransaction.remove(prev);
+        }
+        fragmentTransaction.addToBackStack(null);
+        AddReminderDialogFragment addReminderFragment = AddReminderDialogFragment.getInstance(reminder);
+        addReminderFragment.setEditMode(true);
+        addReminderFragment.show(fragmentTransaction, EDIT_REMINDER_FRAGMENT_TAG);
     }
 
     @Override
-    public void onDeleteAction(String contactId) {
-        reminderPresenter.deleteReminder(contactId);
+    public void onDeleteAction(Reminder reminder) {
+        //reminderPresenter.deleteReminder(contactId);
     }
 
     private void initialisePresenter() {

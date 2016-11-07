@@ -7,11 +7,12 @@ import java.util.HashMap;
 import java.util.List;
 
 import ng.com.tinweb.www.simone20.SimOne;
+import ng.com.tinweb.www.simone20.data.contact.SimOneContact;
 
 /**
  * Created by kamiye on 08/09/2016.
  */
-public class Reminder {
+public class Reminder extends SimOneContact {
 
     private DataStore dataStore;
     private String contactName;
@@ -57,10 +58,6 @@ public class Reminder {
 
     public void getAll(GetAllCallback callback) {
         dataStore.getMultiple(callback);
-    }
-
-    public int getContactId() {
-        return contactId;
     }
 
     public String getContactName() {
