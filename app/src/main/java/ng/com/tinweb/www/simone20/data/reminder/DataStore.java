@@ -8,15 +8,8 @@ import java.util.List;
 interface DataStore {
 
     void save(int contactId, String contactGroupId, int interval, boolean newSave, Reminder.ActionCallback callback);
-    void getSingle(int contactId, ActionCallback callback);
-    void getMultiple(ActionCallback callback);
+    void getSingle(int contactId, Reminder.GetSingleCallback callback);
+    void getMultiple(Reminder.GetAllCallback callback);
     boolean delete(int contactId);
-
-    interface ActionCallback {
-        void onGetSuccess(String contactname, int interval);
-        void onGetError();
-        void onGetMultipleSuccess(List<Reminder> reminders);
-        void onGetMultipleError();
-    }
 
 }

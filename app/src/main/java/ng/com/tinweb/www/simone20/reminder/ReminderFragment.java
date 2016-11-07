@@ -6,8 +6,10 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.SearchView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -16,15 +18,24 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import java.util.List;
+
+import ng.com.tinweb.www.simone20.MainActivity;
 import ng.com.tinweb.www.simone20.R;
+import ng.com.tinweb.www.simone20.data.reminder.Reminder;
 import ng.com.tinweb.www.simone20.databinding.FragmentReminderBinding;
+import ng.com.tinweb.www.simone20.helper.Injection;
 import ng.com.tinweb.www.simone20.util.LinearLayoutDecorator;
+
+import static android.icu.lang.UCharacter.GraphemeClusterBreak.T;
 
 /**
  * Created by kamiye on 08/09/2016.
  */
 public class ReminderFragment extends Fragment implements IReminderView,
         ReminderActionsListener {
+
+    private static final String EDIT_REMINDER_FRAGMENT_TAG = "edit_reminder";
 
     private IReminderPresenter reminderPresenter;
     private FragmentReminderBinding fragmentBinding;
@@ -60,8 +71,28 @@ public class ReminderFragment extends Fragment implements IReminderView,
         fragmentBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_reminder,
                 container, false);
 
-        setUpFragment();
+        reminderPresenter.loadReminders();
         return fragmentBinding.getRoot();
+    }
+
+    @Override
+    public void onRemindersLoaded(List<Reminder> reminders) {
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+        fragmentBinding.weeklyRemindersRecyclerView.setLayoutManager(linearLayoutManager);
+        fragmentBinding.weeklyRemindersRecyclerView.setAdapter(new ReminderAdapter(reminders, this));
+        fragmentBinding.weeklyRemindersRecyclerView.addItemDecoration(new LinearLayoutDecorator(getContext(), null));
+
+        fragmentBinding.remindersFAB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                searchView.setIconified(false);
+            }
+        });
+    }
+
+    @Override
+    public void onReminderLoadingError() {
+        Log.e("REMINDER_ERROR", "Error loading reminders");
     }
 
     @Override
@@ -74,6 +105,14 @@ public class ReminderFragment extends Fragment implements IReminderView,
     @Override
     public void showEditReminderPopUp() {
         Toast.makeText(getContext(), "Edit reminder pop will appear here", Toast.LENGTH_SHORT).show();
+//        FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+//        Fragment prev = getActivity().getSupportFragmentManager().findFragmentByTag(MainActivity.CONTACT_LIST_FRAGMENT_TAG);
+//        if (prev != null) {
+//            fragmentTransaction.remove(prev);
+//        }
+//        fragmentTransaction.addToBackStack(null);
+//        AddReminderDialogFragment addReminderFragment = AddReminderDialogFragment.getInstance(contact);
+//        addReminderFragment.show(fragmentTransaction, EDIT_REMINDER_FRAGMENT_TAG);
     }
 
     @Override
@@ -97,21 +136,8 @@ public class ReminderFragment extends Fragment implements IReminderView,
     }
 
     private void initialisePresenter() {
-        this.reminderPresenter = new ReminderPresenter(this);
+        this.reminderPresenter = new ReminderPresenter(Injection.getReminderObject(),
+                this);
     }
 
-    private void setUpFragment() {
-        reminderPresenter.setWeeklyReminderCount();
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
-        fragmentBinding.weeklyRemindersRecyclerView.setLayoutManager(linearLayoutManager);
-        fragmentBinding.weeklyRemindersRecyclerView.setAdapter(new ReminderAdapter(this));
-        fragmentBinding.weeklyRemindersRecyclerView.addItemDecoration(new LinearLayoutDecorator(getContext(), null));
-
-        fragmentBinding.remindersFAB.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                searchView.setIconified(false);
-            }
-        });
-    }
 }

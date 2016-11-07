@@ -5,9 +5,11 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -22,6 +24,8 @@ import ng.com.tinweb.www.simone20.data.DbContract;
 class ReminderDbHelper extends BaseDbHelper implements DataStore {
 
     public static int UNKNOWN_ERROR = 13;
+
+    private static int DAY_DIVIDER = 24 * 60 * 60 * 1000;
 
     private Context context;
 
@@ -73,7 +77,7 @@ class ReminderDbHelper extends BaseDbHelper implements DataStore {
     }
 
     @Override
-    public void getSingle(int contactId, ActionCallback callback) {
+    public void getSingle(int contactId, Reminder.GetSingleCallback callback) {
         SQLiteDatabase database = getReadableDatabase();
 
         String[] projection = {
@@ -109,22 +113,20 @@ class ReminderDbHelper extends BaseDbHelper implements DataStore {
             String dueDate = cursor.getString(
                     cursor.getColumnIndexOrThrow(DbContract.ContactSchema.COLUMN_NAME_DATE_DUE)
             );
-            callback.onGetSuccess(contactName, interval);
+            callback.onSuccess(contactName, interval);
         } else {
-            callback.onGetError();
+            callback.onError(UNKNOWN_ERROR);
         }
         cursor.close();
     }
 
     @Override
-    public void getMultiple(ActionCallback callback) {
+    public void getMultiple(Reminder.GetAllCallback callback) {
         SQLiteDatabase database = getReadableDatabase();
 
         String[] projection = {
                 DbContract.ContactSchema._ID,
                 DbContract.ContactSchema.COLUMN_NAME_CONTACT_NAME,
-                DbContract.ContactSchema.COLUMN_NAME_CONTACT_NUMBERS,
-                DbContract.ContactSchema.COLUMN_NAME_REMINDER_INTERVAL,
                 DbContract.ContactSchema.COLUMN_NAME_DATE_DUE
         };
 
@@ -150,21 +152,26 @@ class ReminderDbHelper extends BaseDbHelper implements DataStore {
                 String contactName = cursor.getString(
                         cursor.getColumnIndexOrThrow(DbContract.ContactSchema.COLUMN_NAME_CONTACT_NAME)
                 );
-                String contactGroup = cursor.getString(
-                        cursor.getColumnIndexOrThrow(DbContract.ContactSchema.COLUMN_NAME_CONTACT_GROUP)
-                );
-                int interval = cursor.getInt(
-                        cursor.getColumnIndexOrThrow(DbContract.ContactSchema.COLUMN_NAME_REMINDER_INTERVAL)
-                );
-                String dueDate = cursor.getString(
+                String dateString = cursor.getString(
                         cursor.getColumnIndexOrThrow(DbContract.ContactSchema.COLUMN_NAME_DATE_DUE)
                 );
-                reminders.add(new Reminder(contactId, contactName, contactGroup, interval));
+                int daysLeft = 0;
+                SimpleDateFormat sdf = new SimpleDateFormat(context.getString(R.string.date_format),
+                        Locale.ENGLISH);
+                try {
+                    Date dueDate = sdf.parse(dateString);
+                    Date currentDate = new Date();
+                    long difference = Math.abs(dueDate.getTime() - currentDate.getTime());
+                    daysLeft = (int) difference / DAY_DIVIDER;
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                reminders.add(new Reminder(contactId, contactName, daysLeft));
             }
-            callback.onGetMultipleSuccess(reminders);
+            callback.onSuccess(reminders);
             cursor.close();
         } else {
-            callback.onGetMultipleError();
+            callback.onError(UNKNOWN_ERROR);
         }
     }
 

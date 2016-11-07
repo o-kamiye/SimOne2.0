@@ -2,6 +2,9 @@ package ng.com.tinweb.www.simone20.data.reminder;
 
 import android.content.Context;
 
+import java.util.Date;
+import java.util.List;
+
 import ng.com.tinweb.www.simone20.SimOne;
 
 /**
@@ -10,10 +13,11 @@ import ng.com.tinweb.www.simone20.SimOne;
 public class Reminder {
 
     private DataStore dataStore;
-    private int contactId;
     private String contactName;
     private String contactGroup;
+    private int contactId;
     private int interval;
+    private int daysLeft;
 
     public Reminder() {
         initialiseDataStore();
@@ -33,6 +37,13 @@ public class Reminder {
         this.interval = interval;
     }
 
+    Reminder (int contactId, String contactName, int daysLeft) {
+        this();
+        this.contactId = contactId;
+        this.contactName = contactName;
+        this.daysLeft = daysLeft;
+    }
+
     public void create(ActionCallback callback) {
         dataStore.save(contactId, contactGroup, interval, true, callback);
     }
@@ -45,11 +56,11 @@ public class Reminder {
         return dataStore.delete(contactId);
     }
 
-    public void get(DataStore.ActionCallback callback) {
+    public void get(GetSingleCallback callback) {
         dataStore.getSingle(contactId, callback);
     }
 
-    public void getAll(DataStore.ActionCallback callback) {
+    public void getAll(GetAllCallback callback) {
         dataStore.getMultiple(callback);
     }
 
@@ -67,6 +78,10 @@ public class Reminder {
 
     public int getInterval() {
         return interval;
+    }
+
+    public int getDaysLeft() {
+        return daysLeft;
     }
 
     public void setContactId(int contactId) {
@@ -92,6 +107,16 @@ public class Reminder {
 
     public interface ActionCallback {
         void onSuccess();
+        void onError(int errorCode);
+    }
+
+    public interface GetSingleCallback {
+        void onSuccess(String contactName, int interval);
+        void onError(int errorCode);
+    }
+
+    public interface GetAllCallback {
+        void onSuccess(List<Reminder> reminders);
         void onError(int errorCode);
     }
 }
