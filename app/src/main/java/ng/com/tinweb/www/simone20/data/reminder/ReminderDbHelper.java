@@ -10,6 +10,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
@@ -127,6 +128,8 @@ class ReminderDbHelper extends BaseDbHelper implements DataStore {
         String[] projection = {
                 DbContract.ContactSchema._ID,
                 DbContract.ContactSchema.COLUMN_NAME_CONTACT_NAME,
+                DbContract.ContactSchema.COLUMN_NAME_CONTACT_GROUP,
+                DbContract.ContactSchema.COLUMN_NAME_REMINDER_INTERVAL,
                 DbContract.ContactSchema.COLUMN_NAME_DATE_DUE
         };
 
@@ -145,12 +148,20 @@ class ReminderDbHelper extends BaseDbHelper implements DataStore {
         );
         if (cursor != null) {
             List<Reminder> reminders = new ArrayList<>();
+            HashMap<String, String> remindersMetaData = new HashMap<>();
+            int dueWeekly = 0;
             while (cursor.moveToNext()) {
                 int contactId = cursor.getInt(
                         cursor.getColumnIndexOrThrow(DbContract.ContactSchema._ID)
                 );
                 String contactName = cursor.getString(
                         cursor.getColumnIndexOrThrow(DbContract.ContactSchema.COLUMN_NAME_CONTACT_NAME)
+                );
+                String contactGroup = cursor.getString(
+                        cursor.getColumnIndexOrThrow(DbContract.ContactSchema.COLUMN_NAME_CONTACT_GROUP)
+                );
+                int interval = cursor.getInt(
+                        cursor.getColumnIndexOrThrow(DbContract.ContactSchema.COLUMN_NAME_REMINDER_INTERVAL)
                 );
                 String dateString = cursor.getString(
                         cursor.getColumnIndexOrThrow(DbContract.ContactSchema.COLUMN_NAME_DATE_DUE)
@@ -166,9 +177,13 @@ class ReminderDbHelper extends BaseDbHelper implements DataStore {
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
-                reminders.add(new Reminder(contactId, contactName, daysLeft));
+                if (daysLeft < 7) {
+                    dueWeekly++;
+                }
+                reminders.add(new Reminder(contactId, contactName, contactGroup, interval, daysLeft));
             }
-            callback.onSuccess(reminders);
+            remindersMetaData.put("dueWeekly", String.valueOf(dueWeekly));
+            callback.onSuccess(remindersMetaData, reminders);
             cursor.close();
         } else {
             callback.onError(UNKNOWN_ERROR);

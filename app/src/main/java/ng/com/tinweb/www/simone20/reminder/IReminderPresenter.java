@@ -7,8 +7,6 @@ interface IReminderPresenter {
 
     void loadReminders();
 
-    void setWeeklyReminderCount();
-
     void editReminder(String contactId);
 
     void deleteReminder(String contactId);

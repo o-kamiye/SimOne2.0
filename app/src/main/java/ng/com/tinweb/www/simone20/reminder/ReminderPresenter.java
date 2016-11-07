@@ -1,6 +1,7 @@
 package ng.com.tinweb.www.simone20.reminder;
 
 import java.lang.ref.WeakReference;
+import java.util.HashMap;
 import java.util.List;
 
 import ng.com.tinweb.www.simone20.data.reminder.Reminder;
@@ -22,9 +23,11 @@ class ReminderPresenter implements IReminderPresenter {
     public void loadReminders() {
         reminder.getAll(new Reminder.GetAllCallback() {
             @Override
-            public void onSuccess(List<Reminder> reminders) {
+            public void onSuccess(HashMap<String, String> metaData, List<Reminder> reminders) {
                 if (reminderView.get() != null) {
                     reminderView.get().onRemindersLoaded(reminders);
+                    int totalDueThisWeek = Integer.valueOf(metaData.get("dueWeekly"));
+                    reminderView.get().setWeekReminderTextView(totalDueThisWeek);
                 }
             }
 
@@ -35,14 +38,6 @@ class ReminderPresenter implements IReminderPresenter {
                 }
             }
         });
-    }
-
-    @Override
-    public void setWeeklyReminderCount() {
-        // TODO calling view's setWeeklyReminder() method should be done asynchronously
-        int weeklyRemindersCount = 2;
-        if (reminderView.get() != null)
-            reminderView.get().setWeekReminderTextView(weeklyRemindersCount);
     }
 
     @Override
