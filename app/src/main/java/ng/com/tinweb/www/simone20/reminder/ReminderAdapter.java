@@ -8,19 +8,23 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.List;
+
 import ng.com.tinweb.www.simone20.R;
+import ng.com.tinweb.www.simone20.data.reminder.Reminder;
 import ng.com.tinweb.www.simone20.databinding.RemindersListBinding;
 
 /**
  * Created by kamiye on 08/09/2016.
  */
-public class ReminderAdapter extends RecyclerView.Adapter<ReminderAdapter.ViewHolder> {
+class ReminderAdapter extends RecyclerView.Adapter<ReminderAdapter.ViewHolder> {
 
     private ReminderActionsListener reminderActionsListener;
-    private String[] array = new String[5];
+    private List<Reminder> reminders;
     private RemindersListBinding remindersBinding;
 
-    public ReminderAdapter(ReminderActionsListener reminderActionsListener) {
+    ReminderAdapter(List<Reminder> reminders, ReminderActionsListener reminderActionsListener) {
+        this.reminders = reminders;
         this.reminderActionsListener = reminderActionsListener;
     }
 
@@ -35,31 +39,36 @@ public class ReminderAdapter extends RecyclerView.Adapter<ReminderAdapter.ViewHo
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
 
+        Reminder reminder = reminders.get(position);
+        remindersBinding.contactNameTextView.setText(reminder.getContactName());
+        int daysLeft = reminder.getDaysLeft();
+        int interval = reminder.getInterval();
+        int progress = (interval - daysLeft) * 100 / interval;
         // TODO getting this position will be dynamic
         if (position == 3) {
             remindersBinding.fartherRemindersTextView.setVisibility(View.VISIBLE);
         }
 
         // TODO add dynamic view addition here
-        // remindersBinding.circularProgressBar.setProgressWithAnimation(65, 5000);
+         remindersBinding.circularProgressBar.setProgressWithAnimation(progress, 5000);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            remindersBinding.circularInfoTextView.setText(Html.fromHtml("<big>4</big>" +  "<br />" +
+            remindersBinding.circularInfoTextView.setText(Html.fromHtml("<big>"+ daysLeft +"</big>" +  "<br />" +
                     "<small>days</small>", Html.FROM_HTML_MODE_COMPACT));
         }
         else {
-            remindersBinding.circularInfoTextView.setText(Html.fromHtml("<big>4</big>" +  "<br />" +
+            remindersBinding.circularInfoTextView.setText(Html.fromHtml("<big>"+ daysLeft +"</big>" +  "<br />" +
                     "<small>days</small>"));
         }
     }
 
     @Override
     public int getItemCount() {
-        return array.length;
+        return reminders.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        public ViewHolder(View itemView) {
+        ViewHolder(View itemView) {
             super(itemView);
             remindersBinding.editIconImageView.setOnClickListener(this);
             remindersBinding.deleteIconImageView.setOnClickListener(this);
@@ -68,12 +77,12 @@ public class ReminderAdapter extends RecyclerView.Adapter<ReminderAdapter.ViewHo
         @Override
         public void onClick(View view) {
             int position = getAdapterPosition();
-            String contactId = "Position " + position;
+            Reminder reminder = reminders.get(position);
             if (view.getId() == remindersBinding.editIconImageView.getId()) {
-                reminderActionsListener.onEditAction(contactId);
+                reminderActionsListener.onEditAction(reminder);
             }
             if (view.getId() == remindersBinding.deleteIconImageView.getId()) {
-                reminderActionsListener.onDeleteAction(contactId);
+                reminderActionsListener.onDeleteAction(reminder);
             }
         }
     }
