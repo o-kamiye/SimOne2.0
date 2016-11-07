@@ -41,15 +41,6 @@ class ReminderPresenter implements IReminderPresenter {
     }
 
     @Override
-    public void editReminder(String contactId) {
-        if (reminderView.get() != null) {
-            // TODO get the reminder from the contactId
-            // TODO get the view to show the pop up dialog with the reminder details
-            reminderView.get().showEditReminderPopUp();
-        }
-    }
-
-    @Override
     public void deleteReminder(String contactId) {
         if (reminderView.get() != null) {
             // TODO get the reminder from the contactId

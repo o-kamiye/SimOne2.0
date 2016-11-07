@@ -15,8 +15,6 @@ interface IReminderView {
 
     void setWeekReminderTextView(int total);
 
-    void showEditReminderPopUp();
-
     void showDeleteSuccessInfo();
 
     void showDeleteErrorInfo();
