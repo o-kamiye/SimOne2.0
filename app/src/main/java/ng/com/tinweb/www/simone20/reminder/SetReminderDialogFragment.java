@@ -76,7 +76,7 @@ public class SetReminderDialogFragment extends DialogFragment
     @Override
     public void onSetReminderSuccess() {
         dismiss();
-        String successMessage = (isEditMode) ? "Reminder updated successfully" :
+        String successMessage = (isEditMode) ? getString(R.string.update_reminder_success) :
                 getString(R.string.add_reminder_success_toast,
                 contact.getName());
         Toast.makeText(getContext(), successMessage, Toast.LENGTH_LONG).show();
@@ -148,7 +148,7 @@ public class SetReminderDialogFragment extends DialogFragment
             fragmentAddReminderBinding.groupRadioButton.setChecked(true);
             // TODO implement group setting here
         }
-        fragmentAddReminderBinding.saveButton.setText("Update");
+        fragmentAddReminderBinding.saveButton.setText(R.string.txt_update);
 
     }
 
