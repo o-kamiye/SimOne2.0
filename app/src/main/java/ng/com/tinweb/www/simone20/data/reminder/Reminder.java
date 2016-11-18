@@ -40,12 +40,8 @@ public class Reminder extends SimOneContact {
         this.daysLeft = daysLeft;
     }
 
-    public void create(ActionCallback callback) {
-        dataStore.save(contactId, contactGroup, interval, true, callback);
-    }
-
-    public void update(ActionCallback callback) {
-        dataStore.save(contactId, contactName, interval, false, callback);
+    public void set(boolean isUpdate, ActionCallback callback) {
+        dataStore.save(contactId, contactGroup, interval, isUpdate, callback);
     }
 
     public boolean remove(int contactId) {
@@ -58,6 +54,10 @@ public class Reminder extends SimOneContact {
 
     public void getAll(GetAllCallback callback) {
         dataStore.getMultiple(callback);
+    }
+
+    public int getReminderContactId() {
+        return contactId;
     }
 
     public String getContactName() {

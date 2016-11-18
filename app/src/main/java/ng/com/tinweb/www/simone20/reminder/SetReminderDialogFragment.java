@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,13 +19,11 @@ import ng.com.tinweb.www.simone20.data.reminder.Reminder;
 import ng.com.tinweb.www.simone20.databinding.FragmentAddReminderBinding;
 import ng.com.tinweb.www.simone20.helper.Injection;
 
-import static android.R.id.message;
-
 /**
  * Created by kamiye on 28/09/2016.
  */
 
-public class AddReminderDialogFragment extends DialogFragment
+public class SetReminderDialogFragment extends DialogFragment
         implements IReminderView.IReminderFragmentView, View.OnClickListener,
         RadioGroup.OnCheckedChangeListener {
 
@@ -35,8 +34,8 @@ public class AddReminderDialogFragment extends DialogFragment
     private SimOneContact contact;
     private boolean isEditMode;
 
-    public static AddReminderDialogFragment getInstance(SimOneContact contact) {
-        AddReminderDialogFragment inputFragment = new AddReminderDialogFragment();
+    public static SetReminderDialogFragment getInstance(SimOneContact contact) {
+        SetReminderDialogFragment inputFragment = new SetReminderDialogFragment();
 
         Bundle bundle = new Bundle();
 
@@ -75,7 +74,7 @@ public class AddReminderDialogFragment extends DialogFragment
     }
 
     @Override
-    public void onAddReminderSuccess() {
+    public void onSetReminderSuccess() {
         dismiss();
         String successMessage = (isEditMode) ? "Reminder updated successfully" :
                 getString(R.string.add_reminder_success_toast,
@@ -84,8 +83,10 @@ public class AddReminderDialogFragment extends DialogFragment
     }
 
     @Override
-    public void onAddReminderError(String message) {
-
+    public void onSetReminderError(String message) {
+        Toast.makeText(getContext(), message, Toast.LENGTH_LONG).show();
+        fragmentAddReminderBinding.inputErrorTextView.setText(message);
+        fragmentAddReminderBinding.inputErrorTextView.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -102,13 +103,13 @@ public class AddReminderDialogFragment extends DialogFragment
                 }
                 else {
                     int interval = Integer.parseInt(intervalInput);
-                    fragmentPresenter.addReminder(null, interval);
+                    fragmentPresenter.setReminder(null, interval, isEditMode);
                 }
             }
             // TODO add implementation for group option when group story has been defined
 //            else if (checkedId == fragmentAddReminderBinding.groupRadioButton.getId()) {
 //                String groupName = (String) fragmentAddReminderBinding.groupListSpinner.getSelectedItem();
-//                fragmentPresenter.addReminder(groupName, 0);
+//                fragmentPresenter.setReminder(groupName, 0);
 //            }
         }
     }
@@ -130,8 +131,11 @@ public class AddReminderDialogFragment extends DialogFragment
     }
 
     private void initialisePresenter() {
-        this.fragmentPresenter = new ReminderPresenter.AddReminderPresenter(this,
-                Injection.getReminder(contact.getId(), contact.getName()));
+        int id = (isEditMode) ? ((Reminder) contact).getReminderContactId() : contact.getId();
+        String name = (isEditMode) ? ((Reminder) contact).getContactName() : contact.getName();
+
+        this.fragmentPresenter = new ReminderPresenter.SetReminderPresenter(this,
+                Injection.getReminder(id, name));
     }
 
     private void populateFormFields() {

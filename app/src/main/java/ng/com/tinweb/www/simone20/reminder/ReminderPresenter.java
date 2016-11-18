@@ -1,5 +1,7 @@
 package ng.com.tinweb.www.simone20.reminder;
 
+import android.util.Log;
+
 import java.lang.ref.WeakReference;
 import java.util.HashMap;
 import java.util.List;
@@ -52,31 +54,33 @@ class ReminderPresenter implements IReminderPresenter {
         }
     }
 
-    static class AddReminderPresenter implements IReminderFragmentPresenter {
+    static class SetReminderPresenter implements IReminderFragmentPresenter {
 
         private WeakReference<IReminderView.IReminderFragmentView> fragmentView;
         private Reminder reminder;
 
-        AddReminderPresenter(IReminderView.IReminderFragmentView fragmentView,
+        SetReminderPresenter(IReminderView.IReminderFragmentView fragmentView,
                              Reminder reminder) {
             this.fragmentView = new WeakReference<>(fragmentView);
             this.reminder = reminder;
         }
 
         @Override
-        public void addReminder(String contactGroup, int interval) {
+        public void setReminder(String contactGroup, int interval, boolean isUpdate) {
             if (fragmentView.get() != null) {
                 reminder.setContactGroup(contactGroup);
                 reminder.setInterval(interval);
-                reminder.create(new Reminder.ActionCallback() {
+                reminder.set(isUpdate, new Reminder.ActionCallback() {
                     @Override
                     public void onSuccess() {
-                        fragmentView.get().onAddReminderSuccess();
+                        fragmentView.get().onSetReminderSuccess();
+                        Log.d("Status", "success_status_called");
                     }
 
                     @Override
                     public void onError(int errorCode) {
-                        fragmentView.get().onAddReminderError("Oops! Please try setting reminder again");
+                        Log.e("Status", "error_status_called");
+                        fragmentView.get().onSetReminderError("Oops! Please try setting reminder again");
                     }
                 });
             }

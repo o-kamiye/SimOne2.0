@@ -14,7 +14,7 @@ import static org.mockito.Mockito.verify;
 /**
  * Created by kamiye on 04/10/2016.
  */
-public class AddReminderPresenterTest {
+public class SetReminderPresenterTest {
 
     @Mock
     public IReminderView.IReminderFragmentView reminderFragmentView;
@@ -25,7 +25,7 @@ public class AddReminderPresenterTest {
     @Captor
     private ArgumentCaptor<Reminder.ActionCallback> callbackArgumentCaptor;
 
-    private ReminderPresenter.AddReminderPresenter addReminderPresenter;
+    private ReminderPresenter.SetReminderPresenter setReminderPresenter;
 
     private String reminderGroup;
     private int interval;
@@ -34,7 +34,7 @@ public class AddReminderPresenterTest {
     public void setupTest() {
         MockitoAnnotations.initMocks(this);
 
-        addReminderPresenter = new ReminderPresenter.AddReminderPresenter(reminderFragmentView,
+        setReminderPresenter = new ReminderPresenter.SetReminderPresenter(reminderFragmentView,
                 reminder);
         reminderGroup = "family";
         interval = 1;
@@ -42,24 +42,24 @@ public class AddReminderPresenterTest {
 
     @Test
     public void testAddReminderSuccess() {
-        addReminderPresenter.addReminder(reminderGroup, interval);
+        setReminderPresenter.setReminder(reminderGroup, interval);
 
         verify(reminder).setContactGroup(reminderGroup);
         verify(reminder).setInterval(interval);
-        verify(reminder).create(callbackArgumentCaptor.capture());
+        verify(reminder).set(callbackArgumentCaptor.capture());
         callbackArgumentCaptor.getValue().onSuccess();
-        verify(reminderFragmentView).onAddReminderSuccess();
+        verify(reminderFragmentView).onSetReminderSuccess();
     }
 
     @Test
     public void testAddReminderError() {
-        addReminderPresenter.addReminder(reminderGroup, interval);
+        setReminderPresenter.setReminder(reminderGroup, interval);
 
         verify(reminder).setContactGroup(reminderGroup);
         verify(reminder).setInterval(interval);
-        verify(reminder).create(callbackArgumentCaptor.capture());
+        verify(reminder).set(callbackArgumentCaptor.capture());
         callbackArgumentCaptor.getValue().onError(13);
-        verify(reminderFragmentView).onAddReminderError("Oops! Please try setting reminder again");
+        verify(reminderFragmentView).onSetReminderError("Oops! Please try setting reminder again");
     }
 
 }
