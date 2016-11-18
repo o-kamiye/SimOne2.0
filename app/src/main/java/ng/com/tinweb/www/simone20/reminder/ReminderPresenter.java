@@ -74,12 +74,10 @@ class ReminderPresenter implements IReminderPresenter {
                     @Override
                     public void onSuccess() {
                         fragmentView.get().onSetReminderSuccess();
-                        Log.d("Status", "success_status_called");
                     }
 
                     @Override
                     public void onError(int errorCode) {
-                        Log.e("Status", "error_status_called");
                         fragmentView.get().onSetReminderError("Oops! Please try setting reminder again");
                     }
                 });

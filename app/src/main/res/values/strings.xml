@@ -28,6 +28,8 @@
     <string name="add_reminder_success_toast">Reminder for %1s has been set</string>
     <string name="new_group_title">Add a new group</string>
     <string name="name">Name</string>
+    <string name="txt_update">Update</string>
+    <string name="update_reminder_success">Reminder updated successfully</string>
 
     <string-array name="bottomNavMenu">
         <item>Today</item>

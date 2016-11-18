@@ -70,7 +70,6 @@ class ReminderDbHelper extends BaseDbHelper implements DataStore {
         int count = database.update(DbContract.ContactSchema.TABLE_NAME,
                 values, selection, selectionArgs);
 
-        Log.d("Status", "entry count = " + count);
         if (count != 0) {
             callback.onSuccess();
         }
