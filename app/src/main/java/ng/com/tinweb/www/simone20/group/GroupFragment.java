@@ -91,9 +91,8 @@ public class GroupFragment extends Fragment implements IGroupView,
                 if (prev != null) {
                     fragmentTransaction.remove(prev);
                 }
-                fragmentTransaction.addToBackStack(null);
                 AddGroupDialogFragment addGroupDialogFragment = AddGroupDialogFragment.getInstance();
-                addGroupDialogFragment.show(fragmentTransaction, ADD_GROUP_FRAGMENT_TAG);
+                fragmentTransaction.add(addGroupDialogFragment, ADD_GROUP_FRAGMENT_TAG).commitNow();
             }
         });
     }

@@ -21,9 +21,9 @@ interface IReminderView {
 
     interface IReminderFragmentView {
 
-        void onAddReminderSuccess();
+        void onSetReminderSuccess();
 
-        void onAddReminderError(String message);
+        void onSetReminderError(String message);
 
     }
 }

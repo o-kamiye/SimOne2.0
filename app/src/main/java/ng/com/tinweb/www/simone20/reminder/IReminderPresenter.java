@@ -10,6 +10,6 @@ interface IReminderPresenter {
     void deleteReminder(String contactId);
 
     interface IReminderFragmentPresenter {
-        void addReminder(String contactGroup, int interval);
+        void setReminder(String contactGroup, int interval, boolean isUpdate);
     }
 }

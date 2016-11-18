@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -69,6 +70,7 @@ class ReminderDbHelper extends BaseDbHelper implements DataStore {
         int count = database.update(DbContract.ContactSchema.TABLE_NAME,
                 values, selection, selectionArgs);
 
+        Log.d("Status", "entry count = " + count);
         if (count != 0) {
             callback.onSuccess();
         }

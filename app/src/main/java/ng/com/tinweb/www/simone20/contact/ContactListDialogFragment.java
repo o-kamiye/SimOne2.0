@@ -15,12 +15,11 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import ng.com.tinweb.www.simone20.MainActivity;
 import ng.com.tinweb.www.simone20.R;
 import ng.com.tinweb.www.simone20.data.contact.SimOneContact;
 import ng.com.tinweb.www.simone20.databinding.FragmentContactListBinding;
 import ng.com.tinweb.www.simone20.helper.Injection;
-import ng.com.tinweb.www.simone20.reminder.AddReminderDialogFragment;
+import ng.com.tinweb.www.simone20.reminder.SetReminderDialogFragment;
 import ng.com.tinweb.www.simone20.util.LinearLayoutDecorator;
 
 /**
@@ -86,12 +85,12 @@ public class ContactListDialogFragment extends DialogFragment
     public void onClickAdd(SimOneContact contact) {
 
         FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
-        Fragment prev = getActivity().getSupportFragmentManager().findFragmentByTag(MainActivity.CONTACT_LIST_FRAGMENT_TAG);
+        Fragment prev = getActivity().getSupportFragmentManager().findFragmentByTag(ADD_REMINDER_FRAGMENT_TAG);
         if (prev != null) {
             fragmentTransaction.remove(prev);
         }
         fragmentTransaction.addToBackStack(null);
-        AddReminderDialogFragment addReminderFragment = AddReminderDialogFragment.getInstance(contact);
+        SetReminderDialogFragment addReminderFragment = SetReminderDialogFragment.getInstance(contact);
         addReminderFragment.show(fragmentTransaction, ADD_REMINDER_FRAGMENT_TAG);
     }
 
