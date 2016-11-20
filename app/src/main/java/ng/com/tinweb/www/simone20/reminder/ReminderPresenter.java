@@ -1,7 +1,5 @@
 package ng.com.tinweb.www.simone20.reminder;
 
-import android.util.Log;
-
 import java.lang.ref.WeakReference;
 import java.util.HashMap;
 import java.util.List;

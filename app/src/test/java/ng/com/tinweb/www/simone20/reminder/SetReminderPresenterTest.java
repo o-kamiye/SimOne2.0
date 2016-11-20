@@ -9,6 +9,7 @@ import org.mockito.MockitoAnnotations;
 
 import ng.com.tinweb.www.simone20.data.reminder.Reminder;
 
+import static org.mockito.Matchers.anyBoolean;
 import static org.mockito.Mockito.verify;
 
 /**
@@ -29,6 +30,7 @@ public class SetReminderPresenterTest {
 
     private String reminderGroup;
     private int interval;
+    private boolean isUpdate;
 
     @Before
     public void setupTest() {
@@ -38,26 +40,27 @@ public class SetReminderPresenterTest {
                 reminder);
         reminderGroup = "family";
         interval = 1;
+        isUpdate = false;
     }
 
     @Test
-    public void testAddReminderSuccess() {
-        setReminderPresenter.setReminder(reminderGroup, interval);
+    public void testSetReminderSuccess() {
+        setReminderPresenter.setReminder(reminderGroup, interval, isUpdate);
 
         verify(reminder).setContactGroup(reminderGroup);
         verify(reminder).setInterval(interval);
-        verify(reminder).set(callbackArgumentCaptor.capture());
+        verify(reminder).set(anyBoolean(), callbackArgumentCaptor.capture());
         callbackArgumentCaptor.getValue().onSuccess();
         verify(reminderFragmentView).onSetReminderSuccess();
     }
 
     @Test
-    public void testAddReminderError() {
-        setReminderPresenter.setReminder(reminderGroup, interval);
+    public void testSetReminderError() {
+        setReminderPresenter.setReminder(reminderGroup, interval, isUpdate);
 
         verify(reminder).setContactGroup(reminderGroup);
         verify(reminder).setInterval(interval);
-        verify(reminder).set(callbackArgumentCaptor.capture());
+        verify(reminder).set(anyBoolean(), callbackArgumentCaptor.capture());
         callbackArgumentCaptor.getValue().onError(13);
         verify(reminderFragmentView).onSetReminderError("Oops! Please try setting reminder again");
     }
