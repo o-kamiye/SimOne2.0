@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.lang.ref.WeakReference;
 import java.util.List;
 
 import ng.com.tinweb.www.simone20.R;
@@ -19,13 +20,13 @@ import ng.com.tinweb.www.simone20.databinding.RemindersListBinding;
  */
 class ReminderAdapter extends RecyclerView.Adapter<ReminderAdapter.ViewHolder> {
 
-    private ReminderActionsListener reminderActionsListener;
+    private WeakReference<ReminderActionsListener> reminderActionsListener;
     private List<Reminder> reminders;
     private RemindersListBinding remindersBinding;
 
     ReminderAdapter(List<Reminder> reminders, ReminderActionsListener reminderActionsListener) {
         this.reminders = reminders;
-        this.reminderActionsListener = reminderActionsListener;
+        this.reminderActionsListener = new WeakReference<>(reminderActionsListener);
     }
 
     @Override
@@ -79,10 +80,14 @@ class ReminderAdapter extends RecyclerView.Adapter<ReminderAdapter.ViewHolder> {
             int position = getAdapterPosition();
             Reminder reminder = reminders.get(position);
             if (view.getId() == remindersBinding.editIconImageView.getId()) {
-                reminderActionsListener.onEditAction(reminder);
+                if (reminderActionsListener.get() != null) {
+                    reminderActionsListener.get().onEditAction(reminder);
+                }
             }
             if (view.getId() == remindersBinding.deleteIconImageView.getId()) {
-                reminderActionsListener.onDeleteAction(reminder);
+                if (reminderActionsListener.get() != null) {
+                    reminderActionsListener.get().onDeleteAction(reminder);
+                }
             }
         }
     }
