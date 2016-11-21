@@ -21,13 +21,16 @@ import ng.com.tinweb.www.simone20.helper.ContactHelper;
 import ng.com.tinweb.www.simone20.helper.RecyclerViewAction;
 
 import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.Espresso.pressBack;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.pressKey;
+import static android.support.test.espresso.action.ViewActions.swipeLeft;
 import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.doesNotExist;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isAssignableFrom;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static android.support.test.espresso.matcher.ViewMatchers.withChild;
 import static android.support.test.espresso.matcher.ViewMatchers.withHint;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
@@ -43,7 +46,7 @@ import static org.junit.Assert.*;
  */
 @RunWith(AndroidJUnit4.class)
 @LargeTest
-public class AddReminderDialogFragmentUITest {
+public class SetReminderDialogFragmentUITest {
 
     @Rule
     public ActivityTestRule<MainActivity> activityTestRule =
@@ -112,6 +115,32 @@ public class AddReminderDialogFragmentUITest {
         onView(withText(activityTestRule.getActivity().getString(R.string.add_reminder_success_toast,
                 testContactName))).inRoot(isToast()).check(matches(isDisplayed()));
     }
+
+
+    @Test
+    public void testEditReminder() {
+        // Cancel dialog
+        onView(withId(R.id.cancelButton)).perform(click());
+
+        pressBack();
+
+        onView(withChild(withId(R.id.container))).perform(swipeLeft());
+
+        // Click on test reminder's edit action
+        onView(withId(R.id.weeklyRemindersRecyclerView))
+                .perform(RecyclerViewActions.actionOnItemAtPosition(0,
+                        RecyclerViewAction.clickCallIconImageView(R.id.editIconImageView)));
+
+        // Now perform relevant actions
+        int editingInterval = 5;
+        onView(withId(R.id.intervalEditText)).perform(typeText(String.valueOf(editingInterval)));
+        onView(withId(R.id.saveButton)).perform(click());
+
+        onView(withText(activityTestRule.getActivity().getString(R.string.update_reminder_success)))
+                .inRoot(isToast()).check(matches(isDisplayed()));
+
+    }
+
 
     @After
     public void tearDown() {

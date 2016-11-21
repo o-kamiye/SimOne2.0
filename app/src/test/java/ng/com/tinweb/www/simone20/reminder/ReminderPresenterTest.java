@@ -2,9 +2,19 @@ package ng.com.tinweb.www.simone20.reminder;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
+import ng.com.tinweb.www.simone20.data.reminder.Reminder;
+import ng.com.tinweb.www.simone20.helper.Injection;
+
+import static org.mockito.Matchers.contains;
 import static org.mockito.Mockito.verify;
 
 /**
@@ -15,28 +25,32 @@ public class ReminderPresenterTest {
     @Mock
     private IReminderView reminderView;
 
+    @Mock
+    public Reminder reminder;
+
+    @Captor
+    private ArgumentCaptor<Reminder.GetAllCallback> argumentCaptor;
+
     private ReminderPresenter reminderPresenter;
+
+    private HashMap<String, String> mockMetaData = new HashMap<>();
+    private List<Reminder> mockReminders = new ArrayList<>();
+    private String weeklyCount;
 
     @Before
     public void setUpTest() {
         MockitoAnnotations.initMocks(this);
-        reminderPresenter = new ReminderPresenter(reminderView);
+        reminderPresenter = new ReminderPresenter(reminder, reminderView);
+        weeklyCount = "2";
+        mockMetaData.put("dueWeekly", weeklyCount);
     }
-
 
     @Test
     public void testSetWeeklyReminderCount() {
-        reminderPresenter.setWeeklyReminderCount();
-
-        verify(reminderView).setWeekReminderTextView(2);
-    }
-
-    @Test
-    public void testEditReminder() {
-        String contactId = "23";
-        reminderPresenter.editReminder(contactId);
-
-        verify(reminderView).showEditReminderPopUp();
+        reminderPresenter.loadReminders();
+        verify(reminder).getAll(argumentCaptor.capture());
+        argumentCaptor.getValue().onSuccess(mockMetaData, mockReminders);
+        verify(reminderView).setWeekReminderTextView(Integer.valueOf(weeklyCount));
     }
 
     @Test
