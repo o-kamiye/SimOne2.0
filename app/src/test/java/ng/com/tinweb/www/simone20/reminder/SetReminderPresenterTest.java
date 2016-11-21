@@ -30,7 +30,6 @@ public class SetReminderPresenterTest {
 
     private String reminderGroup;
     private int interval;
-    private boolean isUpdate;
 
     @Before
     public void setupTest() {
@@ -40,12 +39,11 @@ public class SetReminderPresenterTest {
                 reminder);
         reminderGroup = "family";
         interval = 1;
-        isUpdate = false;
     }
 
     @Test
     public void testSetReminderSuccess() {
-        setReminderPresenter.setReminder(reminderGroup, interval, isUpdate);
+        setReminderPresenter.setReminder(reminderGroup, interval, false);
 
         verify(reminder).setContactGroup(reminderGroup);
         verify(reminder).setInterval(interval);
@@ -56,7 +54,7 @@ public class SetReminderPresenterTest {
 
     @Test
     public void testSetReminderError() {
-        setReminderPresenter.setReminder(reminderGroup, interval, isUpdate);
+        setReminderPresenter.setReminder(reminderGroup, interval, false);
 
         verify(reminder).setContactGroup(reminderGroup);
         verify(reminder).setInterval(interval);
