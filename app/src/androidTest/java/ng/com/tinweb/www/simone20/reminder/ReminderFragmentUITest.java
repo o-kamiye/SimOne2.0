@@ -4,8 +4,10 @@ import android.support.test.espresso.contrib.RecyclerViewActions;
 import android.support.test.filters.LargeTest;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
+import android.view.KeyEvent;
 import android.widget.EditText;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -13,11 +15,14 @@ import org.junit.runner.RunWith;
 
 import ng.com.tinweb.www.simone20.MainActivity;
 import ng.com.tinweb.www.simone20.R;
+import ng.com.tinweb.www.simone20.helper.ContactHelper;
 import ng.com.tinweb.www.simone20.helper.RecyclerViewAction;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.action.ViewActions.pressKey;
 import static android.support.test.espresso.action.ViewActions.swipeLeft;
+import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isAssignableFrom;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
@@ -40,6 +45,8 @@ public class ReminderFragmentUITest {
     public ActivityTestRule<MainActivity> activityTestRule =
             new ActivityTestRule<>(MainActivity.class);
 
+    private static String testContactName = "test_contact";
+
     @Before
     public void restartActivity() {
         activityTestRule.getActivity().runOnUiThread(new Runnable() {
@@ -48,6 +55,7 @@ public class ReminderFragmentUITest {
                 activityTestRule.getActivity().recreate();
             }
         });
+
         onView(withChild(withId(R.id.todayCallsTextView))).perform(swipeLeft());
     }
 
@@ -80,4 +88,5 @@ public class ReminderFragmentUITest {
         onView(allOf(isAssignableFrom(EditText.class), withHint(R.string.action_search))).
                 check(matches(isDisplayed()));
     }
+
 }
