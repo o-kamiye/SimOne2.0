@@ -15,11 +15,9 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import java.util.List;
 
-import ng.com.tinweb.www.simone20.MainActivity;
 import ng.com.tinweb.www.simone20.R;
 import ng.com.tinweb.www.simone20.data.reminder.Reminder;
 import ng.com.tinweb.www.simone20.databinding.FragmentReminderBinding;
@@ -112,14 +110,14 @@ public class ReminderFragment extends Fragment implements IReminderView,
     @Override
     public void onEditAction(Reminder reminder) {
         FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
-        Fragment prev = getActivity().getSupportFragmentManager().findFragmentByTag(MainActivity.CONTACT_LIST_FRAGMENT_TAG);
+        Fragment prev = getActivity().getSupportFragmentManager().findFragmentByTag(EDIT_REMINDER_FRAGMENT_TAG);
         if (prev != null) {
             fragmentTransaction.remove(prev);
         }
-        fragmentTransaction.addToBackStack(null);
-        AddReminderDialogFragment addReminderFragment = AddReminderDialogFragment.getInstance(reminder);
+        SetReminderDialogFragment addReminderFragment = SetReminderDialogFragment.getInstance(reminder);
         addReminderFragment.setEditMode(true);
-        addReminderFragment.show(fragmentTransaction, EDIT_REMINDER_FRAGMENT_TAG);
+        fragmentTransaction.add(addReminderFragment, EDIT_REMINDER_FRAGMENT_TAG).commitNow();
+        //addReminderFragment.show(fragmentTransaction, EDIT_REMINDER_FRAGMENT_TAG);
     }
 
     @Override

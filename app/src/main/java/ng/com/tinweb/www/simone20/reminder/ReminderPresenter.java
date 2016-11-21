@@ -52,31 +52,31 @@ class ReminderPresenter implements IReminderPresenter {
         }
     }
 
-    static class AddReminderPresenter implements IReminderFragmentPresenter {
+    static class SetReminderPresenter implements IReminderFragmentPresenter {
 
         private WeakReference<IReminderView.IReminderFragmentView> fragmentView;
         private Reminder reminder;
 
-        AddReminderPresenter(IReminderView.IReminderFragmentView fragmentView,
+        SetReminderPresenter(IReminderView.IReminderFragmentView fragmentView,
                              Reminder reminder) {
             this.fragmentView = new WeakReference<>(fragmentView);
             this.reminder = reminder;
         }
 
         @Override
-        public void addReminder(String contactGroup, int interval) {
+        public void setReminder(String contactGroup, int interval, boolean isUpdate) {
             if (fragmentView.get() != null) {
                 reminder.setContactGroup(contactGroup);
                 reminder.setInterval(interval);
-                reminder.create(new Reminder.ActionCallback() {
+                reminder.set(isUpdate, new Reminder.ActionCallback() {
                     @Override
                     public void onSuccess() {
-                        fragmentView.get().onAddReminderSuccess();
+                        fragmentView.get().onSetReminderSuccess();
                     }
 
                     @Override
                     public void onError(int errorCode) {
-                        fragmentView.get().onAddReminderError("Oops! Please try setting reminder again");
+                        fragmentView.get().onSetReminderError("Oops! Please try setting reminder again");
                     }
                 });
             }
