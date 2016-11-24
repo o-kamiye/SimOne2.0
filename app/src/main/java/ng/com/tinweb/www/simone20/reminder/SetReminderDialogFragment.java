@@ -9,9 +9,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.RadioGroup;
+import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.util.List;
 
 import ng.com.tinweb.www.simone20.R;
 import ng.com.tinweb.www.simone20.data.contact.SimOneContact;
@@ -64,6 +68,7 @@ public class SetReminderDialogFragment extends DialogFragment
         fragmentAddReminderBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_add_reminder,
                 container, false);
         setTitleDimension();
+        populateGroupListSpinner();
         if (isEditMode) {
             populateFormFields();
         }
@@ -90,6 +95,18 @@ public class SetReminderDialogFragment extends DialogFragment
     }
 
     @Override
+    public void onGroupNamesLoaded(List<String> groupNames) {
+        SpinnerAdapter groupListAdapter = new ArrayAdapter<>(getContext(),
+                android.R.layout.simple_list_item_1, groupNames);
+        fragmentAddReminderBinding.groupListSpinner.setAdapter(groupListAdapter);
+    }
+
+    @Override
+    public void onGroupNamesLoadingError(String message) {
+        // TODO implement nice error message display here
+    }
+
+    @Override
     public void onClick(View view) {
         if (view.getId() == fragmentAddReminderBinding.cancelButton.getId()) {
             dismiss();
@@ -106,11 +123,10 @@ public class SetReminderDialogFragment extends DialogFragment
                     fragmentPresenter.setReminder(null, interval, isEditMode);
                 }
             }
-            // TODO add implementation for group option when group story has been defined
-//            else if (checkedId == fragmentAddReminderBinding.groupRadioButton.getId()) {
-//                String groupName = (String) fragmentAddReminderBinding.groupListSpinner.getSelectedItem();
-//                fragmentPresenter.setReminder(groupName, 0);
-//            }
+            else if (checkedId == fragmentAddReminderBinding.groupRadioButton.getId()) {
+                String groupName = (String) fragmentAddReminderBinding.groupListSpinner.getSelectedItem();
+                fragmentPresenter.setReminder(groupName, 0, isEditMode);
+            }
         }
     }
 
@@ -135,7 +151,11 @@ public class SetReminderDialogFragment extends DialogFragment
         String name = (isEditMode) ? ((Reminder) contact).getContactName() : contact.getName();
 
         this.fragmentPresenter = new ReminderPresenter.SetReminderPresenter(this,
-                Injection.getReminder(id, name));
+                Injection.getReminder(id, name), Injection.getSimOneGroup());
+    }
+
+    private void populateGroupListSpinner() {
+        fragmentPresenter.loadGroupNames();
     }
 
     private void populateFormFields() {

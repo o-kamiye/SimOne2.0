@@ -1,9 +1,11 @@
 package ng.com.tinweb.www.simone20.reminder;
 
 import java.lang.ref.WeakReference;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import ng.com.tinweb.www.simone20.data.group.SimOneGroup;
 import ng.com.tinweb.www.simone20.data.reminder.Reminder;
 
 /**
@@ -56,11 +58,13 @@ class ReminderPresenter implements IReminderPresenter {
 
         private WeakReference<IReminderView.IReminderFragmentView> fragmentView;
         private Reminder reminder;
+        private SimOneGroup simOneGroup;
 
         SetReminderPresenter(IReminderView.IReminderFragmentView fragmentView,
-                             Reminder reminder) {
+                             Reminder reminder, SimOneGroup simOneGroup) {
             this.fragmentView = new WeakReference<>(fragmentView);
             this.reminder = reminder;
+            this.simOneGroup = simOneGroup;
         }
 
         @Override
@@ -80,6 +84,28 @@ class ReminderPresenter implements IReminderPresenter {
                     }
                 });
             }
+        }
+
+        @Override
+        public void loadGroupNames() {
+            simOneGroup.getAll(new SimOneGroup.GetAllCallback() {
+                @Override
+                public void onSuccess(List<SimOneGroup> groups) {
+                    List<String> groupNames = new ArrayList<>();
+                    for (SimOneGroup group : groups) {
+                        groupNames.add(group.getName());
+                    }
+                    if (fragmentView.get() != null) {
+                        fragmentView.get().onGroupNamesLoaded(groupNames);
+                    }
+                }
+
+                @Override
+                public void onError(int errorCode) {
+                    String message = "An error occurred while fetching group names";
+                    fragmentView.get().onGroupNamesLoadingError(message);
+                }
+            });
         }
 
     }
