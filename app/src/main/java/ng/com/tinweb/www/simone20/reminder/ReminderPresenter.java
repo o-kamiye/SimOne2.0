@@ -21,7 +21,7 @@ class ReminderPresenter implements IReminderPresenter {
 
     @Override
     public void loadReminders() {
-        reminder.getAll(new Reminder.GetAllCallback() {
+        reminder.getAll(false, new Reminder.GetAllCallback() {
             @Override
             public void onSuccess(HashMap<String, String> metaData, List<Reminder> reminders) {
                 if (reminderView.get() != null) {

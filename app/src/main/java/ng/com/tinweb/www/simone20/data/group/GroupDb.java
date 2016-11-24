@@ -30,7 +30,10 @@ class GroupDb extends BaseDbHelper implements DataStore {
     public void save(String name, int interval, SimOneGroup.ActionCallback callback) {
         SQLiteDatabase database = getWritableDatabase();
 
+        // Standardise group name for insertion
+        name = name.substring(0,1).toUpperCase() + name.substring(1).toLowerCase();
         // CHECK IF GROUP EXISTS
+
         String[] projection = {
                 DbContract.GroupSchema._ID,
                 DbContract.GroupSchema.COLUMN_NAME_GROUP_NAME,

@@ -6,9 +6,12 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
+import com.google.common.collect.Lists;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -38,7 +41,7 @@ class ReminderDbHelper extends BaseDbHelper implements DataStore {
 
     @Override
     public void save(int contactId, String contactGroupId,
-                        int interval, boolean newSave, Reminder.ActionCallback callback) {
+                     int interval, boolean newSave, Reminder.ActionCallback callback) {
         SQLiteDatabase database = getWritableDatabase();
 
         Calendar calendar = Calendar.getInstance();
@@ -72,8 +75,7 @@ class ReminderDbHelper extends BaseDbHelper implements DataStore {
 
         if (count != 0) {
             callback.onSuccess();
-        }
-        else {
+        } else {
             callback.onError(UNKNOWN_ERROR);
         }
     }
@@ -123,7 +125,7 @@ class ReminderDbHelper extends BaseDbHelper implements DataStore {
     }
 
     @Override
-    public void getMultiple(Reminder.GetAllCallback callback) {
+    public void getMultiple(boolean isToday, Reminder.GetAllCallback callback) {
         SQLiteDatabase database = getReadableDatabase();
 
         String[] projection = {
@@ -134,8 +136,24 @@ class ReminderDbHelper extends BaseDbHelper implements DataStore {
                 DbContract.ContactSchema.COLUMN_NAME_DATE_DUE
         };
 
-        String selection = DbContract.ContactSchema.COLUMN_NAME_REMINDER_ACTIVATED + " = ?";
-        String[] selectionArgs = {String.valueOf(DbContract.TRUE)};
+        Calendar calendar = Calendar.getInstance();
+        SimpleDateFormat sdf = new SimpleDateFormat(context.getString(R.string.date_format),
+                Locale.ENGLISH);
+        String currentDateString = sdf.format(calendar.getTime());
+
+        String selectionExtra = (isToday) ? " AND " + DbContract.ContactSchema.COLUMN_NAME_DATE_DUE
+                + " = ?" : "";
+        List<String> selectionList = new ArrayList<>();
+        selectionList.add(String.valueOf(DbContract.TRUE));
+        if (isToday) {
+            selectionList.add(currentDateString);
+        }
+        String selection = DbContract.ContactSchema.COLUMN_NAME_REMINDER_ACTIVATED + " = ?"
+                + selectionExtra;
+
+        String[] selectionArgs = new String[selectionList.size()];
+        selectionArgs = selectionList.toArray(selectionArgs);
+
         String sortOrder = DbContract.ContactSchema.COLUMN_NAME_DATE_DUE + " ASC";
 
         Cursor cursor = database.query(
@@ -168,8 +186,6 @@ class ReminderDbHelper extends BaseDbHelper implements DataStore {
                         cursor.getColumnIndexOrThrow(DbContract.ContactSchema.COLUMN_NAME_DATE_DUE)
                 );
                 int daysLeft = 0;
-                SimpleDateFormat sdf = new SimpleDateFormat(context.getString(R.string.date_format),
-                        Locale.ENGLISH);
                 try {
                     Date dueDate = sdf.parse(dateString);
                     Date currentDate = new Date();
