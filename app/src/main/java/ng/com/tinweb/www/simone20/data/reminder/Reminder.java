@@ -52,8 +52,8 @@ public class Reminder extends SimOneContact {
         dataStore.getSingle(contactId, callback);
     }
 
-    public void getAll(GetAllCallback callback) {
-        dataStore.getMultiple(callback);
+    public void getAll(boolean isToday, GetAllCallback callback) {
+        dataStore.getMultiple(isToday, callback);
     }
 
     public int getReminderContactId() {
