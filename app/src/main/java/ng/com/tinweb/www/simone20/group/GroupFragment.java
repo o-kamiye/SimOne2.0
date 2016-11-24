@@ -12,8 +12,12 @@ import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.List;
+
 import ng.com.tinweb.www.simone20.R;
+import ng.com.tinweb.www.simone20.data.group.SimOneGroup;
 import ng.com.tinweb.www.simone20.databinding.FragmentGroupBinding;
+import ng.com.tinweb.www.simone20.helper.Injection;
 import ng.com.tinweb.www.simone20.util.LinearLayoutDecorator;
 
 /**
@@ -56,28 +60,12 @@ public class GroupFragment extends Fragment implements IGroupView,
     }
 
     @Override
-    public void setGroupsCountTextView(int groupsCount) {
+    public void onGroupsLoaded(List<SimOneGroup> groups) {
+        // TODO use groups here to fetch dynamic data
         groupBinding.totalGroupsTextView.setText(getResources()
                 .getQuantityString(R.plurals.no_of_groups,
-                        groupsCount, groupsCount));
-    }
+                        groups.size(), groups.size()));
 
-    @Override
-    public void onEditAction(String groupId) {
-        groupPresenter.editGroup(groupId);
-    }
-
-    @Override
-    public void onDeleteAction(String groupId) {
-        groupPresenter.deleteGroup(groupId);
-    }
-
-    private void initialisePresenter() {
-        groupPresenter = new GroupPresenter(this);
-    }
-
-    private void setUpFragment() {
-        groupPresenter.setTotalGroupsCount();
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         groupBinding.groupsRecyclerView.setLayoutManager(layoutManager);
         groupBinding.groupsRecyclerView.addItemDecoration(new LinearLayoutDecorator(getContext(), null));
@@ -97,4 +85,26 @@ public class GroupFragment extends Fragment implements IGroupView,
         });
     }
 
+    @Override
+    public void onGroupsLoadingError(String message) {
+        // TODO show group loading error here
+    }
+
+    @Override
+    public void onEditAction(String groupId) {
+        groupPresenter.editGroup(groupId);
+    }
+
+    @Override
+    public void onDeleteAction(String groupId) {
+        groupPresenter.deleteGroup(groupId);
+    }
+
+    private void initialisePresenter() {
+        groupPresenter = new GroupPresenter(Injection.getSimOneGroup(), this);
+    }
+
+    private void setUpFragment() {
+        groupPresenter.loadGroups();
+    }
 }

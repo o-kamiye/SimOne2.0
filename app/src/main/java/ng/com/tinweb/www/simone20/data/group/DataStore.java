@@ -8,8 +8,8 @@ interface DataStore {
 
     void save(String name, int interval, SimOneGroup.ActionCallback callback);
     boolean update(String name, String members, int interval);
-    void getSingle();
-    void getMultiple();
+    void getSingle(String name, SimOneGroup.ActionCallback callback);
+    void getMultiple(SimOneGroup.GetAllCallback callback);
     boolean delete();
     int getInterval(String groupName);
 
