@@ -1,6 +1,7 @@
 package ng.com.tinweb.www.simone20.group;
 
 import java.lang.ref.WeakReference;
+import java.util.List;
 
 import ng.com.tinweb.www.simone20.data.group.SimOneGroup;
 
@@ -13,17 +14,31 @@ import static ng.com.tinweb.www.simone20.data.group.SimOneGroup.GROUP_EXISTS_ERR
 class GroupPresenter implements IGroupPresenter {
 
     private WeakReference<IGroupView> groupView;
+    private SimOneGroup simOneGroup;
 
-    public GroupPresenter(IGroupView groupView) {
+    public GroupPresenter(SimOneGroup simOneGroup, IGroupView groupView) {
         this.groupView = new WeakReference<>(groupView);
+        this.simOneGroup = simOneGroup;
     }
 
     @Override
-    public void setTotalGroupsCount() {
-        if (groupView.get() != null) {
-            int groupsCount = 2;
-            groupView.get().setGroupsCountTextView(groupsCount);
-        }
+    public void loadGroups() {
+        simOneGroup.getAll(new SimOneGroup.GetAllCallback() {
+            @Override
+            public void onSuccess(List<SimOneGroup> groups) {
+                if (groupView.get() != null) {
+                    groupView.get().onGroupsLoaded(groups);
+                }
+            }
+
+            @Override
+            public void onError(int errorCode) {
+                String message = "Unknown error occurred";
+                if (groupView.get() != null) {
+                    groupView.get().onGroupsLoadingError(message);
+                }
+            }
+        });
     }
 
     @Override

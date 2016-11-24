@@ -12,10 +12,7 @@ import java.util.List;
 interface DataStore {
 
     boolean save(LongSparseArray<SimOneContact> contacts);
-
     List<SimOneContact> search(String searchQuery);
-
     boolean saveOne(String contactName);
-
     boolean deleteOne(String contactName);
 }
