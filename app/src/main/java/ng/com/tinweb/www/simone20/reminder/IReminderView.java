@@ -25,5 +25,8 @@ interface IReminderView {
 
         void onSetReminderError(String message);
 
+        void onGroupNamesLoaded(List<String> groupNames);
+
+        void onGroupNamesLoadingError(String message);
     }
 }
