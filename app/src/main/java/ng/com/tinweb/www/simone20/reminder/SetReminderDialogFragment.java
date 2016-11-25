@@ -26,6 +26,8 @@ import ng.com.tinweb.www.simone20.data.reminder.Reminder;
 import ng.com.tinweb.www.simone20.databinding.FragmentAddReminderBinding;
 import ng.com.tinweb.www.simone20.helper.Injection;
 
+import static ng.com.tinweb.www.simone20.R.id.groupListSpinner;
+
 /**
  * Created by kamiye on 28/09/2016.
  */
@@ -41,6 +43,7 @@ public class SetReminderDialogFragment extends DialogFragment
     private SimOneContact contact;
     private Map<String, Integer> groupsMap;
     private boolean isEditMode;
+    private ArrayAdapter<String> groupListAdapter;
 
     public static SetReminderDialogFragment getInstance(SimOneContact contact) {
         SetReminderDialogFragment inputFragment = new SetReminderDialogFragment();
@@ -103,7 +106,7 @@ public class SetReminderDialogFragment extends DialogFragment
         this.groupsMap = groupsMap;
         List<String> groupNames = new ArrayList<>(groupsMap.keySet());
         Collections.sort(groupNames);
-        SpinnerAdapter groupListAdapter = new ArrayAdapter<>(getContext(),
+        groupListAdapter = new ArrayAdapter<>(getContext(),
                 android.R.layout.simple_list_item_1, groupNames);
         fragmentAddReminderBinding.groupListSpinner.setAdapter(groupListAdapter);
     }
@@ -173,7 +176,11 @@ public class SetReminderDialogFragment extends DialogFragment
         }
         else {
             fragmentAddReminderBinding.groupRadioButton.setChecked(true);
-            // TODO implement group setting here
+            fragmentAddReminderBinding.intervalEditText.setVisibility(View.GONE);
+            fragmentAddReminderBinding.groupListSpinner.setVisibility(View.VISIBLE);
+            fragmentAddReminderBinding.groupListSpinner.setSelection(
+                    groupListAdapter.getPosition(reminder.getContactGroup())
+            );
         }
         fragmentAddReminderBinding.saveButton.setText(R.string.txt_update);
 

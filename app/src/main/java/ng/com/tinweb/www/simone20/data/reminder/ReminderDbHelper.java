@@ -49,6 +49,7 @@ class ReminderDbHelper extends BaseDbHelper implements DataStore {
         SimpleDateFormat sdf = new SimpleDateFormat(context.getString(R.string.date_format),
                 Locale.ENGLISH);
         String dueDate = sdf.format(calendar.getTime());
+        Log.d("date_due", dueDate);
 
         ContentValues values = new ContentValues();
         values.put(DbContract.ContactSchema.COLUMN_NAME_DATE_DUE, dueDate);
@@ -188,7 +189,7 @@ class ReminderDbHelper extends BaseDbHelper implements DataStore {
                 int daysLeft = 0;
                 try {
                     Date dueDate = sdf.parse(dateString);
-                    Date currentDate = new Date();
+                    Date currentDate = sdf.parse(currentDateString);
                     long difference = Math.abs(dueDate.getTime() - currentDate.getTime());
                     daysLeft = (int) difference / DAY_DIVIDER;
                 } catch (ParseException e) {
