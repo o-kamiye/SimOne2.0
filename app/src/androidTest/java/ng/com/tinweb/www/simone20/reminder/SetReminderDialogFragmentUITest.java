@@ -20,6 +20,7 @@ import ng.com.tinweb.www.simone20.R;
 import ng.com.tinweb.www.simone20.helper.ContactHelper;
 import ng.com.tinweb.www.simone20.helper.RecyclerViewAction;
 
+import static android.support.test.espresso.Espresso.onData;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.Espresso.pressBack;
 import static android.support.test.espresso.action.ViewActions.click;
@@ -36,9 +37,12 @@ import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static ng.com.tinweb.www.simone20.helper.ToastMatcher.isToast;
 import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.hasToString;
+import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
 import static org.hamcrest.core.AllOf.allOf;
+import static org.hamcrest.core.StringStartsWith.startsWith;
 import static org.junit.Assert.*;
 
 /**
@@ -118,7 +122,7 @@ public class SetReminderDialogFragmentUITest {
 
 
     @Test
-    public void testEditReminder() {
+    public void testEditReminderWithInterval() {
         // Cancel dialog
         onView(withId(R.id.cancelButton)).perform(click());
 
@@ -133,6 +137,7 @@ public class SetReminderDialogFragmentUITest {
 
         // Now perform relevant actions
         int editingInterval = 5;
+        onView(withId(R.id.intervalRadioButton)).perform(click());
         onView(withId(R.id.intervalEditText)).perform(typeText(String.valueOf(editingInterval)));
         onView(withId(R.id.saveButton)).perform(click());
 
@@ -141,6 +146,28 @@ public class SetReminderDialogFragmentUITest {
 
     }
 
+    @Test
+    public void testEditReminderWithGroup() {
+        // Cancel dialog
+        onView(withId(R.id.cancelButton)).perform(click());
+
+        pressBack();
+
+        onView(withChild(withId(R.id.container))).perform(swipeLeft());
+
+        // Click on test reminder's edit action
+        onView(withId(R.id.weeklyRemindersRecyclerView))
+                .perform(RecyclerViewActions.actionOnItemAtPosition(0,
+                        RecyclerViewAction.clickCallIconImageView(R.id.editIconImageView)));
+
+        // Now perform relevant actions
+        onView(withId(R.id.groupRadioButton)).perform(click());
+        onView(withId(R.id.saveButton)).perform(click());
+
+        onView(withText(activityTestRule.getActivity().getString(R.string.update_reminder_success)))
+                .inRoot(isToast()).check(matches(isDisplayed()));
+
+    }
 
     @After
     public void tearDown() {
