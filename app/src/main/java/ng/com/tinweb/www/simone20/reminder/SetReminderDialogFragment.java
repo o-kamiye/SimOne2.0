@@ -15,7 +15,10 @@ import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 import ng.com.tinweb.www.simone20.R;
 import ng.com.tinweb.www.simone20.data.contact.SimOneContact;
@@ -36,6 +39,7 @@ public class SetReminderDialogFragment extends DialogFragment
     private IReminderPresenter.IReminderFragmentPresenter fragmentPresenter;
     private FragmentAddReminderBinding fragmentAddReminderBinding;
     private SimOneContact contact;
+    private Map<String, Integer> groupsMap;
     private boolean isEditMode;
 
     public static SetReminderDialogFragment getInstance(SimOneContact contact) {
@@ -95,7 +99,10 @@ public class SetReminderDialogFragment extends DialogFragment
     }
 
     @Override
-    public void onGroupNamesLoaded(List<String> groupNames) {
+    public void onGroupNamesLoaded(Map<String, Integer> groupsMap) {
+        this.groupsMap = groupsMap;
+        List<String> groupNames = new ArrayList<>(groupsMap.keySet());
+        Collections.sort(groupNames);
         SpinnerAdapter groupListAdapter = new ArrayAdapter<>(getContext(),
                 android.R.layout.simple_list_item_1, groupNames);
         fragmentAddReminderBinding.groupListSpinner.setAdapter(groupListAdapter);
@@ -125,7 +132,7 @@ public class SetReminderDialogFragment extends DialogFragment
             }
             else if (checkedId == fragmentAddReminderBinding.groupRadioButton.getId()) {
                 String groupName = (String) fragmentAddReminderBinding.groupListSpinner.getSelectedItem();
-                fragmentPresenter.setReminder(groupName, 0, isEditMode);
+                fragmentPresenter.setReminder(groupName, groupsMap.get(groupName), isEditMode);
             }
         }
     }
