@@ -11,5 +11,6 @@ interface IReminderPresenter {
 
     interface IReminderFragmentPresenter {
         void setReminder(String contactGroup, int interval, boolean isUpdate);
+        void loadGroupNames();
     }
 }

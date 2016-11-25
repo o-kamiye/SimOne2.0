@@ -5,7 +5,6 @@ package ng.com.tinweb.www.simone20.today;
  */
 interface ITodayPresenter {
 
-    void setReminderCount();
-
+    void loadReminders();
     void callContact(String contactName);
 }

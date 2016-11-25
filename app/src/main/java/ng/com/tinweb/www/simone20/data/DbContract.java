@@ -33,7 +33,7 @@ public final class DbContract {
                     GroupSchema._ID + " INTEGER PRIMARY KEY," +
                     GroupSchema.COLUMN_NAME_GROUP_ID + TEXT_TYPE + COMMA_SEP +
                     GroupSchema.COLUMN_NAME_GROUP_NAME + TEXT_TYPE + COMMA_SEP +
-                    GroupSchema.COLUMN_NAME_GROUP_MEMBERS + TEXT_TYPE + COMMA_SEP +
+                    GroupSchema.COLUMN_NAME_GROUP_MEMBERS + INT_TYPE + COMMA_SEP +
                     GroupSchema.COLUMN_NAME_GROUP_INTERVAL + INT_TYPE + " )";
 
 

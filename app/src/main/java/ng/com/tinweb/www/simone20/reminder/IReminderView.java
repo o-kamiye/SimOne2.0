@@ -1,6 +1,7 @@
 package ng.com.tinweb.www.simone20.reminder;
 
 import java.util.List;
+import java.util.Map;
 
 import ng.com.tinweb.www.simone20.data.reminder.Reminder;
 
@@ -25,5 +26,8 @@ interface IReminderView {
 
         void onSetReminderError(String message);
 
+        void onGroupNamesLoaded(Map<String, Integer> groupsMap);
+
+        void onGroupNamesLoadingError(String message);
     }
 }

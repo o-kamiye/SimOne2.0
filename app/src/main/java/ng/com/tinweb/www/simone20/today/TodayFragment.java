@@ -12,9 +12,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import java.util.List;
+
 import ng.com.tinweb.www.simone20.R;
 import ng.com.tinweb.www.simone20.SimOne;
+import ng.com.tinweb.www.simone20.data.reminder.Reminder;
 import ng.com.tinweb.www.simone20.databinding.FragmentTodayBinding;
+import ng.com.tinweb.www.simone20.helper.Injection;
 import ng.com.tinweb.www.simone20.util.LinearLayoutDecorator;
 
 public class TodayFragment extends Fragment implements ITodayView,
@@ -28,7 +32,8 @@ public class TodayFragment extends Fragment implements ITodayView,
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
-        this.todayPresenter = new TodayPresenter(this);
+        this.todayPresenter = new TodayPresenter(Injection.getReminderObject(),
+                this);
     }
 
     @Override
@@ -53,10 +58,16 @@ public class TodayFragment extends Fragment implements ITodayView,
     }
 
     @Override
-    public void setTotalReminders(int remindersCount) {
+    public void onRemindersLoaded(List<Reminder> reminders) {
+        // Set total reminders for the day
         fragmentTodayBinding.todayCallsTextView.setText(getResources()
                 .getQuantityString(R.plurals.no_of_calls_today,
-                remindersCount, remindersCount));
+                        reminders.size(), reminders.size()));
+        // TODO use reminders here to make content a bit more dynamic
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+        fragmentTodayBinding.todayCallsRecyclerView.setLayoutManager(layoutManager);
+        fragmentTodayBinding.todayCallsRecyclerView.setAdapter(new TodayAdapter(this));
+        fragmentTodayBinding.todayCallsRecyclerView.addItemDecoration(new LinearLayoutDecorator(getContext(), null));
     }
 
     @Override
@@ -66,19 +77,17 @@ public class TodayFragment extends Fragment implements ITodayView,
     }
 
     @Override
+    public void onReminderLoadingError(String message) {
+        // TODO implement error message showing here. Don't forget
+    }
+
+    @Override
     public void onCallClick(String contactName) {
         todayPresenter.callContact(contactName);
     }
 
     private void setUpTodayFragment() {
-
-        // TODO use presenter here to interact with the model to getSingle today's calls
-        todayPresenter.setReminderCount();
-
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
-        fragmentTodayBinding.todayCallsRecyclerView.setLayoutManager(layoutManager);
-        fragmentTodayBinding.todayCallsRecyclerView.setAdapter(new TodayAdapter(this));
-        fragmentTodayBinding.todayCallsRecyclerView.addItemDecoration(new LinearLayoutDecorator(getContext(), null));
+        todayPresenter.loadReminders();
     }
 
 }
