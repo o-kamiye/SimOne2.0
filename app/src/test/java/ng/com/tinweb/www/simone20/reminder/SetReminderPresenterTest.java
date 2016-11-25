@@ -7,6 +7,7 @@ import org.mockito.Captor;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import ng.com.tinweb.www.simone20.data.group.SimOneGroup;
 import ng.com.tinweb.www.simone20.data.reminder.Reminder;
 
 import static org.mockito.Matchers.anyBoolean;
@@ -23,6 +24,9 @@ public class SetReminderPresenterTest {
     @Mock
     public Reminder reminder;
 
+    @Mock
+    private SimOneGroup simOneGroup;
+
     @Captor
     private ArgumentCaptor<Reminder.ActionCallback> callbackArgumentCaptor;
 
@@ -36,7 +40,7 @@ public class SetReminderPresenterTest {
         MockitoAnnotations.initMocks(this);
 
         setReminderPresenter = new ReminderPresenter.SetReminderPresenter(reminderFragmentView,
-                reminder);
+                reminder, simOneGroup);
         reminderGroup = "family";
         interval = 1;
     }

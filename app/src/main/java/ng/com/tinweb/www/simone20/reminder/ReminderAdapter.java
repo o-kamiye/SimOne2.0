@@ -23,6 +23,7 @@ class ReminderAdapter extends RecyclerView.Adapter<ReminderAdapter.ViewHolder> {
     private WeakReference<ReminderActionsListener> reminderActionsListener;
     private List<Reminder> reminders;
     private RemindersListBinding remindersBinding;
+    private boolean isThisWeek = true;
 
     ReminderAdapter(List<Reminder> reminders, ReminderActionsListener reminderActionsListener) {
         this.reminders = reminders;
@@ -45,19 +46,17 @@ class ReminderAdapter extends RecyclerView.Adapter<ReminderAdapter.ViewHolder> {
         int daysLeft = reminder.getDaysLeft();
         int interval = reminder.getInterval();
         int progress = (interval - daysLeft) * 100 / interval;
-        // TODO getting this position will be dynamic
-        if (position == 3) {
+        if (daysLeft > 6 && isThisWeek) {
             remindersBinding.fartherRemindersTextView.setVisibility(View.VISIBLE);
+            isThisWeek = !isThisWeek;
         }
 
-        // TODO add dynamic view addition here
-         remindersBinding.circularProgressBar.setProgressWithAnimation(progress, 5000);
+        remindersBinding.circularProgressBar.setProgressWithAnimation(progress, 5000);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            remindersBinding.circularInfoTextView.setText(Html.fromHtml("<big>"+ daysLeft +"</big>" +  "<br />" +
+            remindersBinding.circularInfoTextView.setText(Html.fromHtml("<big>" + daysLeft + "</big>" + "<br />" +
                     "<small>days</small>", Html.FROM_HTML_MODE_COMPACT));
-        }
-        else {
-            remindersBinding.circularInfoTextView.setText(Html.fromHtml("<big>"+ daysLeft +"</big>" +  "<br />" +
+        } else {
+            remindersBinding.circularInfoTextView.setText(Html.fromHtml("<big>" + daysLeft + "</big>" + "<br />" +
                     "<small>days</small>"));
         }
     }

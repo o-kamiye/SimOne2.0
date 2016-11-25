@@ -14,6 +14,7 @@ import java.util.List;
 import ng.com.tinweb.www.simone20.data.reminder.Reminder;
 import ng.com.tinweb.www.simone20.helper.Injection;
 
+import static org.mockito.Matchers.anyBoolean;
 import static org.mockito.Matchers.contains;
 import static org.mockito.Mockito.verify;
 
@@ -48,7 +49,7 @@ public class ReminderPresenterTest {
     @Test
     public void testSetWeeklyReminderCount() {
         reminderPresenter.loadReminders();
-        verify(reminder).getAll(argumentCaptor.capture());
+        verify(reminder).getAll(anyBoolean(), argumentCaptor.capture());
         argumentCaptor.getValue().onSuccess(mockMetaData, mockReminders);
         verify(reminderView).setWeekReminderTextView(Integer.valueOf(weeklyCount));
     }

@@ -1,9 +1,14 @@
 package ng.com.tinweb.www.simone20.reminder;
 
+import android.util.Log;
+
 import java.lang.ref.WeakReference;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import ng.com.tinweb.www.simone20.data.group.SimOneGroup;
 import ng.com.tinweb.www.simone20.data.reminder.Reminder;
 
 /**
@@ -21,7 +26,7 @@ class ReminderPresenter implements IReminderPresenter {
 
     @Override
     public void loadReminders() {
-        reminder.getAll(new Reminder.GetAllCallback() {
+        reminder.getAll(false, new Reminder.GetAllCallback() {
             @Override
             public void onSuccess(HashMap<String, String> metaData, List<Reminder> reminders) {
                 if (reminderView.get() != null) {
@@ -56,11 +61,13 @@ class ReminderPresenter implements IReminderPresenter {
 
         private WeakReference<IReminderView.IReminderFragmentView> fragmentView;
         private Reminder reminder;
+        private SimOneGroup simOneGroup;
 
         SetReminderPresenter(IReminderView.IReminderFragmentView fragmentView,
-                             Reminder reminder) {
+                             Reminder reminder, SimOneGroup simOneGroup) {
             this.fragmentView = new WeakReference<>(fragmentView);
             this.reminder = reminder;
+            this.simOneGroup = simOneGroup;
         }
 
         @Override
@@ -80,6 +87,28 @@ class ReminderPresenter implements IReminderPresenter {
                     }
                 });
             }
+        }
+
+        @Override
+        public void loadGroupNames() {
+            simOneGroup.getAll(new SimOneGroup.GetAllCallback() {
+                @Override
+                public void onSuccess(List<SimOneGroup> groups) {
+                    Map<String, Integer> groupsMap = new HashMap<>();
+                    for (SimOneGroup group : groups) {
+                        groupsMap.put(group.getName(), group.getInterval());
+                    }
+                    if (fragmentView.get() != null) {
+                        fragmentView.get().onGroupNamesLoaded(groupsMap);
+                    }
+                }
+
+                @Override
+                public void onError(int errorCode) {
+                    String message = "An error occurred while fetching group names";
+                    fragmentView.get().onGroupNamesLoadingError(message);
+                }
+            });
         }
 
     }

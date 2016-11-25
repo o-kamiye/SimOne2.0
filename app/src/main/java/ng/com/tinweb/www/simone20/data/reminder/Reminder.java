@@ -1,6 +1,7 @@
 package ng.com.tinweb.www.simone20.data.reminder;
 
 import android.content.Context;
+import android.util.Log;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -52,8 +53,8 @@ public class Reminder extends SimOneContact {
         dataStore.getSingle(contactId, callback);
     }
 
-    public void getAll(GetAllCallback callback) {
-        dataStore.getMultiple(callback);
+    public void getAll(boolean isToday, GetAllCallback callback) {
+        dataStore.getMultiple(isToday, callback);
     }
 
     public int getReminderContactId() {
