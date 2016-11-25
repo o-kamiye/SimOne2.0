@@ -9,12 +9,12 @@ import ng.com.tinweb.www.simone20.data.reminder.Reminder;
 /**
  * Created by kamiye on 04/09/2016.
  */
-public class TodayPresenter implements ITodayPresenter {
+class TodayPresenter implements ITodayPresenter {
 
     private WeakReference<ITodayView> todayView;
     private Reminder reminder;
 
-    public TodayPresenter(Reminder reminder, ITodayView todayView) {
+    TodayPresenter(Reminder reminder, ITodayView todayView) {
         this.todayView = new WeakReference<>(todayView);
         this.reminder = reminder;
     }

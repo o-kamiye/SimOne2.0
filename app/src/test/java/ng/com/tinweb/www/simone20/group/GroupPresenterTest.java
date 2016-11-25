@@ -2,8 +2,15 @@ package ng.com.tinweb.www.simone20.group;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import ng.com.tinweb.www.simone20.data.group.SimOneGroup;
 
 import static org.mockito.Mockito.verify;
 
@@ -15,19 +22,35 @@ public class GroupPresenterTest {
     @Mock
     private IGroupView groupView;
 
+    @Mock
+    private SimOneGroup simOneGroup;
+
+    @Captor
+    private ArgumentCaptor<SimOneGroup.GetAllCallback> getAllArgumentCaptor;
+
     private GroupPresenter groupPresenter;
 
     @Before
     public void setUpTest() {
         MockitoAnnotations.initMocks(this);
-        groupPresenter = new GroupPresenter(groupView);
+        groupPresenter = new GroupPresenter(simOneGroup, groupView);
     }
 
     @Test
-    public void testSetGroupCount() {
-        groupPresenter.setTotalGroupsCount();
+    public void testLoadGroupsSuccess() {
+        List<SimOneGroup> groups = new ArrayList<>();
+        groupPresenter.loadGroups();
+        verify(simOneGroup).getAll(getAllArgumentCaptor.capture());
+        getAllArgumentCaptor.getValue().onSuccess(groups);
+        verify(groupView).onGroupsLoaded(groups);
+    }
 
-        verify(groupView).setGroupsCountTextView(2);
+    @Test
+    public void testLoadGroupsError() {
+        groupPresenter.loadGroups();
+        verify(simOneGroup).getAll(getAllArgumentCaptor.capture());
+        getAllArgumentCaptor.getValue().onError(2);
+        verify(groupView).onGroupsLoadingError("An unknown error occurred");
     }
 
     @Test
