@@ -1,9 +1,12 @@
 package ng.com.tinweb.www.simone20.reminder;
 
+import android.util.Log;
+
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import ng.com.tinweb.www.simone20.data.group.SimOneGroup;
 import ng.com.tinweb.www.simone20.data.reminder.Reminder;
@@ -91,12 +94,12 @@ class ReminderPresenter implements IReminderPresenter {
             simOneGroup.getAll(new SimOneGroup.GetAllCallback() {
                 @Override
                 public void onSuccess(List<SimOneGroup> groups) {
-                    List<String> groupNames = new ArrayList<>();
+                    Map<String, Integer> groupsMap = new HashMap<>();
                     for (SimOneGroup group : groups) {
-                        groupNames.add(group.getName());
+                        groupsMap.put(group.getName(), group.getInterval());
                     }
                     if (fragmentView.get() != null) {
-                        fragmentView.get().onGroupNamesLoaded(groupNames);
+                        fragmentView.get().onGroupNamesLoaded(groupsMap);
                     }
                 }
 
