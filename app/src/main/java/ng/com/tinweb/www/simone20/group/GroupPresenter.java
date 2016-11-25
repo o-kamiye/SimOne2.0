@@ -16,7 +16,7 @@ class GroupPresenter implements IGroupPresenter {
     private WeakReference<IGroupView> groupView;
     private SimOneGroup simOneGroup;
 
-    public GroupPresenter(SimOneGroup simOneGroup, IGroupView groupView) {
+    GroupPresenter(SimOneGroup simOneGroup, IGroupView groupView) {
         this.groupView = new WeakReference<>(groupView);
         this.simOneGroup = simOneGroup;
     }
@@ -33,7 +33,7 @@ class GroupPresenter implements IGroupPresenter {
 
             @Override
             public void onError(int errorCode) {
-                String message = "Unknown error occurred";
+                String message = "An unknown error occurred";
                 if (groupView.get() != null) {
                     groupView.get().onGroupsLoadingError(message);
                 }
