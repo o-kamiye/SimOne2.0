@@ -8,5 +8,6 @@
 .DS_Store
 /build
 /captures
+projectFilesBackup/
 app/src/main/java/ng/com/tinweb/www/simone20/helper/AddressBookContact.java
 app/src/main/java/ng/com/tinweb/www/simone20/helper/PhoneContact.java
