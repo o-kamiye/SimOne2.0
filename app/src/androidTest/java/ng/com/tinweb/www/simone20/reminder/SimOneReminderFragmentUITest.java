@@ -39,7 +39,7 @@ import static org.hamcrest.core.AllOf.allOf;
  */
 @RunWith(AndroidJUnit4.class)
 @LargeTest
-public class ReminderFragmentUITest {
+public class SimOneReminderFragmentUITest {
 
     @Rule
     public ActivityTestRule<MainActivity> activityTestRule =

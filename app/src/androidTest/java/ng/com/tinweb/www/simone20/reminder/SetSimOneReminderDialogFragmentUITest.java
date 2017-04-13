@@ -50,7 +50,7 @@ import static org.junit.Assert.*;
  */
 @RunWith(AndroidJUnit4.class)
 @LargeTest
-public class SetReminderDialogFragmentUITest {
+public class SetSimOneReminderDialogFragmentUITest {
 
     @Rule
     public ActivityTestRule<MainActivity> activityTestRule =

@@ -11,37 +11,35 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import ng.com.tinweb.www.simone20.data.reminder.Reminder;
-import ng.com.tinweb.www.simone20.helper.Injection;
+import ng.com.tinweb.www.simone20.data.reminder.SimOneReminder;
 
 import static org.mockito.Matchers.anyBoolean;
-import static org.mockito.Matchers.contains;
 import static org.mockito.Mockito.verify;
 
 /**
  * Created by kamiye on 09/09/2016.
  */
-public class ReminderPresenterTest {
+public class SimOneReminderPresenterTest {
 
     @Mock
     private IReminderView reminderView;
 
     @Mock
-    public Reminder reminder;
+    public SimOneReminder simOneReminder;
 
     @Captor
-    private ArgumentCaptor<Reminder.GetAllCallback> argumentCaptor;
+    private ArgumentCaptor<SimOneReminder.GetAllCallback> argumentCaptor;
 
     private ReminderPresenter reminderPresenter;
 
     private HashMap<String, String> mockMetaData = new HashMap<>();
-    private List<Reminder> mockReminders = new ArrayList<>();
+    private List<SimOneReminder> mockSimOneReminders = new ArrayList<>();
     private String weeklyCount;
 
     @Before
     public void setUpTest() {
         MockitoAnnotations.initMocks(this);
-        reminderPresenter = new ReminderPresenter(reminder, reminderView);
+        reminderPresenter = new ReminderPresenter(simOneReminder, reminderView);
         weeklyCount = "2";
         mockMetaData.put("dueWeekly", weeklyCount);
     }
@@ -49,8 +47,8 @@ public class ReminderPresenterTest {
     @Test
     public void testSetWeeklyReminderCount() {
         reminderPresenter.loadReminders();
-        verify(reminder).getAll(anyBoolean(), argumentCaptor.capture());
-        argumentCaptor.getValue().onSuccess(mockMetaData, mockReminders);
+        verify(simOneReminder).getAll(anyBoolean(), argumentCaptor.capture());
+        argumentCaptor.getValue().onSuccess(mockMetaData, mockSimOneReminders);
         verify(reminderView).setWeekReminderTextView(Integer.valueOf(weeklyCount));
     }
 

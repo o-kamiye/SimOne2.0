@@ -38,8 +38,8 @@ dependencies {
 
     // dagger
     compile lib.dagger
-    compile lib.daggerProcessor
-    compile lib.annotationProcessor
+    annotationProcessor lib.daggerProcessor
+    provided lib.annotationProcessor
 
     // Test dependencies
     testCompile test.junit

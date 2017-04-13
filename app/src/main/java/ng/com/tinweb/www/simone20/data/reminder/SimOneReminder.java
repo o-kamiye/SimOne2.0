@@ -1,19 +1,16 @@
 package ng.com.tinweb.www.simone20.data.reminder;
 
 import android.content.Context;
-import android.util.Log;
 
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
-import ng.com.tinweb.www.simone20.SimOne;
 import ng.com.tinweb.www.simone20.data.contact.SimOneContact;
 
 /**
  * Created by kamiye on 08/09/2016.
  */
-public class Reminder extends SimOneContact {
+public class SimOneReminder extends SimOneContact {
 
     private DataStore dataStore;
     private String contactName;
@@ -22,18 +19,19 @@ public class Reminder extends SimOneContact {
     private int interval;
     private int daysLeft;
 
-    public Reminder() {
-        initialiseDataStore();
+    public SimOneReminder(Context context) {
+        super(context);
+        initialiseDataStore(context);
     }
 
-    public Reminder (int contactId, String contactName) {
-        this();
+    public SimOneReminder(Context context, int contactId, String contactName) {
+        this(context);
         this.contactId = contactId;
         this.contactName = contactName;
     }
 
-    public Reminder(int contactId, String contactName, String contactGroup, int interval, int daysLeft) {
-        this();
+    public SimOneReminder(Context context, int contactId, String contactName, String contactGroup, int interval, int daysLeft) {
+        this(context);
         this.contactId = contactId;
         this.contactName = contactName;
         this.contactGroup = contactGroup;
@@ -93,8 +91,11 @@ public class Reminder extends SimOneContact {
         this.interval = interval;
     }
 
-    private void initialiseDataStore() {
-        Context context = SimOne.getContext();
+    public void setDaysLeft(int daysLeft) {
+        this.daysLeft = daysLeft;
+    }
+
+    private void initialiseDataStore(Context context) {
         dataStore = new ReminderDbHelper(context);
     }
 
@@ -109,7 +110,60 @@ public class Reminder extends SimOneContact {
     }
 
     public interface GetAllCallback {
-        void onSuccess(HashMap<String, String> metaData, List<Reminder> reminders);
+        void onSuccess(HashMap<String, String> metaData, List<SimOneReminder> simOneReminders);
         void onError(int errorCode);
     }
+
+    public static class Builder {
+
+        private String contactName;
+        private String contactGroup;
+        private int contactId;
+        private int interval;
+        private int daysLeft;
+        private SimOneReminder simOneReminder;
+
+        public Builder(Context context) {
+
+            simOneReminder = new SimOneReminder(context);
+
+        }
+
+        public Builder setContactId(int contactId) {
+            this.contactId = contactId;
+            return this;
+        }
+
+        public Builder setContactName(String contactName) {
+            this.contactName = contactName;
+            return this;
+        }
+
+        public Builder setContactGroup(String contactGroup) {
+            this.contactGroup = contactGroup;
+            return this;
+        }
+
+        public Builder setInterval(int interval) {
+            this.interval = interval;
+            return this;
+        }
+
+        public Builder setDaysLeft(int daysLeft) {
+            this.daysLeft = interval;
+            return this;
+        }
+
+        public SimOneReminder create() {
+            simOneReminder.setContactId(contactId);
+            simOneReminder.setContactGroup(contactName);
+            simOneReminder.setContactGroup(contactGroup);
+            simOneReminder.setInterval(interval);
+            simOneReminder.setDaysLeft(daysLeft);
+
+            return simOneReminder;
+        }
+
+    }
+
 }

@@ -19,7 +19,7 @@ allprojects {
 }
 
 ext {
-    SUPPORT_LIB_VERSION = '24.2.0'
+    SUPPORT_LIB_VERSION = '25.3.1'
     POWERMOCK_VERSION = '1.6.2'
     TESTRUNNER_VERSION = '0.5'
     MOCKITO_VERSION = '1.10.19'

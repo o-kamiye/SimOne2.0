@@ -8,7 +8,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import ng.com.tinweb.www.simone20.data.group.SimOneGroup;
-import ng.com.tinweb.www.simone20.data.reminder.Reminder;
+import ng.com.tinweb.www.simone20.data.reminder.SimOneReminder;
 
 import static org.mockito.Matchers.anyBoolean;
 import static org.mockito.Mockito.verify;
@@ -16,19 +16,19 @@ import static org.mockito.Mockito.verify;
 /**
  * Created by kamiye on 04/10/2016.
  */
-public class SetReminderPresenterTest {
+public class SetSimOneReminderPresenterTest {
 
     @Mock
     public IReminderView.IReminderFragmentView reminderFragmentView;
 
     @Mock
-    public Reminder reminder;
+    public SimOneReminder simOneReminder;
 
     @Mock
     private SimOneGroup simOneGroup;
 
     @Captor
-    private ArgumentCaptor<Reminder.ActionCallback> callbackArgumentCaptor;
+    private ArgumentCaptor<SimOneReminder.ActionCallback> callbackArgumentCaptor;
 
     private ReminderPresenter.SetReminderPresenter setReminderPresenter;
 
@@ -40,7 +40,7 @@ public class SetReminderPresenterTest {
         MockitoAnnotations.initMocks(this);
 
         setReminderPresenter = new ReminderPresenter.SetReminderPresenter(reminderFragmentView,
-                reminder, simOneGroup);
+                simOneReminder, simOneGroup);
         reminderGroup = "family";
         interval = 1;
     }
@@ -49,9 +49,9 @@ public class SetReminderPresenterTest {
     public void testSetReminderSuccess() {
         setReminderPresenter.setReminder(reminderGroup, interval, false);
 
-        verify(reminder).setContactGroup(reminderGroup);
-        verify(reminder).setInterval(interval);
-        verify(reminder).set(anyBoolean(), callbackArgumentCaptor.capture());
+        verify(simOneReminder).setContactGroup(reminderGroup);
+        verify(simOneReminder).setInterval(interval);
+        verify(simOneReminder).set(anyBoolean(), callbackArgumentCaptor.capture());
         callbackArgumentCaptor.getValue().onSuccess();
         verify(reminderFragmentView).onSetReminderSuccess();
     }
@@ -60,11 +60,11 @@ public class SetReminderPresenterTest {
     public void testSetReminderError() {
         setReminderPresenter.setReminder(reminderGroup, interval, false);
 
-        verify(reminder).setContactGroup(reminderGroup);
-        verify(reminder).setInterval(interval);
-        verify(reminder).set(anyBoolean(), callbackArgumentCaptor.capture());
+        verify(simOneReminder).setContactGroup(reminderGroup);
+        verify(simOneReminder).setInterval(interval);
+        verify(simOneReminder).set(anyBoolean(), callbackArgumentCaptor.capture());
         callbackArgumentCaptor.getValue().onError(13);
-        verify(reminderFragmentView).onSetReminderError("Oops! Please try setting reminder again");
+        verify(reminderFragmentView).onSetReminderError("Oops! Please try setting simOneReminder again");
     }
 
 }

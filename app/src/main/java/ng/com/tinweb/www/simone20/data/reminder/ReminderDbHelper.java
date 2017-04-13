@@ -25,20 +25,17 @@ import ng.com.tinweb.www.simone20.data.DbContract;
 
 class ReminderDbHelper extends BaseDbHelper implements DataStore {
 
-    public static int UNKNOWN_ERROR = 13;
+    private static int UNKNOWN_ERROR = 13;
 
     private static int DAY_DIVIDER = 24 * 60 * 60 * 1000;
 
-    private Context context;
-
     ReminderDbHelper(Context context) {
         super(context);
-        this.context = context;
     }
 
     @Override
     public void save(int contactId, String contactGroupName,
-                     int interval, boolean isEditMode, Reminder.ActionCallback callback) {
+                     int interval, boolean isEditMode, SimOneReminder.ActionCallback callback) {
         SQLiteDatabase database = getWritableDatabase();
 
         Calendar calendar = Calendar.getInstance();
@@ -79,7 +76,7 @@ class ReminderDbHelper extends BaseDbHelper implements DataStore {
     }
 
     @Override
-    public void getSingle(int contactId, Reminder.GetSingleCallback callback) {
+    public void getSingle(int contactId, SimOneReminder.GetSingleCallback callback) {
         SQLiteDatabase database = getReadableDatabase();
 
         String[] projection = {
@@ -123,7 +120,7 @@ class ReminderDbHelper extends BaseDbHelper implements DataStore {
     }
 
     @Override
-    public void getMultiple(boolean isToday, Reminder.GetAllCallback callback) {
+    public void getMultiple(boolean isToday, SimOneReminder.GetAllCallback callback) {
         SQLiteDatabase database = getReadableDatabase();
 
         String[] projection = {
@@ -164,7 +161,7 @@ class ReminderDbHelper extends BaseDbHelper implements DataStore {
                 sortOrder
         );
         if (cursor != null) {
-            List<Reminder> reminders = new ArrayList<>();
+            List<SimOneReminder> simOneReminders = new ArrayList<>();
             HashMap<String, String> remindersMetaData = new HashMap<>();
             int dueWeekly = 0;
             while (cursor.moveToNext()) {
@@ -195,10 +192,18 @@ class ReminderDbHelper extends BaseDbHelper implements DataStore {
                 if (daysLeft < 7) {
                     dueWeekly++;
                 }
-                reminders.add(new Reminder(contactId, contactName, contactGroup, interval, daysLeft));
+                SimOneReminder simOneReminder = new SimOneReminder.Builder(context)
+                        .setContactId(contactId)
+                        .setContactName(contactName)
+                        .setContactGroup(contactGroup)
+                        .setInterval(interval)
+                        .setDaysLeft(daysLeft)
+                        .create();
+
+                simOneReminders.add(simOneReminder);
             }
             remindersMetaData.put("dueWeekly", String.valueOf(dueWeekly));
-            callback.onSuccess(remindersMetaData, reminders);
+            callback.onSuccess(remindersMetaData, simOneReminders);
             cursor.close();
         } else {
             callback.onError(UNKNOWN_ERROR);

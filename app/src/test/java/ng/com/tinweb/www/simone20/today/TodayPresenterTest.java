@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import ng.com.tinweb.www.simone20.data.reminder.Reminder;
+import ng.com.tinweb.www.simone20.data.reminder.SimOneReminder;
 
 import static org.mockito.Matchers.anyBoolean;
 import static org.mockito.Mockito.verify;
@@ -25,10 +25,10 @@ public class TodayPresenterTest {
     private ITodayView todayView;
 
     @Mock
-    private Reminder reminder;
+    private SimOneReminder simOneReminder;
 
     @Captor
-    private ArgumentCaptor<Reminder.GetAllCallback> getAllArgumentCaptor;
+    private ArgumentCaptor<SimOneReminder.GetAllCallback> getAllArgumentCaptor;
 
     private TodayPresenter todayPresenter;
 
@@ -36,22 +36,22 @@ public class TodayPresenterTest {
     public void setUpPresenter() {
         MockitoAnnotations.initMocks(this);
 
-        todayPresenter = new TodayPresenter(reminder, todayView);
+        todayPresenter = new TodayPresenter(simOneReminder, todayView);
     }
 
     @Test
     public void testLoadReminderSuccess() {
-        List<Reminder> reminders = new ArrayList<>();
+        List<SimOneReminder> simOneReminders = new ArrayList<>();
         todayPresenter.loadReminders();
-        verify(reminder).getAll(anyBoolean(), getAllArgumentCaptor.capture());
-        getAllArgumentCaptor.getValue().onSuccess(new HashMap<String, String>(), reminders);
-        verify(todayView).onRemindersLoaded(reminders);
+        verify(simOneReminder).getAll(anyBoolean(), getAllArgumentCaptor.capture());
+        getAllArgumentCaptor.getValue().onSuccess(new HashMap<String, String>(), simOneReminders);
+        verify(todayView).onRemindersLoaded(simOneReminders);
     }
 
     @Test
     public void testLoadReminderError() {
         todayPresenter.loadReminders();
-        verify(reminder).getAll(anyBoolean(), getAllArgumentCaptor.capture());
+        verify(simOneReminder).getAll(anyBoolean(), getAllArgumentCaptor.capture());
         getAllArgumentCaptor.getValue().onError(2);
         verify(todayView).onReminderLoadingError("An unknown error occurred");
     }

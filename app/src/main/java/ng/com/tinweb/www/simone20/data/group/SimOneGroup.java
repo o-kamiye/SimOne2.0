@@ -4,8 +4,6 @@ import android.content.Context;
 
 import java.util.List;
 
-import ng.com.tinweb.www.simone20.SimOne;
-
 /**
  * Created by kamiye on 04/10/2016.
  */
@@ -26,19 +24,16 @@ public class SimOneGroup {
      * TODO this class to be further implemented in the group story
      */
 
-    public SimOneGroup() {
-        initialiseDateStore();
-    }
-
-    public SimOneGroup(String name, int members, int interval) {
-        this();
-        this.name = name;
-        this.members = members;
-        this.interval = interval;
+    public SimOneGroup(Context context) {
+        initialiseDateStore(context);
     }
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public void setMembers(int members) {
+        this.members = members;
     }
 
     public void setInterval(int interval) {
@@ -61,9 +56,8 @@ public class SimOneGroup {
         dataStore.getMultiple(callback);
     }
 
-    private void initialiseDateStore() {
-        Context context = SimOne.getContext();
-        this.dataStore = new GroupDb(context);
+    private void initialiseDateStore(Context context) {
+        this.dataStore = new GroupDbHelper(context);
     }
 
     public interface ActionCallback {

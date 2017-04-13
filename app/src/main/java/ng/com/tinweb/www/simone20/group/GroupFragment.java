@@ -14,10 +14,12 @@ import android.view.ViewGroup;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 import ng.com.tinweb.www.simone20.R;
+import ng.com.tinweb.www.simone20.SimOne;
 import ng.com.tinweb.www.simone20.data.group.SimOneGroup;
 import ng.com.tinweb.www.simone20.databinding.FragmentGroupBinding;
-import ng.com.tinweb.www.simone20.helper.Injection;
 import ng.com.tinweb.www.simone20.util.LinearLayoutDecorator;
 
 /**
@@ -31,9 +33,17 @@ public class GroupFragment extends Fragment implements IGroupView,
     private FragmentGroupBinding groupBinding;
     private IGroupPresenter groupPresenter;
 
+    @Inject
+    SimOneGroup simOneGroup;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        SimOne.get(getActivity().getApplication())
+                .getAppComponent()
+                .inject(this);
+
         setHasOptionsMenu(true);
         initialisePresenter();
     }
@@ -101,7 +111,7 @@ public class GroupFragment extends Fragment implements IGroupView,
     }
 
     private void initialisePresenter() {
-        groupPresenter = new GroupPresenter(Injection.getSimOneGroup(), this);
+        groupPresenter = new GroupPresenter(simOneGroup, this);
     }
 
     private void setUpFragment() {

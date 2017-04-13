@@ -5,19 +5,11 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 
-import ng.com.tinweb.www.simone20.R;
 import ng.com.tinweb.www.simone20.data.BaseDbHelper;
 import ng.com.tinweb.www.simone20.data.DbContract;
-import ng.com.tinweb.www.simone20.data.reminder.Reminder;
 
 import static ng.com.tinweb.www.simone20.data.group.SimOneGroup.DB_INSERT_ERROR;
 import static ng.com.tinweb.www.simone20.data.group.SimOneGroup.GROUP_EXISTS_ERROR;
@@ -27,9 +19,9 @@ import static ng.com.tinweb.www.simone20.data.group.SimOneGroup.UNKNOWN_ERROR;
  * Created by kamiye on 20/09/2016.
  */
 
-class GroupDb extends BaseDbHelper implements DataStore {
+class GroupDbHelper extends BaseDbHelper implements DataStore {
 
-    GroupDb(Context context) {
+    GroupDbHelper(Context context) {
         super(context);
     }
 
@@ -123,7 +115,11 @@ class GroupDb extends BaseDbHelper implements DataStore {
                 int interval = cursor.getInt(
                         cursor.getColumnIndexOrThrow(DbContract.GroupSchema.COLUMN_NAME_GROUP_INTERVAL)
                 );
-                groups.add(new SimOneGroup(groupName, groupMembers, interval));
+                SimOneGroup simOneGroup = new SimOneGroup(context);
+                simOneGroup.setName(groupName);
+                simOneGroup.setMembers(groupMembers);
+                simOneGroup.setInterval(interval);
+                groups.add(simOneGroup);
             }
             callback.onSuccess(groups);
             cursor.close();

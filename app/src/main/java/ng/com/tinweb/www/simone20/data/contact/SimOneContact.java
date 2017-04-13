@@ -10,9 +10,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import ng.com.tinweb.www.simone20.SimOne;
-import ng.com.tinweb.www.simone20.data.DbContract;
-
 
 /**
  * Created by kamiye on 28/09/2016.
@@ -27,18 +24,12 @@ public class SimOneContact implements Serializable {
     private Context context;
     private DataStore dataStore;
 
-    public SimOneContact() {
-        context = SimOne.getContext();
+    public SimOneContact(Context context) {
+        this.context = context;
     }
 
-    public SimOneContact(int id, String name) {
-        this();
-        this.id = id;
-        this.name = name;
-    }
-
-    public SimOneContact(long contactId, String name) {
-        this();
+    public SimOneContact(Context context, long contactId, String name) {
+        this(context);
         this.contactId = contactId;
         this.name = name;
     }
@@ -53,6 +44,14 @@ public class SimOneContact implements Serializable {
 
     public String getName() {
         return name;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setContactId(long contactId) {
+        this.contactId = contactId;
     }
 
     public void setName(String name) {
@@ -120,7 +119,9 @@ public class SimOneContact implements Serializable {
             );
             SimOneContact simOneContact = contacts.get(id);
             if (simOneContact == null) {
-                simOneContact = new SimOneContact(id, contactName);
+                simOneContact = new SimOneContact(context);
+                simOneContact.setContactId(id);
+                simOneContact.setName(contactName);
                 contacts.put(id, simOneContact);
             }
             String phoneNumber = cursor.getString(
