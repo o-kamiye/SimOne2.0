@@ -34,12 +34,11 @@ public class ReminderFragment extends Fragment implements IReminderView,
 
     private static final String EDIT_REMINDER_FRAGMENT_TAG = "edit_reminder";
 
-    private IReminderPresenter reminderPresenter;
     private FragmentReminderBinding fragmentBinding;
     private SearchView searchView;
 
     @Inject
-    SimOneReminder simOneReminder;
+    ReminderPresenter reminderPresenter;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -47,10 +46,10 @@ public class ReminderFragment extends Fragment implements IReminderView,
 
         SimOne.get(getActivity().getApplication())
                 .getAppComponent()
+                .subComponent(new ReminderModule(this))
                 .inject(this);
 
         setHasOptionsMenu(true);
-        initialisePresenter();
     }
 
     @Override
@@ -133,11 +132,6 @@ public class ReminderFragment extends Fragment implements IReminderView,
     @Override
     public void onDeleteAction(SimOneReminder simOneReminder) {
         //reminderPresenter.deleteReminder(contactId);
-    }
-
-    private void initialisePresenter() {
-        this.reminderPresenter = new ReminderPresenter(simOneReminder,
-                this);
     }
 
 }

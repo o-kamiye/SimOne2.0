@@ -19,13 +19,7 @@ public class TodayModule {
 
     @Provides
     @TodayScope
-    ITodayView providesView() {
-        return view;
-    }
-
-    @Provides
-    @TodayScope
-    TodayPresenter providesPresenter(SimOneReminder reminder, ITodayView view) {
+    TodayPresenter providesPresenter(SimOneReminder reminder) {
         return new TodayPresenter(reminder, view);
     }
 

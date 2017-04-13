@@ -31,6 +31,7 @@ class TodayAdapter extends RecyclerView.Adapter<TodayAdapter.ViewHolder> {
         return new ViewHolder(callListBinding.getRoot());
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         // TODO add the dynamic data here

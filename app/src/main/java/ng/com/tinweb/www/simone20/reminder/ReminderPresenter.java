@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.inject.Inject;
+
 import ng.com.tinweb.www.simone20.data.group.SimOneGroup;
 import ng.com.tinweb.www.simone20.data.reminder.SimOneReminder;
 
@@ -16,6 +18,7 @@ class ReminderPresenter implements IReminderPresenter {
     private WeakReference<IReminderView> reminderView;
     private SimOneReminder simOneReminder;
 
+    @Inject
     ReminderPresenter(SimOneReminder simOneReminder, IReminderView reminderView) {
         this.simOneReminder = simOneReminder;
         this.reminderView = new WeakReference<>(reminderView);
