@@ -4,6 +4,8 @@ import java.lang.ref.WeakReference;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.inject.Inject;
+
 import ng.com.tinweb.www.simone20.data.reminder.SimOneReminder;
 
 /**
@@ -14,6 +16,7 @@ class TodayPresenter implements ITodayPresenter {
     private WeakReference<ITodayView> todayView;
     private SimOneReminder simOneReminder;
 
+    @Inject
     TodayPresenter(SimOneReminder simOneReminder, ITodayView todayView) {
         this.todayView = new WeakReference<>(todayView);
         this.simOneReminder = simOneReminder;

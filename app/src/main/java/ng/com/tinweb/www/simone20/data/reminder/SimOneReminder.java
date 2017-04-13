@@ -24,21 +24,6 @@ public class SimOneReminder extends SimOneContact {
         initialiseDataStore(context);
     }
 
-    public SimOneReminder(Context context, int contactId, String contactName) {
-        this(context);
-        this.contactId = contactId;
-        this.contactName = contactName;
-    }
-
-    public SimOneReminder(Context context, int contactId, String contactName, String contactGroup, int interval, int daysLeft) {
-        this(context);
-        this.contactId = contactId;
-        this.contactName = contactName;
-        this.contactGroup = contactGroup;
-        this.interval = interval;
-        this.daysLeft = daysLeft;
-    }
-
     public void set(boolean isUpdate, ActionCallback callback) {
         dataStore.save(contactId, contactGroup, interval, isUpdate, callback);
     }

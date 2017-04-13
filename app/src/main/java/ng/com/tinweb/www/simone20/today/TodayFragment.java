@@ -27,10 +27,9 @@ public class TodayFragment extends Fragment implements ITodayView,
 
 
     private FragmentTodayBinding fragmentTodayBinding;
-    private ITodayPresenter todayPresenter;
 
     @Inject
-    SimOneReminder simOneReminder;
+    TodayPresenter todayPresenter;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -38,11 +37,10 @@ public class TodayFragment extends Fragment implements ITodayView,
 
         SimOne.get(getActivity().getApplication())
                 .getAppComponent()
+                .subComponent(new TodayModule(this))
                 .inject(this);
 
         setHasOptionsMenu(true);
-        this.todayPresenter = new TodayPresenter(simOneReminder,
-                this);
     }
 
     @Override

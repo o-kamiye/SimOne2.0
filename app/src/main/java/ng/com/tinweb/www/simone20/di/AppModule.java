@@ -17,7 +17,7 @@ import ng.com.tinweb.www.simone20.data.reminder.SimOneReminder;
 @Module
 public class AppModule {
 
-    Application application;
+    private Application application;
 
     public AppModule(Application application) {
         this.application = application;

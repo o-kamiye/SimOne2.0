@@ -14,13 +14,13 @@ import ng.com.tinweb.www.simone20.databinding.TodayCallListBinding;
 /**
  * Created by kamiye on 02/09/2016.
  */
-public class TodayAdapter extends RecyclerView.Adapter<TodayAdapter.ViewHolder> {
+class TodayAdapter extends RecyclerView.Adapter<TodayAdapter.ViewHolder> {
 
     private TodayCallListBinding callListBinding;
     private String[] array = new String[2];
     private CallActionListener callActionListener;
 
-    public TodayAdapter(CallActionListener callActionListener) {
+    TodayAdapter(CallActionListener callActionListener) {
         this.callActionListener = callActionListener;
     }
 
@@ -50,9 +50,9 @@ public class TodayAdapter extends RecyclerView.Adapter<TodayAdapter.ViewHolder> 
         return array.length;
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        public ViewHolder(View itemView) {
+        ViewHolder(View itemView) {
             super(itemView);
             callListBinding.callIconImageView.setOnClickListener(this);
         }
