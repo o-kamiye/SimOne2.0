@@ -36,6 +36,11 @@ dependencies {
     compile lib.bottomNav
     compile lib.circularProgressView
 
+    // dagger
+    compile lib.dagger
+    compile lib.daggerProcessor
+    compile lib.annotationProcessor
+
     // Test dependencies
     testCompile test.junit
     testCompile test.mockito

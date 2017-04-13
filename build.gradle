@@ -28,6 +28,8 @@ ext {
     ESPRESSO_VERSION = '2.2.2'
     BOTTOM_NAV_VERSION = '1.8.2'
     CIRCULAR_PROGRESS_VIEW_VERSION = '1.1.1'
+    DAGGER_VERSION = '2.9'
+    JAVAX_ANNOTATION = '1.0'
 
     support = [
             appcompat: "com.android.support:appcompat-v7:$SUPPORT_LIB_VERSION",
@@ -36,7 +38,10 @@ ext {
     ]
     lib = [
             bottomNav: "com.github.armcha:LuseenBottomNavigation:$BOTTOM_NAV_VERSION",
-            circularProgressView: "com.mikhaellopez:circularprogressbar:$CIRCULAR_PROGRESS_VIEW_VERSION"
+            circularProgressView: "com.mikhaellopez:circularprogressbar:$CIRCULAR_PROGRESS_VIEW_VERSION",
+            dagger: "com.google.dagger:dagger:$DAGGER_VERSION",
+            daggerProcessor: "com.google.dagger:dagger-compiler:$DAGGER_VERSION",
+            annotationProcessor: "javax.annotation:jsr250-api:$JAVAX_ANNOTATION"
     ]
     test = [
             junit: "junit:junit:$JUNIT_VERSION",
