@@ -31,10 +31,9 @@ public class GroupFragment extends Fragment implements IGroupView,
     private static final String ADD_GROUP_FRAGMENT_TAG = "add_new_group";
 
     private FragmentGroupBinding groupBinding;
-    private IGroupPresenter groupPresenter;
 
     @Inject
-    SimOneGroup simOneGroup;
+    GroupPresenter groupPresenter;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -42,10 +41,10 @@ public class GroupFragment extends Fragment implements IGroupView,
 
         SimOne.get(getActivity().getApplication())
                 .getAppComponent()
+                .subComponent(new GroupModule(this))
                 .inject(this);
 
         setHasOptionsMenu(true);
-        initialisePresenter();
     }
 
     @Override
@@ -108,10 +107,6 @@ public class GroupFragment extends Fragment implements IGroupView,
     @Override
     public void onDeleteAction(String groupId) {
         groupPresenter.deleteGroup(groupId);
-    }
-
-    private void initialisePresenter() {
-        groupPresenter = new GroupPresenter(simOneGroup, this);
     }
 
     private void setUpFragment() {
