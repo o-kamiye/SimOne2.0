@@ -21,7 +21,7 @@ import ng.com.tinweb.www.simone20.R;
 import ng.com.tinweb.www.simone20.SimOne;
 import ng.com.tinweb.www.simone20.data.contact.SimOneContact;
 import ng.com.tinweb.www.simone20.databinding.FragmentContactListBinding;
-import ng.com.tinweb.www.simone20.reminder.SetReminderDialogFragment;
+import ng.com.tinweb.www.simone20.reminder.ReminderDialogFragment;
 import ng.com.tinweb.www.simone20.util.LinearLayoutDecorator;
 
 /**
@@ -100,7 +100,7 @@ public class ContactListDialogFragment extends DialogFragment
             fragmentTransaction.remove(prev);
         }
         fragmentTransaction.addToBackStack(null);
-        SetReminderDialogFragment addReminderFragment = SetReminderDialogFragment.getInstance(contact);
+        ReminderDialogFragment addReminderFragment = ReminderDialogFragment.getInstance(contact);
         addReminderFragment.show(fragmentTransaction, ADD_REMINDER_FRAGMENT_TAG);
     }
 

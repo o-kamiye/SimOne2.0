@@ -127,7 +127,7 @@ public class ReminderFragment extends Fragment implements IReminderView,
         if (prev != null) {
             fragmentTransaction.remove(prev);
         }
-        SetReminderDialogFragment addReminderFragment = SetReminderDialogFragment.getInstance(simOneReminder);
+        ReminderDialogFragment addReminderFragment = ReminderDialogFragment.getInstance(simOneReminder);
         addReminderFragment.setEditMode(true);
         fragmentTransaction.add(addReminderFragment, EDIT_REMINDER_FRAGMENT_TAG).commitNow();
         //addReminderFragment.show(fragmentTransaction, EDIT_REMINDER_FRAGMENT_TAG);

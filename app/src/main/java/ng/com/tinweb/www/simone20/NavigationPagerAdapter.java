@@ -4,6 +4,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
+import java.util.List;
+
 import ng.com.tinweb.www.simone20.group.GroupFragment;
 import ng.com.tinweb.www.simone20.reminder.ReminderFragment;
 import ng.com.tinweb.www.simone20.today.TodayFragment;
@@ -13,12 +15,12 @@ import ng.com.tinweb.www.simone20.today.TodayFragment;
  */
 class NavigationPagerAdapter extends FragmentPagerAdapter {
 
-    private String[] navMenu;
+    private List<String> navMenu;
     private TodayFragment todayFragment;
     private ReminderFragment reminderFragment;
     private GroupFragment groupFragment;
 
-    NavigationPagerAdapter(FragmentManager fragmentManager, String[] navMenu) {
+    NavigationPagerAdapter(FragmentManager fragmentManager, List<String> navMenu) {
         super(fragmentManager);
         this.navMenu = navMenu;
     }
@@ -48,12 +50,12 @@ class NavigationPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public int getCount() {
-        return navMenu.length;
+        return navMenu.size();
     }
 
     @Override
     public CharSequence getPageTitle(int position) {
-        return navMenu[position];
+        return navMenu.get(position);
     }
 
     void refreshPage(int position) {

@@ -4,26 +4,31 @@ import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-
-import android.os.Bundle;
 import android.support.v7.widget.SearchView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import java.util.Arrays;
+import java.util.List;
+
 import ng.com.tinweb.www.simone20.contact.ContactListDialogFragment;
 import ng.com.tinweb.www.simone20.databinding.ActivityMainBinding;
+import ng.com.tinweb.www.simone20.reminder.ReminderDialogFragment;
 
-public class MainActivity extends AppCompatActivity implements ViewPager.OnPageChangeListener {
+public class MainActivity extends AppCompatActivity implements
+        ViewPager.OnPageChangeListener, ReminderDialogFragment.InteractionListener {
 
     public static final String CONTACT_LIST_FRAGMENT_TAG = "search_result";
 
     private ActivityMainBinding activityMainBinding;
     private NavigationPagerAdapter navigationPagerAdapter;
+    private List<String> pageTitles;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,9 +82,9 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
     @Override
     public void onPageSelected(int position) {
         activityMainBinding.bottomNavigation.selectTab(position);
-        String[] pageTitles = getResources()
-                .getStringArray(R.array.pageTitles);
-        setTitle(pageTitles[position]);
+        pageTitles = Arrays.asList(getResources()
+                .getStringArray(R.array.pageTitles));
+        setTitle(pageTitles.get(position));
         navigationPagerAdapter.refreshPage(position);
     }
 
@@ -89,7 +94,7 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
     private void setUpViewPager() {
         navigationPagerAdapter =
                 new NavigationPagerAdapter(getSupportFragmentManager(),
-                        getResources().getStringArray(R.array.bottomNavMenu));
+                        Arrays.asList(getResources().getStringArray(R.array.bottomNavMenu)));
 
         activityMainBinding.viewPager.setAdapter(navigationPagerAdapter);
         activityMainBinding.viewPager.addOnPageChangeListener(this);
@@ -121,4 +126,9 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
         }
     }
 
+    @Override
+    public void onReminderSet() {
+        navigationPagerAdapter.refreshPage(pageTitles
+                .indexOf(getString(R.string.reminder_fragment_title)));
+    }
 }
