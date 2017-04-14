@@ -13,13 +13,13 @@ import ng.com.tinweb.www.simone20.data.reminder.SimOneReminder;
 /**
  * Created by kamiye on 08/09/2016.
  */
-class ReminderPresenter implements Contract.Presenter {
+class ReminderPresenter implements ReminderContract.Presenter {
 
-    private WeakReference<Contract.View> view;
+    private WeakReference<ReminderContract.View> view;
     private SimOneReminder simOneReminder;
 
     @Inject
-    ReminderPresenter(SimOneReminder simOneReminder, Contract.View view) {
+    ReminderPresenter(SimOneReminder simOneReminder, ReminderContract.View view) {
         this.simOneReminder = simOneReminder;
         this.view = new WeakReference<>(view);
     }

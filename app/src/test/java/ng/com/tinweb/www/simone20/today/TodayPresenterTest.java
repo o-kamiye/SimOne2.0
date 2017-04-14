@@ -22,7 +22,7 @@ import static org.mockito.Mockito.verify;
 public class TodayPresenterTest {
 
     @Mock
-    private ITodayView todayView;
+    private TodayContract.View todayView;
 
     @Mock
     private SimOneReminder simOneReminder;

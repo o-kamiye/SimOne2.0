@@ -22,11 +22,13 @@ import ng.com.tinweb.www.simone20.data.reminder.SimOneReminder;
 import ng.com.tinweb.www.simone20.databinding.FragmentTodayBinding;
 import ng.com.tinweb.www.simone20.util.LinearLayoutDecorator;
 
-public class TodayFragment extends Fragment implements ITodayView,
+public class TodayFragment extends Fragment implements TodayContract.View,
         CallActionListener {
 
 
     private FragmentTodayBinding fragmentTodayBinding;
+    private LinearLayoutManager layoutManager;
+    private LinearLayoutDecorator layoutDecorator;
 
     @Inject
     TodayPresenter todayPresenter;
@@ -41,6 +43,9 @@ public class TodayFragment extends Fragment implements ITodayView,
                 .inject(this);
 
         setHasOptionsMenu(true);
+
+        layoutManager = new LinearLayoutManager(getContext());
+        layoutDecorator = new LinearLayoutDecorator(getContext(), null);
     }
 
     @Override
@@ -61,6 +66,8 @@ public class TodayFragment extends Fragment implements ITodayView,
         fragmentTodayBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_today,
                 container, false);
         setUpTodayFragment();
+        fragmentTodayBinding.todayCallsRecyclerView.setLayoutManager(layoutManager);
+        fragmentTodayBinding.todayCallsRecyclerView.addItemDecoration(layoutDecorator);
         return fragmentTodayBinding.getRoot();
     }
 
@@ -71,10 +78,7 @@ public class TodayFragment extends Fragment implements ITodayView,
                 .getQuantityString(R.plurals.no_of_calls_today,
                         simOneReminders.size(), simOneReminders.size()));
         // TODO use simOneReminders here to make content a bit more dynamic
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
-        fragmentTodayBinding.todayCallsRecyclerView.setLayoutManager(layoutManager);
         fragmentTodayBinding.todayCallsRecyclerView.setAdapter(new TodayAdapter(this));
-        fragmentTodayBinding.todayCallsRecyclerView.addItemDecoration(new LinearLayoutDecorator(getContext(), null));
     }
 
     @Override

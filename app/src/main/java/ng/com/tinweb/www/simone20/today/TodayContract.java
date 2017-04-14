@@ -1,4 +1,4 @@
-package ng.com.tinweb.www.simone20.reminder;
+package ng.com.tinweb.www.simone20.today;
 
 import java.util.List;
 
@@ -8,27 +8,24 @@ import ng.com.tinweb.www.simone20.data.reminder.SimOneReminder;
  * Created by kamiye on 14/04/2017.
  */
 
-class Contract {
+class TodayContract {
 
+    /**
+     * Interface to interact with the presenter
+     */
     interface View {
 
         void onRemindersLoaded(List<SimOneReminder> simOneReminders);
 
-        void onReminderLoadingError();
+        void callContact(String contactName);
 
-        void setWeekReminderTextView(int total);
-
-        void showDeleteSuccessInfo();
-
-        void showDeleteErrorInfo();
-
+        void onReminderLoadingError(String message);
     }
 
     interface Presenter {
 
         void loadReminders();
 
-        void deleteReminder(String contactId);
-
+        void callContact(String contactName);
     }
 }
