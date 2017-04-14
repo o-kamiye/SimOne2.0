@@ -29,7 +29,7 @@ import ng.com.tinweb.www.simone20.util.LinearLayoutDecorator;
 /**
  * Created by kamiye on 08/09/2016.
  */
-public class ReminderFragment extends Fragment implements IReminderView,
+public class ReminderFragment extends Fragment implements Contract.View,
         ReminderActionsListener {
 
     private static final String EDIT_REMINDER_FRAGMENT_TAG = "edit_reminder";

@@ -13,15 +13,15 @@ import ng.com.tinweb.www.simone20.data.reminder.SimOneReminder;
 /**
  * Created by kamiye on 08/09/2016.
  */
-class ReminderPresenter implements IReminderPresenter {
+class ReminderPresenter implements Contract.Presenter {
 
-    private WeakReference<IReminderView> reminderView;
+    private WeakReference<Contract.View> view;
     private SimOneReminder simOneReminder;
 
     @Inject
-    ReminderPresenter(SimOneReminder simOneReminder, IReminderView reminderView) {
+    ReminderPresenter(SimOneReminder simOneReminder, Contract.View view) {
         this.simOneReminder = simOneReminder;
-        this.reminderView = new WeakReference<>(reminderView);
+        this.view = new WeakReference<>(view);
     }
 
     @Override
@@ -30,17 +30,17 @@ class ReminderPresenter implements IReminderPresenter {
             @Override
             public void onSuccess(HashMap<String, String> metaData,
                                   List<SimOneReminder> simOneReminders) {
-                if (reminderView.get() != null) {
-                    reminderView.get().onRemindersLoaded(simOneReminders);
+                if (view.get() != null) {
+                    view.get().onRemindersLoaded(simOneReminders);
                     int totalDueThisWeek = Integer.valueOf(metaData.get("dueWeekly"));
-                    reminderView.get().setWeekReminderTextView(totalDueThisWeek);
+                    view.get().setWeekReminderTextView(totalDueThisWeek);
                 }
             }
 
             @Override
             public void onError(int errorCode) {
-                if (reminderView.get() != null) {
-                    reminderView.get().onReminderLoadingError();
+                if (view.get() != null) {
+                    view.get().onReminderLoadingError();
                 }
             }
         });
@@ -48,23 +48,23 @@ class ReminderPresenter implements IReminderPresenter {
 
     @Override
     public void deleteReminder(String contactId) {
-        if (reminderView.get() != null) {
+        if (view.get() != null) {
             // TODO get the simOneReminder from the contactId
             // TODO call the remove method on the simOneReminder object
             // TODO if the removal was successful, then call the view's remove successful callback method
-            reminderView.get().showDeleteSuccessInfo();
+            view.get().showDeleteSuccessInfo();
             // TODO if the removal was unsuccessful, then call the view's remove unsuccessful callback method
-            reminderView.get().showDeleteErrorInfo();
+            view.get().showDeleteErrorInfo();
         }
     }
 
-    static class SetReminderPresenter implements IReminderFragmentPresenter {
+    static class SetReminderPresenter implements DialogFragmentContract.Presenter {
 
-        private WeakReference<IReminderView.IReminderFragmentView> fragmentView;
+        private WeakReference<DialogFragmentContract.View> fragmentView;
         private SimOneReminder simOneReminder;
         private SimOneGroup simOneGroup;
 
-        SetReminderPresenter(IReminderView.IReminderFragmentView fragmentView,
+        SetReminderPresenter(DialogFragmentContract.View fragmentView,
                              SimOneReminder simOneReminder, SimOneGroup simOneGroup) {
             this.fragmentView = new WeakReference<>(fragmentView);
             this.simOneReminder = simOneReminder;

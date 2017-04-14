@@ -91,6 +91,12 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     public void onPageScrollStateChanged(int state) {}
 
+    @Override
+    public void onReminderSet() {
+        navigationPagerAdapter.refreshPage(pageTitles
+                .indexOf(getString(R.string.reminder_fragment_title)));
+    }
+
     private void setUpViewPager() {
         navigationPagerAdapter =
                 new NavigationPagerAdapter(getSupportFragmentManager(),
@@ -126,9 +132,4 @@ public class MainActivity extends AppCompatActivity implements
         }
     }
 
-    @Override
-    public void onReminderSet() {
-        navigationPagerAdapter.refreshPage(pageTitles
-                .indexOf(getString(R.string.reminder_fragment_title)));
-    }
 }

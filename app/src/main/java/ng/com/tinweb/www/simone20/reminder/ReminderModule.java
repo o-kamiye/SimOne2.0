@@ -11,9 +11,9 @@ import ng.com.tinweb.www.simone20.data.reminder.SimOneReminder;
 @Module
 public class ReminderModule {
 
-    private IReminderView view;
+    private Contract.View view;
 
-    ReminderModule(IReminderView view) {
+    ReminderModule(Contract.View view) {
         this.view = view;
     }
 

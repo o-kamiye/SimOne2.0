@@ -33,12 +33,12 @@ import ng.com.tinweb.www.simone20.databinding.FragmentAddReminderBinding;
  */
 
 public class ReminderDialogFragment extends DialogFragment
-        implements IReminderView.IReminderFragmentView, View.OnClickListener,
+        implements DialogFragmentContract.View, View.OnClickListener,
         RadioGroup.OnCheckedChangeListener {
 
     private static final String INPUT_BUNDLE = "input_fragment";
 
-    private IReminderPresenter.IReminderFragmentPresenter fragmentPresenter;
+    private DialogFragmentContract.Presenter fragmentPresenter;
     private FragmentAddReminderBinding fragmentAddReminderBinding;
     private SimOneContact contact;
     private Map<String, Integer> groupsMap;
