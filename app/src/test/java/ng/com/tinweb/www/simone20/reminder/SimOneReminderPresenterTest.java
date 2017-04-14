@@ -22,7 +22,7 @@ import static org.mockito.Mockito.verify;
 public class SimOneReminderPresenterTest {
 
     @Mock
-    private IReminderView reminderView;
+    private Contract.View view;
 
     @Mock
     public SimOneReminder simOneReminder;
@@ -39,7 +39,7 @@ public class SimOneReminderPresenterTest {
     @Before
     public void setUpTest() {
         MockitoAnnotations.initMocks(this);
-        reminderPresenter = new ReminderPresenter(simOneReminder, reminderView);
+        reminderPresenter = new ReminderPresenter(simOneReminder, view);
         weeklyCount = "2";
         mockMetaData.put("dueWeekly", weeklyCount);
     }
@@ -49,7 +49,7 @@ public class SimOneReminderPresenterTest {
         reminderPresenter.loadReminders();
         verify(simOneReminder).getAll(anyBoolean(), argumentCaptor.capture());
         argumentCaptor.getValue().onSuccess(mockMetaData, mockSimOneReminders);
-        verify(reminderView).setWeekReminderTextView(Integer.valueOf(weeklyCount));
+        verify(view).setWeekReminderTextView(Integer.valueOf(weeklyCount));
     }
 
     @Test
@@ -59,8 +59,8 @@ public class SimOneReminderPresenterTest {
 
         // TODO success call and error call should be separated to separate tests
         // todo(cont) when implementation is complete
-        verify(reminderView).showDeleteSuccessInfo();
-        verify(reminderView).showDeleteErrorInfo();
+        verify(view).showDeleteSuccessInfo();
+        verify(view).showDeleteErrorInfo();
     }
 
 }

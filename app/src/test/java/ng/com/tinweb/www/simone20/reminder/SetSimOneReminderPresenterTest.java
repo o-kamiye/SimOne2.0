@@ -19,7 +19,7 @@ import static org.mockito.Mockito.verify;
 public class SetSimOneReminderPresenterTest {
 
     @Mock
-    public IReminderView.IReminderFragmentView reminderFragmentView;
+    public DialogFragmentContract.View view;
 
     @Mock
     public SimOneReminder simOneReminder;
@@ -39,7 +39,7 @@ public class SetSimOneReminderPresenterTest {
     public void setupTest() {
         MockitoAnnotations.initMocks(this);
 
-        setReminderPresenter = new ReminderPresenter.SetReminderPresenter(reminderFragmentView,
+        setReminderPresenter = new ReminderPresenter.SetReminderPresenter(view,
                 simOneReminder, simOneGroup);
         reminderGroup = "family";
         interval = 1;
@@ -53,7 +53,7 @@ public class SetSimOneReminderPresenterTest {
         verify(simOneReminder).setInterval(interval);
         verify(simOneReminder).set(anyBoolean(), callbackArgumentCaptor.capture());
         callbackArgumentCaptor.getValue().onSuccess();
-        verify(reminderFragmentView).onSetReminderSuccess();
+        verify(view).onSetReminderSuccess();
     }
 
     @Test
@@ -64,7 +64,7 @@ public class SetSimOneReminderPresenterTest {
         verify(simOneReminder).setInterval(interval);
         verify(simOneReminder).set(anyBoolean(), callbackArgumentCaptor.capture());
         callbackArgumentCaptor.getValue().onError(13);
-        verify(reminderFragmentView).onSetReminderError("Oops! Please try setting simOneReminder again");
+        verify(view).onSetReminderError("Oops! Please try setting Reminder again");
     }
 
 }
