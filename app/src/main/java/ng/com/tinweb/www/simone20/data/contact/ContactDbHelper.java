@@ -80,7 +80,10 @@ class ContactDbHelper extends BaseDbHelper implements DataStore {
                 String contactName = cursor.getString(
                         cursor.getColumnIndexOrThrow(DbContract.ContactSchema.COLUMN_NAME_CONTACT_NAME)
                 );
-                contacts.add(new SimOneContact(id, contactName));
+                SimOneContact simOneContact = new SimOneContact(context);
+                simOneContact.setId(id);
+                simOneContact.setName(contactName);
+                contacts.add(simOneContact);
             }
             cursor.close();
         }

@@ -8,9 +8,7 @@ import android.view.KeyEvent;
 import android.widget.EditText;
 
 import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -20,7 +18,6 @@ import ng.com.tinweb.www.simone20.R;
 import ng.com.tinweb.www.simone20.helper.ContactHelper;
 import ng.com.tinweb.www.simone20.helper.RecyclerViewAction;
 
-import static android.support.test.espresso.Espresso.onData;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.Espresso.pressBack;
 import static android.support.test.espresso.action.ViewActions.click;
@@ -36,21 +33,15 @@ import static android.support.test.espresso.matcher.ViewMatchers.withHint;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static ng.com.tinweb.www.simone20.helper.ToastMatcher.isToast;
-import static org.hamcrest.Matchers.containsString;
-import static org.hamcrest.Matchers.hasToString;
-import static org.hamcrest.Matchers.instanceOf;
-import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
 import static org.hamcrest.core.AllOf.allOf;
-import static org.hamcrest.core.StringStartsWith.startsWith;
-import static org.junit.Assert.*;
 
 /**
  * Created by kamiye on 04/10/2016.
  */
 @RunWith(AndroidJUnit4.class)
 @LargeTest
-public class SetReminderDialogFragmentUITest {
+public class SetSimOneReminderDialogFragmentUITest {
 
     @Rule
     public ActivityTestRule<MainActivity> activityTestRule =
@@ -67,7 +58,7 @@ public class SetReminderDialogFragmentUITest {
             }
         });
 
-        ContactHelper.insertSimOneContact(testContactName);
+        ContactHelper.insertSimOneContact(activityTestRule.getActivity(), testContactName);
         // Do the search process in the before block
         // so that each test can contain only relevant test cases
         onView(withId(R.id.action_search)).perform(click());
@@ -171,7 +162,7 @@ public class SetReminderDialogFragmentUITest {
 
     @After
     public void tearDown() {
-        ContactHelper.deleteSimOneContact(testContactName);
+        ContactHelper.deleteSimOneContact(activityTestRule.getActivity(), testContactName);
     }
 
 }

@@ -5,13 +5,11 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.content.ContextCompat;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.RadioGroup;
-import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,13 +18,14 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-import ng.com.tinweb.www.simone20.R;
-import ng.com.tinweb.www.simone20.data.contact.SimOneContact;
-import ng.com.tinweb.www.simone20.data.reminder.Reminder;
-import ng.com.tinweb.www.simone20.databinding.FragmentAddReminderBinding;
-import ng.com.tinweb.www.simone20.helper.Injection;
+import javax.inject.Inject;
 
-import static ng.com.tinweb.www.simone20.R.id.groupListSpinner;
+import ng.com.tinweb.www.simone20.R;
+import ng.com.tinweb.www.simone20.SimOne;
+import ng.com.tinweb.www.simone20.data.contact.SimOneContact;
+import ng.com.tinweb.www.simone20.data.group.SimOneGroup;
+import ng.com.tinweb.www.simone20.data.reminder.SimOneReminder;
+import ng.com.tinweb.www.simone20.databinding.FragmentAddReminderBinding;
 
 /**
  * Created by kamiye on 28/09/2016.
@@ -45,6 +44,12 @@ public class SetReminderDialogFragment extends DialogFragment
     private boolean isEditMode;
     private ArrayAdapter<String> groupListAdapter;
 
+    @Inject
+    SimOneReminder simOneReminder;
+
+    @Inject
+    SimOneGroup simOneGroup;
+
     public static SetReminderDialogFragment getInstance(SimOneContact contact) {
         SetReminderDialogFragment inputFragment = new SetReminderDialogFragment();
 
@@ -58,6 +63,11 @@ public class SetReminderDialogFragment extends DialogFragment
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        SimOne.get(getActivity().getApplication())
+                .getAppComponent()
+                .inject(this);
+
         contact = (SimOneContact) getArguments().getSerializable(INPUT_BUNDLE);
         initialisePresenter();
     }
@@ -157,11 +167,14 @@ public class SetReminderDialogFragment extends DialogFragment
     }
 
     private void initialisePresenter() {
-        int id = (isEditMode) ? ((Reminder) contact).getReminderContactId() : contact.getId();
-        String name = (isEditMode) ? ((Reminder) contact).getContactName() : contact.getName();
+        int id = (isEditMode) ? ((SimOneReminder) contact).getReminderContactId() : contact.getId();
+        String name = (isEditMode) ? ((SimOneReminder) contact).getContactName() : contact.getName();
+
+        simOneReminder.setContactId(id);
+        simOneReminder.setContactName(name);
 
         this.fragmentPresenter = new ReminderPresenter.SetReminderPresenter(this,
-                Injection.getReminder(id, name), Injection.getSimOneGroup());
+                simOneReminder, simOneGroup);
     }
 
     private void populateGroupListSpinner() {
@@ -169,17 +182,17 @@ public class SetReminderDialogFragment extends DialogFragment
     }
 
     private void populateFormFields() {
-        Reminder reminder = (Reminder) contact;
-        if (reminder.getContactGroup() == null) {
+        SimOneReminder simOneReminder = (SimOneReminder) contact;
+        if (simOneReminder.getContactGroup() == null) {
             fragmentAddReminderBinding.intervalRadioButton.setChecked(true);
-            fragmentAddReminderBinding.intervalEditText.setText(String.valueOf(reminder.getInterval()));
+            fragmentAddReminderBinding.intervalEditText.setText(String.valueOf(simOneReminder.getInterval()));
         }
         else {
             fragmentAddReminderBinding.groupRadioButton.setChecked(true);
             fragmentAddReminderBinding.intervalEditText.setVisibility(View.GONE);
             fragmentAddReminderBinding.groupListSpinner.setVisibility(View.VISIBLE);
             fragmentAddReminderBinding.groupListSpinner.setSelection(
-                    groupListAdapter.getPosition(reminder.getContactGroup())
+                    groupListAdapter.getPosition(simOneReminder.getContactGroup())
             );
         }
         fragmentAddReminderBinding.saveButton.setText(R.string.txt_update);
@@ -189,7 +202,7 @@ public class SetReminderDialogFragment extends DialogFragment
     private void setTitleDimension() {
         TextView titleTextView = (TextView) getDialog().findViewById(android.R.id.title);
         String title = (isEditMode) ? getString(R.string.update_reminder_fragment_title,
-                ((Reminder) contact).getContactName()) :
+                ((SimOneReminder) contact).getContactName()) :
                 getString(R.string.add_reminder_fragment_title, contact.getName());
         titleTextView.setText(title);
         titleTextView.setTextColor(ContextCompat.getColor(getContext(), R.color.colorPrimaryDark));

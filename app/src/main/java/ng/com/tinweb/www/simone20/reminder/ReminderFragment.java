@@ -18,10 +18,12 @@ import android.view.ViewGroup;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 import ng.com.tinweb.www.simone20.R;
-import ng.com.tinweb.www.simone20.data.reminder.Reminder;
+import ng.com.tinweb.www.simone20.SimOne;
+import ng.com.tinweb.www.simone20.data.reminder.SimOneReminder;
 import ng.com.tinweb.www.simone20.databinding.FragmentReminderBinding;
-import ng.com.tinweb.www.simone20.helper.Injection;
 import ng.com.tinweb.www.simone20.util.LinearLayoutDecorator;
 
 /**
@@ -32,15 +34,22 @@ public class ReminderFragment extends Fragment implements IReminderView,
 
     private static final String EDIT_REMINDER_FRAGMENT_TAG = "edit_reminder";
 
-    private IReminderPresenter reminderPresenter;
     private FragmentReminderBinding fragmentBinding;
     private SearchView searchView;
+
+    @Inject
+    ReminderPresenter reminderPresenter;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        SimOne.get(getActivity().getApplication())
+                .getAppComponent()
+                .subComponent(new ReminderModule(this))
+                .inject(this);
+
         setHasOptionsMenu(true);
-        initialisePresenter();
     }
 
     @Override
@@ -71,10 +80,10 @@ public class ReminderFragment extends Fragment implements IReminderView,
     }
 
     @Override
-    public void onRemindersLoaded(List<Reminder> reminders) {
+    public void onRemindersLoaded(List<SimOneReminder> simOneReminders) {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         fragmentBinding.weeklyRemindersRecyclerView.setLayoutManager(linearLayoutManager);
-        fragmentBinding.weeklyRemindersRecyclerView.setAdapter(new ReminderAdapter(reminders, this));
+        fragmentBinding.weeklyRemindersRecyclerView.setAdapter(new ReminderAdapter(simOneReminders, this));
         fragmentBinding.weeklyRemindersRecyclerView.addItemDecoration(new LinearLayoutDecorator(getContext(), null));
 
         fragmentBinding.remindersFAB.setOnClickListener(new View.OnClickListener() {
@@ -108,26 +117,21 @@ public class ReminderFragment extends Fragment implements IReminderView,
     }
 
     @Override
-    public void onEditAction(Reminder reminder) {
+    public void onEditAction(SimOneReminder simOneReminder) {
         FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
         Fragment prev = getActivity().getSupportFragmentManager().findFragmentByTag(EDIT_REMINDER_FRAGMENT_TAG);
         if (prev != null) {
             fragmentTransaction.remove(prev);
         }
-        SetReminderDialogFragment addReminderFragment = SetReminderDialogFragment.getInstance(reminder);
+        SetReminderDialogFragment addReminderFragment = SetReminderDialogFragment.getInstance(simOneReminder);
         addReminderFragment.setEditMode(true);
         fragmentTransaction.add(addReminderFragment, EDIT_REMINDER_FRAGMENT_TAG).commitNow();
         //addReminderFragment.show(fragmentTransaction, EDIT_REMINDER_FRAGMENT_TAG);
     }
 
     @Override
-    public void onDeleteAction(Reminder reminder) {
+    public void onDeleteAction(SimOneReminder simOneReminder) {
         //reminderPresenter.deleteReminder(contactId);
-    }
-
-    private void initialisePresenter() {
-        this.reminderPresenter = new ReminderPresenter(Injection.getReminderObject(),
-                this);
     }
 
 }

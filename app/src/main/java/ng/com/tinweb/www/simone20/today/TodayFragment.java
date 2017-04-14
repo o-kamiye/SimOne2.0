@@ -14,11 +14,12 @@ import android.widget.Toast;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 import ng.com.tinweb.www.simone20.R;
 import ng.com.tinweb.www.simone20.SimOne;
-import ng.com.tinweb.www.simone20.data.reminder.Reminder;
+import ng.com.tinweb.www.simone20.data.reminder.SimOneReminder;
 import ng.com.tinweb.www.simone20.databinding.FragmentTodayBinding;
-import ng.com.tinweb.www.simone20.helper.Injection;
 import ng.com.tinweb.www.simone20.util.LinearLayoutDecorator;
 
 public class TodayFragment extends Fragment implements ITodayView,
@@ -26,14 +27,20 @@ public class TodayFragment extends Fragment implements ITodayView,
 
 
     private FragmentTodayBinding fragmentTodayBinding;
-    private ITodayPresenter todayPresenter;
+
+    @Inject
+    TodayPresenter todayPresenter;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        SimOne.get(getActivity().getApplication())
+                .getAppComponent()
+                .subComponent(new TodayModule(this))
+                .inject(this);
+
         setHasOptionsMenu(true);
-        this.todayPresenter = new TodayPresenter(Injection.getReminderObject(),
-                this);
     }
 
     @Override
@@ -58,12 +65,12 @@ public class TodayFragment extends Fragment implements ITodayView,
     }
 
     @Override
-    public void onRemindersLoaded(List<Reminder> reminders) {
-        // Set total reminders for the day
+    public void onRemindersLoaded(List<SimOneReminder> simOneReminders) {
+        // Set total simOneReminders for the day
         fragmentTodayBinding.todayCallsTextView.setText(getResources()
                 .getQuantityString(R.plurals.no_of_calls_today,
-                        reminders.size(), reminders.size()));
-        // TODO use reminders here to make content a bit more dynamic
+                        simOneReminders.size(), simOneReminders.size()));
+        // TODO use simOneReminders here to make content a bit more dynamic
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         fragmentTodayBinding.todayCallsRecyclerView.setLayoutManager(layoutManager);
         fragmentTodayBinding.todayCallsRecyclerView.setAdapter(new TodayAdapter(this));

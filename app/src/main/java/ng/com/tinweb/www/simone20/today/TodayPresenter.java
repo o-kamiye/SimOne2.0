@@ -4,7 +4,9 @@ import java.lang.ref.WeakReference;
 import java.util.HashMap;
 import java.util.List;
 
-import ng.com.tinweb.www.simone20.data.reminder.Reminder;
+import javax.inject.Inject;
+
+import ng.com.tinweb.www.simone20.data.reminder.SimOneReminder;
 
 /**
  * Created by kamiye on 04/09/2016.
@@ -12,20 +14,21 @@ import ng.com.tinweb.www.simone20.data.reminder.Reminder;
 class TodayPresenter implements ITodayPresenter {
 
     private WeakReference<ITodayView> todayView;
-    private Reminder reminder;
+    private SimOneReminder simOneReminder;
 
-    TodayPresenter(Reminder reminder, ITodayView todayView) {
+    @Inject
+    TodayPresenter(SimOneReminder simOneReminder, ITodayView todayView) {
         this.todayView = new WeakReference<>(todayView);
-        this.reminder = reminder;
+        this.simOneReminder = simOneReminder;
     }
 
     @Override
     public void loadReminders() {
-        reminder.getAll(true, new Reminder.GetAllCallback() {
+        simOneReminder.getAll(true, new SimOneReminder.GetAllCallback() {
             @Override
-            public void onSuccess(HashMap<String, String> metaData, List<Reminder> reminders) {
+            public void onSuccess(HashMap<String, String> metaData, List<SimOneReminder> simOneReminders) {
                 if (todayView.get() != null) {
-                    todayView.get().onRemindersLoaded(reminders);
+                    todayView.get().onRemindersLoaded(simOneReminders);
                 }
             }
 

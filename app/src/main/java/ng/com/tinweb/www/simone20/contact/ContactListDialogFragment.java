@@ -15,10 +15,12 @@ import android.widget.TextView;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 import ng.com.tinweb.www.simone20.R;
+import ng.com.tinweb.www.simone20.SimOne;
 import ng.com.tinweb.www.simone20.data.contact.SimOneContact;
 import ng.com.tinweb.www.simone20.databinding.FragmentContactListBinding;
-import ng.com.tinweb.www.simone20.helper.Injection;
 import ng.com.tinweb.www.simone20.reminder.SetReminderDialogFragment;
 import ng.com.tinweb.www.simone20.util.LinearLayoutDecorator;
 
@@ -36,6 +38,9 @@ public class ContactListDialogFragment extends DialogFragment
     private IContactPresenter contactPresenter;
     private String searchQuery;
 
+    @Inject
+    SimOneContact simOneContact;
+
     public static ContactListDialogFragment getInstance(String searchQuery) {
         ContactListDialogFragment dialogFragment = new ContactListDialogFragment();
         Bundle bundle = new Bundle();
@@ -48,6 +53,11 @@ public class ContactListDialogFragment extends DialogFragment
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        SimOne.get(getActivity().getApplication())
+                .getAppComponent()
+                .inject(this);
+
         searchQuery = getArguments().getString(BUNDLE_KEY);
 
         initialisePresenter();
@@ -104,6 +114,6 @@ public class ContactListDialogFragment extends DialogFragment
     }
 
     private void initialisePresenter() {
-        this.contactPresenter = new Presenter(this, Injection.getSimOneContact());
+        this.contactPresenter = new Presenter(this, simOneContact);
     }
 }

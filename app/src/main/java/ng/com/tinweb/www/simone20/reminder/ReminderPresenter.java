@@ -1,15 +1,14 @@
 package ng.com.tinweb.www.simone20.reminder;
 
-import android.util.Log;
-
 import java.lang.ref.WeakReference;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.inject.Inject;
+
 import ng.com.tinweb.www.simone20.data.group.SimOneGroup;
-import ng.com.tinweb.www.simone20.data.reminder.Reminder;
+import ng.com.tinweb.www.simone20.data.reminder.SimOneReminder;
 
 /**
  * Created by kamiye on 08/09/2016.
@@ -17,20 +16,21 @@ import ng.com.tinweb.www.simone20.data.reminder.Reminder;
 class ReminderPresenter implements IReminderPresenter {
 
     private WeakReference<IReminderView> reminderView;
-    private Reminder reminder;
+    private SimOneReminder simOneReminder;
 
-    ReminderPresenter(Reminder reminder, IReminderView reminderView) {
-        this.reminder = reminder;
+    @Inject
+    ReminderPresenter(SimOneReminder simOneReminder, IReminderView reminderView) {
+        this.simOneReminder = simOneReminder;
         this.reminderView = new WeakReference<>(reminderView);
     }
 
     @Override
     public void loadReminders() {
-        reminder.getAll(false, new Reminder.GetAllCallback() {
+        simOneReminder.getAll(false, new SimOneReminder.GetAllCallback() {
             @Override
-            public void onSuccess(HashMap<String, String> metaData, List<Reminder> reminders) {
+            public void onSuccess(HashMap<String, String> metaData, List<SimOneReminder> simOneReminders) {
                 if (reminderView.get() != null) {
-                    reminderView.get().onRemindersLoaded(reminders);
+                    reminderView.get().onRemindersLoaded(simOneReminders);
                     int totalDueThisWeek = Integer.valueOf(metaData.get("dueWeekly"));
                     reminderView.get().setWeekReminderTextView(totalDueThisWeek);
                 }
@@ -48,8 +48,8 @@ class ReminderPresenter implements IReminderPresenter {
     @Override
     public void deleteReminder(String contactId) {
         if (reminderView.get() != null) {
-            // TODO get the reminder from the contactId
-            // TODO call the remove method on the reminder object
+            // TODO get the simOneReminder from the contactId
+            // TODO call the remove method on the simOneReminder object
             // TODO if the removal was successful, then call the view's remove successful callback method
             reminderView.get().showDeleteSuccessInfo();
             // TODO if the removal was unsuccessful, then call the view's remove unsuccessful callback method
@@ -60,22 +60,22 @@ class ReminderPresenter implements IReminderPresenter {
     static class SetReminderPresenter implements IReminderFragmentPresenter {
 
         private WeakReference<IReminderView.IReminderFragmentView> fragmentView;
-        private Reminder reminder;
+        private SimOneReminder simOneReminder;
         private SimOneGroup simOneGroup;
 
         SetReminderPresenter(IReminderView.IReminderFragmentView fragmentView,
-                             Reminder reminder, SimOneGroup simOneGroup) {
+                             SimOneReminder simOneReminder, SimOneGroup simOneGroup) {
             this.fragmentView = new WeakReference<>(fragmentView);
-            this.reminder = reminder;
+            this.simOneReminder = simOneReminder;
             this.simOneGroup = simOneGroup;
         }
 
         @Override
         public void setReminder(String contactGroup, int interval, boolean isUpdate) {
             if (fragmentView.get() != null) {
-                reminder.setContactGroup(contactGroup);
-                reminder.setInterval(interval);
-                reminder.set(isUpdate, new Reminder.ActionCallback() {
+                simOneReminder.setContactGroup(contactGroup);
+                simOneReminder.setInterval(interval);
+                simOneReminder.set(isUpdate, new SimOneReminder.ActionCallback() {
                     @Override
                     public void onSuccess() {
                         fragmentView.get().onSetReminderSuccess();
@@ -83,7 +83,7 @@ class ReminderPresenter implements IReminderPresenter {
 
                     @Override
                     public void onError(int errorCode) {
-                        fragmentView.get().onSetReminderError("Oops! Please try setting reminder again");
+                        fragmentView.get().onSetReminderError("Oops! Please try setting simOneReminder again");
                     }
                 });
             }

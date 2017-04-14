@@ -11,9 +11,12 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import javax.inject.Inject;
+
 import ng.com.tinweb.www.simone20.R;
+import ng.com.tinweb.www.simone20.SimOne;
+import ng.com.tinweb.www.simone20.data.group.SimOneGroup;
 import ng.com.tinweb.www.simone20.databinding.FragmentAddGroupBinding;
-import ng.com.tinweb.www.simone20.helper.Injection;
 
 /**
  * Created by kamiye on 09/10/2016.
@@ -25,6 +28,9 @@ public class AddGroupDialogFragment extends DialogFragment
     private FragmentAddGroupBinding fragmentAddGroupBinding;
     private IGroupPresenter.IAddGroupPresenter fragmentPresenter;
 
+    @Inject
+    SimOneGroup simOneGroup;
+
     public static AddGroupDialogFragment getInstance() {
         return new AddGroupDialogFragment();
     }
@@ -32,6 +38,11 @@ public class AddGroupDialogFragment extends DialogFragment
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        SimOne.get(getActivity().getApplication())
+                .getAppComponent()
+                .inject(this);
+
         initialisePresenter();
     }
 
@@ -91,6 +102,6 @@ public class AddGroupDialogFragment extends DialogFragment
 
     private void initialisePresenter() {
         fragmentPresenter = new GroupPresenter.AddGroupPresenter(this,
-                Injection.getSimOneGroup());
+                simOneGroup);
     }
 }
