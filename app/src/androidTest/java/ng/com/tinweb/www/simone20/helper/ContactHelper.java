@@ -1,8 +1,8 @@
 package ng.com.tinweb.www.simone20.helper;
-import java.util.ArrayList;
 
 import android.content.ContentProviderOperation;
 import android.content.ContentResolver;
+import android.content.Context;
 import android.content.OperationApplicationException;
 import android.database.Cursor;
 import android.net.Uri;
@@ -12,6 +12,8 @@ import android.provider.ContactsContract.CommonDataKinds.Phone;
 import android.provider.ContactsContract.PhoneLookup;
 import android.provider.ContactsContract.RawContacts;
 import android.util.Log;
+
+import java.util.ArrayList;
 
 import ng.com.tinweb.www.simone20.data.contact.SimOneContact;
 
@@ -41,7 +43,9 @@ public class ContactHelper {
                         ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME
                                 + " ASC");
             }
-            cur.moveToFirst();
+            if (cur != null) {
+                cur.moveToFirst();
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -116,8 +120,8 @@ public class ContactHelper {
         return true;
     }
 
-    public static void insertSimOneContact(String contactName) {
-        SimOneContact contact = new SimOneContact();
+    public static void insertSimOneContact(Context context, String contactName) {
+        SimOneContact contact = new SimOneContact(context);
         contact.syncOne(contactName, new SimOneContact.SyncCallback() {
             @Override
             public void onSuccess() {
@@ -148,8 +152,8 @@ public class ContactHelper {
         }
     }
 
-    public static void deleteSimOneContact(String contactName) {
-        SimOneContact contact = new SimOneContact();
+    public static void deleteSimOneContact(Context context, String contactName) {
+        SimOneContact contact = new SimOneContact(context);
         contact.delete(contactName, new SimOneContact.SyncCallback() {
             @Override
             public void onSuccess() {
