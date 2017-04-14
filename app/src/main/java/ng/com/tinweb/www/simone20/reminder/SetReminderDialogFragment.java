@@ -145,7 +145,8 @@ public class SetReminderDialogFragment extends DialogFragment
             }
             else if (checkedId == fragmentAddReminderBinding.groupRadioButton.getId()) {
                 String groupName = (String) fragmentAddReminderBinding.groupListSpinner.getSelectedItem();
-                fragmentPresenter.setReminder(groupName, groupsMap.get(groupName), isEditMode);
+                if (groupName != null)
+                    fragmentPresenter.setReminder(groupName, groupsMap.get(groupName), isEditMode);
             }
         }
     }

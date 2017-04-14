@@ -83,7 +83,7 @@ class ReminderPresenter implements IReminderPresenter {
 
                     @Override
                     public void onError(int errorCode) {
-                        fragmentView.get().onSetReminderError("Oops! Please try setting simOneReminder again");
+                        fragmentView.get().onSetReminderError("Oops! Please try setting Reminder again");
                     }
                 });
             }

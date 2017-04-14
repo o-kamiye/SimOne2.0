@@ -36,6 +36,8 @@ public class ReminderFragment extends Fragment implements IReminderView,
 
     private FragmentReminderBinding fragmentBinding;
     private SearchView searchView;
+    private LinearLayoutManager linearLayoutManager;
+    private LinearLayoutDecorator layoutDecorator;
 
     @Inject
     ReminderPresenter reminderPresenter;
@@ -50,6 +52,9 @@ public class ReminderFragment extends Fragment implements IReminderView,
                 .inject(this);
 
         setHasOptionsMenu(true);
+
+        linearLayoutManager = new LinearLayoutManager(getContext());
+        layoutDecorator = new LinearLayoutDecorator(getContext(), null);
     }
 
     @Override
@@ -75,17 +80,16 @@ public class ReminderFragment extends Fragment implements IReminderView,
         fragmentBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_reminder,
                 container, false);
 
-        reminderPresenter.loadReminders();
+        loadReminders();
+        fragmentBinding.weeklyRemindersRecyclerView.setLayoutManager(linearLayoutManager);
+        fragmentBinding.weeklyRemindersRecyclerView.addItemDecoration(layoutDecorator);
         return fragmentBinding.getRoot();
     }
 
     @Override
     public void onRemindersLoaded(List<SimOneReminder> simOneReminders) {
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
-        fragmentBinding.weeklyRemindersRecyclerView.setLayoutManager(linearLayoutManager);
-        fragmentBinding.weeklyRemindersRecyclerView.setAdapter(new ReminderAdapter(simOneReminders, this));
-        fragmentBinding.weeklyRemindersRecyclerView.addItemDecoration(new LinearLayoutDecorator(getContext(), null));
-
+        fragmentBinding.weeklyRemindersRecyclerView.setAdapter(new ReminderAdapter(simOneReminders,
+                this));
         fragmentBinding.remindersFAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -133,5 +137,10 @@ public class ReminderFragment extends Fragment implements IReminderView,
     public void onDeleteAction(SimOneReminder simOneReminder) {
         //reminderPresenter.deleteReminder(contactId);
     }
+
+    public void loadReminders() {
+        reminderPresenter.loadReminders();
+    }
+
 
 }

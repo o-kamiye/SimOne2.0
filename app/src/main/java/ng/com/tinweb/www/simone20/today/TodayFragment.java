@@ -79,7 +79,7 @@ public class TodayFragment extends Fragment implements ITodayView,
 
     @Override
     public void callContact(String contactName) {
-        Toast.makeText(SimOne.getContext(), "I am going to call " + contactName, Toast.LENGTH_LONG)
+        Toast.makeText(getContext(), "I am going to call " + contactName, Toast.LENGTH_LONG)
                 .show();
     }
 

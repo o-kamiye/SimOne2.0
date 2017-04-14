@@ -141,7 +141,7 @@ public class SimOneReminder extends SimOneContact {
 
         public SimOneReminder create() {
             simOneReminder.setContactId(contactId);
-            simOneReminder.setContactGroup(contactName);
+            simOneReminder.setContactName(contactName);
             simOneReminder.setContactGroup(contactGroup);
             simOneReminder.setInterval(interval);
             simOneReminder.setDaysLeft(daysLeft);

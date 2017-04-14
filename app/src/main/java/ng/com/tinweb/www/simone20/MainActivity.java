@@ -23,6 +23,7 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
     public static final String CONTACT_LIST_FRAGMENT_TAG = "search_result";
 
     private ActivityMainBinding activityMainBinding;
+    private NavigationPagerAdapter navigationPagerAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,18 +77,22 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
     @Override
     public void onPageSelected(int position) {
         activityMainBinding.bottomNavigation.selectTab(position);
-        String[] pageTitles = SimOne.getPageTitles();
+        String[] pageTitles = getResources()
+                .getStringArray(R.array.pageTitles);
         setTitle(pageTitles[position]);
+        navigationPagerAdapter.refreshPage(position);
     }
 
     @Override
     public void onPageScrollStateChanged(int state) {}
 
     private void setUpViewPager() {
-        NavigationPagerAdapter navigationPagerAdapter = new NavigationPagerAdapter(getSupportFragmentManager());
+        navigationPagerAdapter =
+                new NavigationPagerAdapter(getSupportFragmentManager(),
+                        getResources().getStringArray(R.array.bottomNavMenu));
 
-        activityMainBinding.container.setAdapter(navigationPagerAdapter);
-        activityMainBinding.container.addOnPageChangeListener(this);
+        activityMainBinding.viewPager.setAdapter(navigationPagerAdapter);
+        activityMainBinding.viewPager.addOnPageChangeListener(this);
     }
 
     private void setUpBottomNav() {
@@ -97,7 +102,7 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
                 R.drawable.reminder_icon,
                 R.drawable.group_icon
         };
-        activityMainBinding.bottomNavigation.setUpWithViewPager(activityMainBinding.container,
+        activityMainBinding.bottomNavigation.setUpWithViewPager(activityMainBinding.viewPager,
                 colourResources, imageResources);
     }
 

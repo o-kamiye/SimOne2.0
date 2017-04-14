@@ -25,7 +25,8 @@ class ReminderAdapter extends RecyclerView.Adapter<ReminderAdapter.ViewHolder> {
     private RemindersListBinding remindersBinding;
     private boolean isThisWeek = true;
 
-    ReminderAdapter(List<SimOneReminder> simOneReminders, ReminderActionsListener reminderActionsListener) {
+    ReminderAdapter(List<SimOneReminder> simOneReminders,
+                    ReminderActionsListener reminderActionsListener) {
         this.simOneReminders = simOneReminders;
         this.reminderActionsListener = new WeakReference<>(reminderActionsListener);
     }

@@ -13,13 +13,14 @@ import ng.com.tinweb.www.simone20.today.TodayFragment;
  */
 class NavigationPagerAdapter extends FragmentPagerAdapter {
 
-    private String[] navMenu = SimOne.getNavMenu();
+    private String[] navMenu;
     private TodayFragment todayFragment;
     private ReminderFragment reminderFragment;
     private GroupFragment groupFragment;
 
-    NavigationPagerAdapter(FragmentManager fragmentManager) {
+    NavigationPagerAdapter(FragmentManager fragmentManager, String[] navMenu) {
         super(fragmentManager);
+        this.navMenu = navMenu;
     }
 
     @Override
@@ -53,5 +54,12 @@ class NavigationPagerAdapter extends FragmentPagerAdapter {
     @Override
     public CharSequence getPageTitle(int position) {
         return navMenu[position];
+    }
+
+    void refreshPage(int position) {
+        switch (position) {
+            case 1:
+                reminderFragment.loadReminders();
+        }
     }
 }
