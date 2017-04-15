@@ -20,7 +20,7 @@ import static org.mockito.Mockito.verify;
 public class GroupPresenterTest {
 
     @Mock
-    private IGroupView groupView;
+    private GroupContract.View view;
 
     @Mock
     private SimOneGroup simOneGroup;
@@ -33,7 +33,7 @@ public class GroupPresenterTest {
     @Before
     public void setUpTest() {
         MockitoAnnotations.initMocks(this);
-        groupPresenter = new GroupPresenter(simOneGroup, groupView);
+        groupPresenter = new GroupPresenter(simOneGroup, view);
     }
 
     @Test
@@ -42,7 +42,7 @@ public class GroupPresenterTest {
         groupPresenter.loadGroups();
         verify(simOneGroup).getAll(getAllArgumentCaptor.capture());
         getAllArgumentCaptor.getValue().onSuccess(groups);
-        verify(groupView).onGroupsLoaded(groups);
+        verify(view).onGroupsLoaded(groups);
     }
 
     @Test
@@ -50,7 +50,7 @@ public class GroupPresenterTest {
         groupPresenter.loadGroups();
         verify(simOneGroup).getAll(getAllArgumentCaptor.capture());
         getAllArgumentCaptor.getValue().onError(2);
-        verify(groupView).onGroupsLoadingError("An unknown error occurred");
+        verify(view).onGroupsLoadingError("An unknown error occurred");
     }
 
     @Test

@@ -15,8 +15,8 @@
     <string name="reminder_fragment_icon">Reminder Fragment Icon</string>
     <string name="group_fragment_icon">Group Fragment Icon</string>
     <string name="contact_search_title">Search results for \"%1s\"</string>
-    <string name="add_reminder_fragment_title">Set simOneReminder for %1s</string>
-    <string name="update_reminder_fragment_title">Update simOneReminder for %1s</string>
+    <string name="add_reminder_fragment_title">Set Reminder for %1s</string>
+    <string name="update_reminder_fragment_title">Update Reminder for %1s</string>
     <string name="button_save">Save</string>
     <string name="button_cancel">Cancel</string>
     <string name="enter_interval">Enter interval</string>
@@ -30,6 +30,7 @@
     <string name="name">Name</string>
     <string name="txt_update">Update</string>
     <string name="update_reminder_success">Reminder updated successfully</string>
+    <string name="status_badge"><![CDATA[<big>%1d</big><br/><small>days</small>]]></string>
 
     <string-array name="bottomNavMenu">
         <item>Today</item>

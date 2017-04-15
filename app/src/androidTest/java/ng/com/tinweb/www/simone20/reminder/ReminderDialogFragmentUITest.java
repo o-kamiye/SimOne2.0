@@ -41,7 +41,7 @@ import static org.hamcrest.core.AllOf.allOf;
  */
 @RunWith(AndroidJUnit4.class)
 @LargeTest
-public class SetSimOneReminderDialogFragmentUITest {
+public class ReminderDialogFragmentUITest {
 
     @Rule
     public ActivityTestRule<MainActivity> activityTestRule =
@@ -119,7 +119,7 @@ public class SetSimOneReminderDialogFragmentUITest {
 
         pressBack();
 
-        onView(withChild(withId(R.id.container))).perform(swipeLeft());
+        onView(withChild(withId(R.id.viewPager))).perform(swipeLeft());
 
         // Click on test reminder's edit action
         onView(withId(R.id.weeklyRemindersRecyclerView))
@@ -144,7 +144,7 @@ public class SetSimOneReminderDialogFragmentUITest {
 
         pressBack();
 
-        onView(withChild(withId(R.id.container))).perform(swipeLeft());
+        onView(withChild(withId(R.id.viewPager))).perform(swipeLeft());
 
         // Click on test reminder's edit action
         onView(withId(R.id.weeklyRemindersRecyclerView))

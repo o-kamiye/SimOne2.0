@@ -22,17 +22,17 @@ import ng.com.tinweb.www.simone20.databinding.FragmentAddGroupBinding;
  * Created by kamiye on 09/10/2016.
  */
 
-public class AddGroupDialogFragment extends DialogFragment
-        implements View.OnClickListener, IGroupView.IGroupFragmentView {
+public class GroupDialogFragment extends DialogFragment
+        implements View.OnClickListener, DialogFragmentContract.View {
 
     private FragmentAddGroupBinding fragmentAddGroupBinding;
-    private IGroupPresenter.IAddGroupPresenter fragmentPresenter;
+    private DialogFragmentContract.Presenter fragmentPresenter;
 
     @Inject
     SimOneGroup simOneGroup;
 
-    public static AddGroupDialogFragment getInstance() {
-        return new AddGroupDialogFragment();
+    public static GroupDialogFragment getInstance() {
+        return new GroupDialogFragment();
     }
 
     @Override

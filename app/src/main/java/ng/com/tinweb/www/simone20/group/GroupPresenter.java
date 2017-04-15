@@ -11,12 +11,12 @@ import static ng.com.tinweb.www.simone20.data.group.SimOneGroup.GROUP_EXISTS_ERR
 /**
  * Created by kamiye on 11/09/2016.
  */
-class GroupPresenter implements IGroupPresenter {
+class GroupPresenter implements GroupContract.Presenter {
 
-    private WeakReference<IGroupView> groupView;
+    private WeakReference<GroupContract.View> groupView;
     private SimOneGroup simOneGroup;
 
-    GroupPresenter(SimOneGroup simOneGroup, IGroupView groupView) {
+    GroupPresenter(SimOneGroup simOneGroup, GroupContract.View groupView) {
         this.groupView = new WeakReference<>(groupView);
         this.simOneGroup = simOneGroup;
     }
@@ -60,12 +60,12 @@ class GroupPresenter implements IGroupPresenter {
         }
     }
 
-    static class AddGroupPresenter implements IGroupPresenter.IAddGroupPresenter{
+    static class AddGroupPresenter implements DialogFragmentContract.Presenter {
 
-        private WeakReference<IGroupView.IGroupFragmentView> fragmentView;
+        private WeakReference<DialogFragmentContract.View> fragmentView;
         private SimOneGroup simOneGroup;
 
-        AddGroupPresenter(IGroupView.IGroupFragmentView fragmentView, SimOneGroup simOneGroup) {
+        AddGroupPresenter(DialogFragmentContract.View fragmentView, SimOneGroup simOneGroup) {
             this.fragmentView = new WeakReference<>(fragmentView);
             this.simOneGroup = simOneGroup;
         }

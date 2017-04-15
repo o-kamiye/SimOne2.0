@@ -1,7 +1,5 @@
 package ng.com.tinweb.www.simone20.group;
 
-import android.os.SystemClock;
-import android.support.test.espresso.contrib.RecyclerViewActions;
 import android.support.test.rule.ActivityTestRule;
 
 import org.junit.Before;
@@ -10,7 +8,6 @@ import org.junit.Test;
 
 import ng.com.tinweb.www.simone20.MainActivity;
 import ng.com.tinweb.www.simone20.R;
-import ng.com.tinweb.www.simone20.helper.RecyclerViewAction;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
@@ -20,7 +17,6 @@ import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withChild;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
-import static ng.com.tinweb.www.simone20.helper.ToastMatcher.isToast;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.core.AllOf.allOf;
 
@@ -42,8 +38,8 @@ public class GroupFragmentUITest {
                 activityTestRule.getActivity().recreate();
             }
         });
-        onView(withChild(withId(R.id.container))).perform(swipeLeft());
-        onView(withChild(withId(R.id.container))).perform(swipeLeft());
+        onView(withChild(withId(R.id.viewPager))).perform(swipeLeft());
+        onView(withChild(withId(R.id.viewPager))).perform(swipeLeft());
         onView(allOf(withId(R.id.bottom_navigation_container), withChild(withText("Groups"))))
                 .perform(click());
     }

@@ -12,18 +12,16 @@ import ng.com.tinweb.www.simone20.di.DaggerAppComponent;
  */
 public class SimOne extends Application {
 
-    private static Context context;
-    private static String[] navMenu;
-
     private AppComponent appComponent;
 
     @Override
     public void onCreate() {
         super.onCreate();
 
-        context = this;
-
-//        SimOneContact contact = new SimOneContact();
+//        SimOneContact contact = new SimOneContact(this);
+//
+//        new PhoneContact().generateMany(this);
+//
 //        contact.syncAll(new SimOneContact.SyncCallback() {
 //            @Override
 //            public void onSuccess() {
@@ -48,20 +46,6 @@ public class SimOne extends Application {
 
     public static SimOne get(Context context) {
         return (SimOne) context;
-    }
-
-    public static Context getContext() {
-        return context;
-    }
-
-    public static String[] getNavMenu() {
-        return context.getResources()
-                .getStringArray(R.array.bottomNavMenu);
-    }
-
-    public static String[] getPageTitles() {
-        return context.getResources()
-                .getStringArray(R.array.pageTitles);
     }
 
 }

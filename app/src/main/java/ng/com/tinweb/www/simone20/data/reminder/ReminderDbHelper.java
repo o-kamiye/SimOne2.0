@@ -46,11 +46,11 @@ class ReminderDbHelper extends BaseDbHelper implements DataStore {
         Log.d("date_due", dueDate);
 
         ContentValues values = new ContentValues();
+
         values.put(DbContract.ContactSchema.COLUMN_NAME_DATE_DUE, dueDate);
-        if (contactGroupName != null) {
-            values.put(DbContract.ContactSchema.COLUMN_NAME_CONTACT_GROUP,
-                    contactGroupName);
-        }
+
+        values.put(DbContract.ContactSchema.COLUMN_NAME_CONTACT_GROUP, contactGroupName);
+
         if (interval != 0) {
             values.put(DbContract.ContactSchema.COLUMN_NAME_REMINDER_INTERVAL,
                     interval);

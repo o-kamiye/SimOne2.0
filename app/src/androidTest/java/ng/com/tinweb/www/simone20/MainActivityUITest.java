@@ -62,13 +62,13 @@ public class MainActivityUITest {
                 .check(matches(isDisplayed()));
 
         // Reminders Navigation
-        onView(withChild(withId(R.id.container))).perform(swipeLeft());
+        onView(withChild(withId(R.id.viewPager))).perform(swipeLeft());
 
         onView(allOf(withId(R.id.bottom_navigation_item_title), withText("Reminders")))
                 .check(matches(isDisplayed()));
 
         // Groups Navigation
-        onView(withChild(withId(R.id.container))).perform(swipeLeft());
+        onView(withChild(withId(R.id.viewPager))).perform(swipeLeft());
 
         onView(allOf(withId(R.id.bottom_navigation_item_title), withText("Groups")))
                 .check(matches(isDisplayed()));

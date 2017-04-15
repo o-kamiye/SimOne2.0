@@ -1,5 +1,6 @@
 package ng.com.tinweb.www.simone20.reminder;
 
+import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -31,18 +32,19 @@ import ng.com.tinweb.www.simone20.databinding.FragmentAddReminderBinding;
  * Created by kamiye on 28/09/2016.
  */
 
-public class SetReminderDialogFragment extends DialogFragment
-        implements IReminderView.IReminderFragmentView, View.OnClickListener,
+public class ReminderDialogFragment extends DialogFragment
+        implements DialogFragmentContract.View, View.OnClickListener,
         RadioGroup.OnCheckedChangeListener {
 
     private static final String INPUT_BUNDLE = "input_fragment";
 
-    private IReminderPresenter.IReminderFragmentPresenter fragmentPresenter;
+    private DialogFragmentContract.Presenter fragmentPresenter;
     private FragmentAddReminderBinding fragmentAddReminderBinding;
     private SimOneContact contact;
     private Map<String, Integer> groupsMap;
     private boolean isEditMode;
     private ArrayAdapter<String> groupListAdapter;
+    private InteractionListener interactionListener;
 
     @Inject
     SimOneReminder simOneReminder;
@@ -50,8 +52,8 @@ public class SetReminderDialogFragment extends DialogFragment
     @Inject
     SimOneGroup simOneGroup;
 
-    public static SetReminderDialogFragment getInstance(SimOneContact contact) {
-        SetReminderDialogFragment inputFragment = new SetReminderDialogFragment();
+    public static ReminderDialogFragment getInstance(SimOneContact contact) {
+        ReminderDialogFragment inputFragment = new ReminderDialogFragment();
 
         Bundle bundle = new Bundle();
 
@@ -78,11 +80,24 @@ public class SetReminderDialogFragment extends DialogFragment
         this.fragmentPresenter = null;
     }
 
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof InteractionListener) {
+            interactionListener = (InteractionListener) context;
+        }
+        else {
+            throw new RuntimeException(context +
+                    " must implement ReminderDialogFragment.InteractionListener");
+        }
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        fragmentAddReminderBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_add_reminder,
+        fragmentAddReminderBinding = DataBindingUtil.inflate(inflater,
+                R.layout.fragment_add_reminder,
                 container, false);
         setTitleDimension();
         populateGroupListSpinner();
@@ -97,6 +112,7 @@ public class SetReminderDialogFragment extends DialogFragment
 
     @Override
     public void onSetReminderSuccess() {
+        interactionListener.onReminderSet();
         dismiss();
         String successMessage = (isEditMode) ? getString(R.string.update_reminder_success) :
                 getString(R.string.add_reminder_success_toast,
@@ -132,9 +148,11 @@ public class SetReminderDialogFragment extends DialogFragment
             dismiss();
         }
         if (view.getId() == fragmentAddReminderBinding.saveButton.getId()) {
-            int checkedId = fragmentAddReminderBinding.reminderSelectionRadioGroup.getCheckedRadioButtonId();
+            int checkedId = fragmentAddReminderBinding.reminderSelectionRadioGroup
+                    .getCheckedRadioButtonId();
             if (checkedId == fragmentAddReminderBinding.intervalRadioButton.getId()) {
-                String intervalInput = fragmentAddReminderBinding.intervalEditText.getText().toString();
+                String intervalInput = fragmentAddReminderBinding.intervalEditText.
+                        getText().toString();
                 if (intervalInput.equals("")) {
                     fragmentAddReminderBinding.inputErrorTextView.setVisibility(View.VISIBLE);
                 }
@@ -144,8 +162,12 @@ public class SetReminderDialogFragment extends DialogFragment
                 }
             }
             else if (checkedId == fragmentAddReminderBinding.groupRadioButton.getId()) {
-                String groupName = (String) fragmentAddReminderBinding.groupListSpinner.getSelectedItem();
-                fragmentPresenter.setReminder(groupName, groupsMap.get(groupName), isEditMode);
+                String groupName = (String) fragmentAddReminderBinding.groupListSpinner
+                        .getSelectedItem();
+                if (groupName == null)
+                    fragmentAddReminderBinding.inputErrorTextView.setVisibility(View.VISIBLE);
+                else
+                    fragmentPresenter.setReminder(groupName, groupsMap.get(groupName), isEditMode);
             }
         }
     }
@@ -185,7 +207,8 @@ public class SetReminderDialogFragment extends DialogFragment
         SimOneReminder simOneReminder = (SimOneReminder) contact;
         if (simOneReminder.getContactGroup() == null) {
             fragmentAddReminderBinding.intervalRadioButton.setChecked(true);
-            fragmentAddReminderBinding.intervalEditText.setText(String.valueOf(simOneReminder.getInterval()));
+            fragmentAddReminderBinding.intervalEditText
+                    .setText(String.valueOf(simOneReminder.getInterval()));
         }
         else {
             fragmentAddReminderBinding.groupRadioButton.setChecked(true);
@@ -208,5 +231,11 @@ public class SetReminderDialogFragment extends DialogFragment
         titleTextView.setTextColor(ContextCompat.getColor(getContext(), R.color.colorPrimaryDark));
         titleTextView.setTextSize(16);
         titleTextView.setPadding(40,40,0,40);
+    }
+
+    public interface InteractionListener {
+
+        void onReminderSet();
+
     }
 }

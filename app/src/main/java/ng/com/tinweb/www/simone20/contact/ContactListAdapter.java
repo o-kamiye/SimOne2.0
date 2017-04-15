@@ -38,7 +38,7 @@ class ContactListAdapter extends RecyclerView.Adapter<ContactListAdapter.ViewHol
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        // TODO set the first letter here
+        // TODO save the first letter here
         String name = contactList.get(position).getName();
 
         contactListBinding.contactNameTextView.setText(name);

@@ -1,5 +1,6 @@
 package ng.com.tinweb.www.simone20.reminder;
 
+import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.os.Build;
 import android.support.v7.widget.RecyclerView;
@@ -21,12 +22,13 @@ import ng.com.tinweb.www.simone20.databinding.RemindersListBinding;
 class ReminderAdapter extends RecyclerView.Adapter<ReminderAdapter.ViewHolder> {
 
     private WeakReference<ReminderActionsListener> reminderActionsListener;
-    private List<SimOneReminder> simOneReminders;
+    private List<SimOneReminder> reminders;
     private RemindersListBinding remindersBinding;
     private boolean isThisWeek = true;
 
-    ReminderAdapter(List<SimOneReminder> simOneReminders, ReminderActionsListener reminderActionsListener) {
-        this.simOneReminders = simOneReminders;
+    ReminderAdapter(List<SimOneReminder> reminders,
+                    ReminderActionsListener reminderActionsListener) {
+        this.reminders = reminders;
         this.reminderActionsListener = new WeakReference<>(reminderActionsListener);
     }
 
@@ -38,10 +40,13 @@ class ReminderAdapter extends RecyclerView.Adapter<ReminderAdapter.ViewHolder> {
         return new ViewHolder(remindersBinding.getRoot());
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
 
-        SimOneReminder simOneReminder = simOneReminders.get(position);
+        Context context = remindersBinding.getRoot().getContext();
+
+        SimOneReminder simOneReminder = reminders.get(position);
         remindersBinding.contactNameTextView.setText(simOneReminder.getContactName());
         int daysLeft = simOneReminder.getDaysLeft();
         int interval = simOneReminder.getInterval();
@@ -53,17 +58,18 @@ class ReminderAdapter extends RecyclerView.Adapter<ReminderAdapter.ViewHolder> {
 
         remindersBinding.circularProgressBar.setProgressWithAnimation(progress, 5000);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            remindersBinding.circularInfoTextView.setText(Html.fromHtml("<big>" + daysLeft + "</big>" + "<br />" +
-                    "<small>days</small>", Html.FROM_HTML_MODE_COMPACT));
+            remindersBinding.circularInfoTextView.setText(Html
+                    .fromHtml(context.getString(R.string.status_badge, daysLeft),
+                            Html.FROM_HTML_MODE_COMPACT));
         } else {
-            remindersBinding.circularInfoTextView.setText(Html.fromHtml("<big>" + daysLeft + "</big>" + "<br />" +
-                    "<small>days</small>"));
+            remindersBinding.circularInfoTextView.setText(Html
+                    .fromHtml(context.getString(R.string.status_badge, daysLeft)));
         }
     }
 
     @Override
     public int getItemCount() {
-        return simOneReminders.size();
+        return reminders.size();
     }
 
     class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -77,7 +83,7 @@ class ReminderAdapter extends RecyclerView.Adapter<ReminderAdapter.ViewHolder> {
         @Override
         public void onClick(View view) {
             int position = getAdapterPosition();
-            SimOneReminder simOneReminder = simOneReminders.get(position);
+            SimOneReminder simOneReminder = reminders.get(position);
             if (view.getId() == remindersBinding.editIconImageView.getId()) {
                 if (reminderActionsListener.get() != null) {
                     reminderActionsListener.get().onEditAction(simOneReminder);

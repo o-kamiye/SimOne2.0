@@ -4,10 +4,8 @@ import android.support.test.espresso.contrib.RecyclerViewActions;
 import android.support.test.filters.LargeTest;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
-import android.view.KeyEvent;
 import android.widget.EditText;
 
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -15,14 +13,11 @@ import org.junit.runner.RunWith;
 
 import ng.com.tinweb.www.simone20.MainActivity;
 import ng.com.tinweb.www.simone20.R;
-import ng.com.tinweb.www.simone20.helper.ContactHelper;
 import ng.com.tinweb.www.simone20.helper.RecyclerViewAction;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
-import static android.support.test.espresso.action.ViewActions.pressKey;
 import static android.support.test.espresso.action.ViewActions.swipeLeft;
-import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isAssignableFrom;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
@@ -30,7 +25,6 @@ import static android.support.test.espresso.matcher.ViewMatchers.withChild;
 import static android.support.test.espresso.matcher.ViewMatchers.withHint;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
-import static ng.com.tinweb.www.simone20.helper.ToastMatcher.isToast;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.core.AllOf.allOf;
 
@@ -39,7 +33,7 @@ import static org.hamcrest.core.AllOf.allOf;
  */
 @RunWith(AndroidJUnit4.class)
 @LargeTest
-public class SimOneReminderFragmentUITest {
+public class ReminderFragmentUITest {
 
     @Rule
     public ActivityTestRule<MainActivity> activityTestRule =
@@ -66,7 +60,7 @@ public class SimOneReminderFragmentUITest {
 
     @Test
     public void testEditIconClick() {
-        String titleSubstring = "Update reminder";
+        String titleSubstring = "Update Reminder";
         onView(withId(R.id.weeklyRemindersRecyclerView))
                 .perform(RecyclerViewActions.actionOnItemAtPosition(0,
                         RecyclerViewAction.clickCallIconImageView(R.id.editIconImageView)));

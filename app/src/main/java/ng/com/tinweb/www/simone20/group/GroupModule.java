@@ -11,9 +11,9 @@ import ng.com.tinweb.www.simone20.data.group.SimOneGroup;
 @Module
 public class GroupModule {
 
-    private IGroupView view;
+    private GroupContract.View view;
 
-    GroupModule(IGroupView view) {
+    GroupModule(GroupContract.View view) {
         this.view = view;
     }
 
