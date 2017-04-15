@@ -27,8 +27,6 @@ public class TodayFragment extends Fragment implements TodayContract.View,
 
 
     private FragmentTodayBinding fragmentTodayBinding;
-    private LinearLayoutManager layoutManager;
-    private LinearLayoutDecorator layoutDecorator;
 
     @Inject
     TodayPresenter todayPresenter;
@@ -44,8 +42,6 @@ public class TodayFragment extends Fragment implements TodayContract.View,
 
         setHasOptionsMenu(true);
 
-        layoutManager = new LinearLayoutManager(getContext());
-        layoutDecorator = new LinearLayoutDecorator(getContext(), null);
     }
 
     @Override
@@ -66,8 +62,7 @@ public class TodayFragment extends Fragment implements TodayContract.View,
         fragmentTodayBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_today,
                 container, false);
         setUpTodayFragment();
-        fragmentTodayBinding.todayCallsRecyclerView.setLayoutManager(layoutManager);
-        fragmentTodayBinding.todayCallsRecyclerView.addItemDecoration(layoutDecorator);
+        setupRecyclerView();
         return fragmentTodayBinding.getRoot();
     }
 
@@ -99,6 +94,15 @@ public class TodayFragment extends Fragment implements TodayContract.View,
 
     private void setUpTodayFragment() {
         todayPresenter.loadReminders();
+    }
+
+    private void setupRecyclerView() {
+
+        fragmentTodayBinding.todayCallsRecyclerView
+                .setLayoutManager(new LinearLayoutManager(getContext()));
+
+        fragmentTodayBinding.todayCallsRecyclerView
+                .addItemDecoration(new LinearLayoutDecorator(getContext(), null));
     }
 
 }

@@ -76,7 +76,7 @@ class ReminderPresenter implements ReminderContract.Presenter {
             if (fragmentView.get() != null) {
                 simOneReminder.setContactGroup(contactGroup);
                 simOneReminder.setInterval(interval);
-                simOneReminder.set(isUpdate, new SimOneReminder.ActionCallback() {
+                simOneReminder.save(isUpdate, new SimOneReminder.ActionCallback() {
                     @Override
                     public void onSuccess() {
                         fragmentView.get().onSetReminderSuccess();

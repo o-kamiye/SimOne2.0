@@ -51,7 +51,7 @@ public class SetSimOneReminderPresenterTest {
 
         verify(simOneReminder).setContactGroup(reminderGroup);
         verify(simOneReminder).setInterval(interval);
-        verify(simOneReminder).set(anyBoolean(), callbackArgumentCaptor.capture());
+        verify(simOneReminder).save(anyBoolean(), callbackArgumentCaptor.capture());
         callbackArgumentCaptor.getValue().onSuccess();
         verify(view).onSetReminderSuccess();
     }
@@ -62,7 +62,7 @@ public class SetSimOneReminderPresenterTest {
 
         verify(simOneReminder).setContactGroup(reminderGroup);
         verify(simOneReminder).setInterval(interval);
-        verify(simOneReminder).set(anyBoolean(), callbackArgumentCaptor.capture());
+        verify(simOneReminder).save(anyBoolean(), callbackArgumentCaptor.capture());
         callbackArgumentCaptor.getValue().onError(13);
         verify(view).onSetReminderError("Oops! Please try setting Reminder again");
     }

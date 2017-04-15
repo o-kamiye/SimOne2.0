@@ -69,7 +69,8 @@ public class ReminderFragment extends Fragment implements ReminderContract.View,
         SearchManager searchManager =
                 (SearchManager) getActivity().getSystemService(Context.SEARCH_SERVICE);
         searchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
-        searchView.setSearchableInfo(searchManager.getSearchableInfo(getActivity().getComponentName()));
+        searchView.setSearchableInfo(searchManager
+                .getSearchableInfo(getActivity().getComponentName()));
     }
 
     @Nullable
@@ -122,14 +123,16 @@ public class ReminderFragment extends Fragment implements ReminderContract.View,
 
     @Override
     public void onEditAction(SimOneReminder simOneReminder) {
-        FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
-        Fragment prev = getActivity().getSupportFragmentManager().findFragmentByTag(EDIT_REMINDER_FRAGMENT_TAG);
+        FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager()
+                .beginTransaction();
+        Fragment prev = getActivity().getSupportFragmentManager()
+                .findFragmentByTag(EDIT_REMINDER_FRAGMENT_TAG);
         if (prev != null) {
             fragmentTransaction.remove(prev);
         }
-        ReminderDialogFragment addReminderFragment = ReminderDialogFragment.getInstance(simOneReminder);
-        addReminderFragment.setEditMode(true);
-        fragmentTransaction.add(addReminderFragment, EDIT_REMINDER_FRAGMENT_TAG).commitNow();
+        ReminderDialogFragment dialogFragment = ReminderDialogFragment.getInstance(simOneReminder);
+        dialogFragment.setEditMode(true);
+        fragmentTransaction.add(dialogFragment, EDIT_REMINDER_FRAGMENT_TAG).commitNow();
         //addReminderFragment.show(fragmentTransaction, EDIT_REMINDER_FRAGMENT_TAG);
     }
 

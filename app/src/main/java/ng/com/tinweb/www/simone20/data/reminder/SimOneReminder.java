@@ -24,7 +24,7 @@ public class SimOneReminder extends SimOneContact {
         initialiseDataStore(context);
     }
 
-    public void set(boolean isUpdate, ActionCallback callback) {
+    public void save(boolean isUpdate, ActionCallback callback) {
         dataStore.save(contactId, contactGroup, interval, isUpdate, callback);
     }
 
