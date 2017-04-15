@@ -10,12 +10,13 @@ import ng.com.tinweb.www.simone20.data.reminder.SimOneReminder;
 
 class TodayContract {
 
-    /**
-     * Interface to interact with the presenter
-     */
     interface View {
 
-        void onRemindersLoaded(List<SimOneReminder> simOneReminders);
+        /**
+         * Callback to notify view of loaded reminders
+         * @param reminders loaded reminders
+         */
+        void onRemindersLoaded(List<SimOneReminder> reminders);
 
         /**
          * Callback do display reminder loading error

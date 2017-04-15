@@ -1,9 +1,15 @@
 package ng.com.tinweb.www.simone20.today;
 
+import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.databinding.DataBindingUtil;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
@@ -26,8 +32,11 @@ import ng.com.tinweb.www.simone20.util.LinearLayoutDecorator;
 public class TodayFragment extends Fragment implements TodayContract.View,
         CallActionListener {
 
+    private static final int CALL_PERMISSION_CODE = 27;
 
     private FragmentTodayBinding fragmentBinding;
+    private String contactName;
+    private String phoneNumber;
 
     @Inject
     TodayPresenter todayPresenter;
@@ -59,6 +68,19 @@ public class TodayFragment extends Fragment implements TodayContract.View,
         setUpTodayFragment();
         setupRecyclerView();
         return fragmentBinding.getRoot();
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+
+        if (requestCode == CALL_PERMISSION_CODE
+                && grantResults.length > 0
+                && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+            callContact(contactName, phoneNumber);
+
+        }
+
     }
 
     @Override
@@ -98,8 +120,41 @@ public class TodayFragment extends Fragment implements TodayContract.View,
     }
 
     private void callContact(String contactName, String phoneNumber) {
-        Toast.makeText(getContext(), "Name: " + contactName + ", Phone: " + phoneNumber, Toast.LENGTH_LONG)
-                .show();
+
+        Uri number = Uri.parse("tel:" + phoneNumber);
+
+        if (ActivityCompat.checkSelfPermission(getContext(),
+                Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+            // Should we show an explanation?
+            if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(),
+                    Manifest.permission.CALL_PHONE)) {
+
+                Toast.makeText(getContext(), "Permission needed to make phone call",
+                        Toast.LENGTH_LONG).show();
+
+                requestCallPermission();
+
+            } else {
+
+                requestCallPermission();
+            }
+            this.contactName = contactName;
+            this.phoneNumber = phoneNumber;
+        }
+        else {
+
+            getActivity().startActivity(new Intent(Intent.ACTION_CALL, number));
+
+            Toast.makeText(getContext(), "Calling " + contactName, Toast.LENGTH_LONG)
+                    .show();
+        }
+
+    }
+
+    private void requestCallPermission() {
+        ActivityCompat.requestPermissions(getActivity(),
+                new String[]{Manifest.permission.CALL_PHONE},
+                CALL_PERMISSION_CODE);
     }
 
 }
