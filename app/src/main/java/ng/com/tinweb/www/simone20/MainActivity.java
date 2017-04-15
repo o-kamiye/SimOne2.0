@@ -93,8 +93,12 @@ public class MainActivity extends AppCompatActivity implements
 
     @Override
     public void onReminderSet() {
-        navigationPagerAdapter.refreshPage(pageTitles
-                .indexOf(getString(R.string.reminder_fragment_title)));
+
+        if (pageTitles != null) {
+
+            navigationPagerAdapter.refreshPage(pageTitles
+                    .indexOf(getString(R.string.reminder_fragment_title)));
+        }
     }
 
     private void setUpViewPager() {

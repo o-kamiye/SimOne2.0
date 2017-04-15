@@ -61,7 +61,7 @@ class NavigationPagerAdapter extends FragmentPagerAdapter {
     void refreshPage(int position) {
         switch (position) {
             case 1:
-                reminderFragment.loadReminders();
+                if (reminderFragment != null) reminderFragment.loadReminders();
         }
     }
 }
