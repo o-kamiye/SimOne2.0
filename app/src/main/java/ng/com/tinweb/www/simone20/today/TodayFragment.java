@@ -1,5 +1,6 @@
 package ng.com.tinweb.www.simone20.today;
 
+import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -26,7 +27,7 @@ public class TodayFragment extends Fragment implements TodayContract.View,
         CallActionListener {
 
 
-    private FragmentTodayBinding fragmentTodayBinding;
+    private FragmentTodayBinding fragmentBinding;
 
     @Inject
     TodayPresenter todayPresenter;
@@ -50,36 +51,23 @@ public class TodayFragment extends Fragment implements TodayContract.View,
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
-        this.todayPresenter = null;
-    }
-
-    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        fragmentTodayBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_today,
+        fragmentBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_today,
                 container, false);
         setUpTodayFragment();
         setupRecyclerView();
-        return fragmentTodayBinding.getRoot();
+        return fragmentBinding.getRoot();
     }
 
     @Override
-    public void onRemindersLoaded(List<SimOneReminder> simOneReminders) {
+    public void onRemindersLoaded(List<SimOneReminder> reminders) {
         // Set total simOneReminders for the day
-        fragmentTodayBinding.todayCallsTextView.setText(getResources()
+        fragmentBinding.todayCallsTextView.setText(getResources()
                 .getQuantityString(R.plurals.no_of_calls_today,
-                        simOneReminders.size(), simOneReminders.size()));
-        // TODO use simOneReminders here to make content a bit more dynamic
-        fragmentTodayBinding.todayCallsRecyclerView.setAdapter(new TodayAdapter(this));
-    }
-
-    @Override
-    public void callContact(String contactName) {
-        Toast.makeText(getContext(), "I am going to call " + contactName, Toast.LENGTH_LONG)
-                .show();
+                        reminders.size(), reminders.size()));
+        fragmentBinding.todayCallsRecyclerView.setAdapter(new TodayAdapter(reminders, this));
     }
 
     @Override
@@ -88,8 +76,8 @@ public class TodayFragment extends Fragment implements TodayContract.View,
     }
 
     @Override
-    public void onCallClick(String contactName) {
-        todayPresenter.callContact(contactName);
+    public void onCallClick(String contactName, String phoneNumber) {
+        callContact(contactName, phoneNumber);
     }
 
     private void setUpTodayFragment() {
@@ -98,11 +86,20 @@ public class TodayFragment extends Fragment implements TodayContract.View,
 
     private void setupRecyclerView() {
 
-        fragmentTodayBinding.todayCallsRecyclerView
-                .setLayoutManager(new LinearLayoutManager(getContext()));
+        Context context = fragmentBinding.getRoot().getContext();
 
-        fragmentTodayBinding.todayCallsRecyclerView
-                .addItemDecoration(new LinearLayoutDecorator(getContext(), null));
+        LinearLayoutManager layoutManager = new LinearLayoutManager(context);
+
+        LinearLayoutDecorator layoutDecorator = new LinearLayoutDecorator(context, null);
+
+        fragmentBinding.todayCallsRecyclerView.setLayoutManager(layoutManager);
+
+        fragmentBinding.todayCallsRecyclerView.addItemDecoration(layoutDecorator);
+    }
+
+    private void callContact(String contactName, String phoneNumber) {
+        Toast.makeText(getContext(), "Name: " + contactName + ", Phone: " + phoneNumber, Toast.LENGTH_LONG)
+                .show();
     }
 
 }

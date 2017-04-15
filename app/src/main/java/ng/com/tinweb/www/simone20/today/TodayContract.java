@@ -17,15 +17,19 @@ class TodayContract {
 
         void onRemindersLoaded(List<SimOneReminder> simOneReminders);
 
-        void callContact(String contactName);
-
+        /**
+         * Callback do display reminder loading error
+         * @param message Error message
+         */
         void onReminderLoadingError(String message);
     }
 
     interface Presenter {
 
+        /**
+         * Get reminders from database
+         */
         void loadReminders();
 
-        void callContact(String contactName);
     }
 }

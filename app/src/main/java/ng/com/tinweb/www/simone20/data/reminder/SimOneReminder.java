@@ -2,6 +2,8 @@ package ng.com.tinweb.www.simone20.data.reminder;
 
 import android.content.Context;
 
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
@@ -72,6 +74,13 @@ public class SimOneReminder extends SimOneContact {
         this.contactGroup = contactGroup;
     }
 
+    public void setContactNumbers(String numbers) {
+        numbers = numbers.substring(1, numbers.length() - 1);
+        String[] numberArray = numbers.split(",");
+        phones = Arrays.asList(numberArray);
+        Collections.reverse(phones);
+    }
+
     public void setInterval(int interval) {
         this.interval = interval;
     }
@@ -103,14 +112,15 @@ public class SimOneReminder extends SimOneContact {
 
         private String contactName;
         private String contactGroup;
+        private String contactNumbers;
         private int contactId;
         private int interval;
         private int daysLeft;
-        private SimOneReminder simOneReminder;
+        private SimOneReminder reminder;
 
         public Builder(Context context) {
 
-            simOneReminder = new SimOneReminder(context);
+            reminder = new SimOneReminder(context);
 
         }
 
@@ -129,6 +139,11 @@ public class SimOneReminder extends SimOneContact {
             return this;
         }
 
+        public Builder setContactNumbers(String numbers) {
+            this.contactNumbers = numbers;
+            return this;
+        }
+
         public Builder setInterval(int interval) {
             this.interval = interval;
             return this;
@@ -140,13 +155,14 @@ public class SimOneReminder extends SimOneContact {
         }
 
         public SimOneReminder create() {
-            simOneReminder.setContactId(contactId);
-            simOneReminder.setContactName(contactName);
-            simOneReminder.setContactGroup(contactGroup);
-            simOneReminder.setInterval(interval);
-            simOneReminder.setDaysLeft(daysLeft);
+            reminder.setContactId(contactId);
+            reminder.setContactName(contactName);
+            reminder.setContactGroup(contactGroup);
+            reminder.setContactNumbers(contactNumbers);
+            reminder.setInterval(interval);
+            reminder.setDaysLeft(daysLeft);
 
-            return simOneReminder;
+            return reminder;
         }
 
     }
