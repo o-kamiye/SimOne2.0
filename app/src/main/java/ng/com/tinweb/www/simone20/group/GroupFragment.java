@@ -25,7 +25,7 @@ import ng.com.tinweb.www.simone20.util.LinearLayoutDecorator;
 /**
  * Created by kamiye on 11/09/2016.
  */
-public class GroupFragment extends Fragment implements IGroupView,
+public class GroupFragment extends Fragment implements GroupContract.View,
         GroupActionsListener {
 
     private static final String ADD_GROUP_FRAGMENT_TAG = "add_new_group";
@@ -88,8 +88,8 @@ public class GroupFragment extends Fragment implements IGroupView,
                 if (prev != null) {
                     fragmentTransaction.remove(prev);
                 }
-                AddGroupDialogFragment addGroupDialogFragment = AddGroupDialogFragment.getInstance();
-                fragmentTransaction.add(addGroupDialogFragment, ADD_GROUP_FRAGMENT_TAG).commitNow();
+                GroupDialogFragment groupDialogFragment = GroupDialogFragment.getInstance();
+                fragmentTransaction.add(groupDialogFragment, ADD_GROUP_FRAGMENT_TAG).commitNow();
             }
         });
     }

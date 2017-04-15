@@ -27,7 +27,7 @@ import static org.hamcrest.core.AllOf.allOf;
  */
 @RunWith(AndroidJUnit4.class)
 @LargeTest
-public class AddGroupDialogFragmentUITest {
+public class GroupDialogFragmentUITest {
 
     @Rule
     public ActivityTestRule<MainActivity> activityTestRule =

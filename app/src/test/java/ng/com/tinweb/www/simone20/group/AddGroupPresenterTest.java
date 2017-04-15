@@ -18,7 +18,7 @@ import static org.mockito.Mockito.verify;
 public class AddGroupPresenterTest {
 
     @Mock
-    private IGroupView.IGroupFragmentView groupFragmentView;
+    private DialogFragmentContract.View view;
 
     @Mock
     private SimOneGroup simOneGroup;
@@ -35,7 +35,7 @@ public class AddGroupPresenterTest {
     public void setup() {
         MockitoAnnotations.initMocks(this);
 
-        addGroupPresenter = new GroupPresenter.AddGroupPresenter(groupFragmentView, simOneGroup);
+        addGroupPresenter = new GroupPresenter.AddGroupPresenter(view, simOneGroup);
         groupName = "Test";
         groupInterval = 7;
     }
@@ -48,7 +48,7 @@ public class AddGroupPresenterTest {
         verify(simOneGroup).setInterval(groupInterval);
         verify(simOneGroup).create(callbackArgumentCaptor.capture());
         callbackArgumentCaptor.getValue().onSuccess();
-        verify(groupFragmentView).onAddGroupSuccess();
+        verify(view).onAddGroupSuccess();
     }
 
     @Test
@@ -59,14 +59,14 @@ public class AddGroupPresenterTest {
         verify(simOneGroup).setInterval(groupInterval);
         verify(simOneGroup).create(callbackArgumentCaptor.capture());
         callbackArgumentCaptor.getValue().onError(GROUP_EXISTS_ERROR);
-        verify(groupFragmentView).onAddGroupError("You have a group with the same name already");
+        verify(view).onAddGroupError("You have a group with the same name already");
     }
 
     @Test
     public void testAddGroupError_FromInput() {
         addGroupPresenter.addGroup("", 0);
 
-        verify(groupFragmentView).onAddGroupError("Group name and interval should not be empty");
+        verify(view).onAddGroupError("Group name and interval should not be empty");
     }
 
 }

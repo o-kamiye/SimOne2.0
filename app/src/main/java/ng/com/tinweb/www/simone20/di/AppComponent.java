@@ -4,7 +4,7 @@ import javax.inject.Singleton;
 
 import dagger.Component;
 import ng.com.tinweb.www.simone20.contact.ContactListDialogFragment;
-import ng.com.tinweb.www.simone20.group.AddGroupDialogFragment;
+import ng.com.tinweb.www.simone20.group.GroupDialogFragment;
 import ng.com.tinweb.www.simone20.group.GroupComponent;
 import ng.com.tinweb.www.simone20.group.GroupModule;
 import ng.com.tinweb.www.simone20.reminder.ReminderComponent;
@@ -29,5 +29,5 @@ public interface AppComponent {
 
     void inject(ReminderDialogFragment dialogFragment);
     void inject(ContactListDialogFragment dialogFragment);
-    void inject(AddGroupDialogFragment dialogFragment);
+    void inject(GroupDialogFragment dialogFragment);
 }
