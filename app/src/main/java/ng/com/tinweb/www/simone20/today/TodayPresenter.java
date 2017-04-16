@@ -24,7 +24,7 @@ class TodayPresenter implements TodayContract.Presenter {
 
     @Override
     public void loadReminders() {
-        reminder.getAll(false, new SimOneReminder.GetAllCallback() {
+        reminder.getAll(true, new SimOneReminder.GetAllCallback() {
             @Override
             public void onSuccess(HashMap<String, String> metaData,
                                   List<SimOneReminder> reminders) {
