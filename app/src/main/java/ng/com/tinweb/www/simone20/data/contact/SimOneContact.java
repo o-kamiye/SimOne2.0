@@ -28,12 +28,6 @@ public class SimOneContact implements Serializable {
         this.context = context;
     }
 
-    public SimOneContact(Context context, long contactId, String name) {
-        this(context);
-        this.contactId = contactId;
-        this.name = name;
-    }
-
     public int getId() {
         return id;
     }
@@ -46,6 +40,14 @@ public class SimOneContact implements Serializable {
         return name;
     }
 
+    public String getPhonesAsString() {
+        return phones.toString();
+    }
+
+    public List<String> getPhones() {
+        return phones;
+    }
+
     public void setId(int id) {
         this.id = id;
     }
@@ -56,10 +58,6 @@ public class SimOneContact implements Serializable {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getPhones() {
-        return phones.toString();
     }
 
     public void addPhone(String number) {
@@ -117,12 +115,12 @@ public class SimOneContact implements Serializable {
             String contactName = cursor.getString(
                     cursor.getColumnIndexOrThrow(ContactsContract.Contacts.DISPLAY_NAME_PRIMARY)
             );
-            SimOneContact simOneContact = contacts.get(id);
-            if (simOneContact == null) {
-                simOneContact = new SimOneContact(context);
-                simOneContact.setContactId(id);
-                simOneContact.setName(contactName);
-                contacts.put(id, simOneContact);
+            SimOneContact contact = contacts.get(id);
+            if (contact == null) {
+                contact = new SimOneContact(context);
+                contact.setContactId(id);
+                contact.setName(contactName);
+                contacts.put(id, contact);
             }
             String phoneNumber = cursor.getString(
                     cursor.getColumnIndexOrThrow(ContactsContract.CommonDataKinds.Contactables.DATA)
@@ -131,7 +129,7 @@ public class SimOneContact implements Serializable {
                     cursor.getColumnIndexOrThrow(ContactsContract.Data.MIMETYPE)
             );
             if (mimeType.equals(ContactsContract.CommonDataKinds.Phone.CONTENT_ITEM_TYPE)) {
-                simOneContact.addPhone(phoneNumber);
+                contact.addPhone(phoneNumber);
             }
         }
         cursor.close();
@@ -166,6 +164,7 @@ public class SimOneContact implements Serializable {
     }
 
     public interface SyncCallback {
+
         void onSuccess();
 
         void onError(String errorMessage);

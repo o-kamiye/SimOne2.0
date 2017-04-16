@@ -14,21 +14,22 @@ import ng.com.tinweb.www.simone20.data.reminder.SimOneReminder;
 class TodayPresenter implements TodayContract.Presenter {
 
     private WeakReference<TodayContract.View> todayView;
-    private SimOneReminder simOneReminder;
+    private SimOneReminder reminder;
 
     @Inject
-    TodayPresenter(SimOneReminder simOneReminder, TodayContract.View todayView) {
+    TodayPresenter(SimOneReminder reminder, TodayContract.View todayView) {
         this.todayView = new WeakReference<>(todayView);
-        this.simOneReminder = simOneReminder;
+        this.reminder = reminder;
     }
 
     @Override
     public void loadReminders() {
-        simOneReminder.getAll(true, new SimOneReminder.GetAllCallback() {
+        reminder.getAll(false, new SimOneReminder.GetAllCallback() {
             @Override
-            public void onSuccess(HashMap<String, String> metaData, List<SimOneReminder> simOneReminders) {
+            public void onSuccess(HashMap<String, String> metaData,
+                                  List<SimOneReminder> reminders) {
                 if (todayView.get() != null) {
-                    todayView.get().onRemindersLoaded(simOneReminders);
+                    todayView.get().onRemindersLoaded(reminders);
                 }
             }
 
@@ -40,12 +41,6 @@ class TodayPresenter implements TodayContract.Presenter {
                 }
             }
         });
-    }
-
-    @Override
-    public void callContact(String contactName) {
-        if (todayView.get() != null )
-            todayView.get().callContact(contactName);
     }
 
 }

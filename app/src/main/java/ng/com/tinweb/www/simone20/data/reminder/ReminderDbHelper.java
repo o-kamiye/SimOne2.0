@@ -127,6 +127,7 @@ class ReminderDbHelper extends BaseDbHelper implements DataStore {
                 DbContract.ContactSchema._ID,
                 DbContract.ContactSchema.COLUMN_NAME_CONTACT_NAME,
                 DbContract.ContactSchema.COLUMN_NAME_CONTACT_GROUP,
+                DbContract.ContactSchema.COLUMN_NAME_CONTACT_NUMBERS,
                 DbContract.ContactSchema.COLUMN_NAME_REMINDER_INTERVAL,
                 DbContract.ContactSchema.COLUMN_NAME_DATE_DUE
         };
@@ -161,7 +162,7 @@ class ReminderDbHelper extends BaseDbHelper implements DataStore {
                 sortOrder
         );
         if (cursor != null) {
-            List<SimOneReminder> simOneReminders = new ArrayList<>();
+            List<SimOneReminder> reminders = new ArrayList<>();
             HashMap<String, String> remindersMetaData = new HashMap<>();
             int dueWeekly = 0;
             while (cursor.moveToNext()) {
@@ -169,13 +170,20 @@ class ReminderDbHelper extends BaseDbHelper implements DataStore {
                         cursor.getColumnIndexOrThrow(DbContract.ContactSchema._ID)
                 );
                 String contactName = cursor.getString(
-                        cursor.getColumnIndexOrThrow(DbContract.ContactSchema.COLUMN_NAME_CONTACT_NAME)
+                        cursor.getColumnIndexOrThrow(
+                                DbContract.ContactSchema.COLUMN_NAME_CONTACT_NAME)
                 );
                 String contactGroup = cursor.getString(
-                        cursor.getColumnIndexOrThrow(DbContract.ContactSchema.COLUMN_NAME_CONTACT_GROUP)
+                        cursor.getColumnIndexOrThrow(
+                                DbContract.ContactSchema.COLUMN_NAME_CONTACT_GROUP)
+                );
+                String contactNumbers = cursor.getString(
+                        cursor.getColumnIndexOrThrow(
+                                DbContract.ContactSchema.COLUMN_NAME_CONTACT_NUMBERS)
                 );
                 int interval = cursor.getInt(
-                        cursor.getColumnIndexOrThrow(DbContract.ContactSchema.COLUMN_NAME_REMINDER_INTERVAL)
+                        cursor.getColumnIndexOrThrow(
+                                DbContract.ContactSchema.COLUMN_NAME_REMINDER_INTERVAL)
                 );
                 String dateString = cursor.getString(
                         cursor.getColumnIndexOrThrow(DbContract.ContactSchema.COLUMN_NAME_DATE_DUE)
@@ -192,18 +200,19 @@ class ReminderDbHelper extends BaseDbHelper implements DataStore {
                 if (daysLeft < 7) {
                     dueWeekly++;
                 }
-                SimOneReminder simOneReminder = new SimOneReminder.Builder(context)
+                SimOneReminder reminder = new SimOneReminder.Builder(context)
                         .setContactId(contactId)
                         .setContactName(contactName)
                         .setContactGroup(contactGroup)
+                        .setContactNumbers(contactNumbers)
                         .setInterval(interval)
                         .setDaysLeft(daysLeft)
                         .create();
 
-                simOneReminders.add(simOneReminder);
+                reminders.add(reminder);
             }
             remindersMetaData.put("dueWeekly", String.valueOf(dueWeekly));
-            callback.onSuccess(remindersMetaData, simOneReminders);
+            callback.onSuccess(remindersMetaData, reminders);
             cursor.close();
         } else {
             callback.onError(UNKNOWN_ERROR);

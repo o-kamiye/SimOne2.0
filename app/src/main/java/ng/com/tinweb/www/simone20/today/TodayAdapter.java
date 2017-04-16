@@ -1,5 +1,6 @@
 package ng.com.tinweb.www.simone20.today;
 
+import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.os.Build;
 import android.support.v7.widget.RecyclerView;
@@ -8,7 +9,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.List;
+
 import ng.com.tinweb.www.simone20.R;
+import ng.com.tinweb.www.simone20.data.reminder.SimOneReminder;
 import ng.com.tinweb.www.simone20.databinding.TodayCallListBinding;
 
 /**
@@ -16,53 +20,66 @@ import ng.com.tinweb.www.simone20.databinding.TodayCallListBinding;
  */
 class TodayAdapter extends RecyclerView.Adapter<TodayAdapter.ViewHolder> {
 
-    private TodayCallListBinding callListBinding;
-    private String[] array = new String[2];
+    private TodayCallListBinding adapterBinding;
+    private List<SimOneReminder> reminders;
     private CallActionListener callActionListener;
 
-    TodayAdapter(CallActionListener callActionListener) {
+    TodayAdapter(List<SimOneReminder> reminders, CallActionListener callActionListener) {
+        this.reminders = reminders;
         this.callActionListener = callActionListener;
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        callListBinding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()),
+        adapterBinding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()),
                 R.layout.today_call_list, parent, false);
-        return new ViewHolder(callListBinding.getRoot());
+        return new ViewHolder(adapterBinding.getRoot());
     }
 
     @SuppressWarnings("deprecation")
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         // TODO add the dynamic data here
+        Context context = adapterBinding.getRoot().getContext();
+
+        SimOneReminder reminder = reminders.get(position);
+
+        adapterBinding.contactNameTextView.setText(reminder.getContactName());
+        int interval = reminder.getInterval();
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            callListBinding.contactInfoTextView.setText(Html.fromHtml("<big>4</big>" +  "<br />" +
-                    "<small>days</small>", Html.FROM_HTML_MODE_COMPACT));
-        }
-        else {
-            callListBinding.contactInfoTextView.setText(Html.fromHtml("<big>4</big>" +  "<br />" +
-                    "<small>days</small>"));
+            adapterBinding.contactInfoTextView.setText(Html
+                    .fromHtml(context.getString(R.string.status_badge, interval),
+                            Html.FROM_HTML_MODE_COMPACT));
+        } else {
+            adapterBinding.contactInfoTextView.setText(Html
+                    .fromHtml(context.getString(R.string.status_badge, interval)));
         }
     }
 
     @Override
     public int getItemCount() {
-        return array.length;
+        return reminders.size();
     }
 
     class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         ViewHolder(View itemView) {
             super(itemView);
-            callListBinding.callIconImageView.setOnClickListener(this);
+            adapterBinding.callIconImageView.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View view) {
             int position = getAdapterPosition();
-            String contactName = "Kamiye at position " + position;
-            callActionListener.onCallClick(contactName);
+
+            SimOneReminder reminder = reminders.get(position);
+
+            String contactName = reminder.getContactName();
+
+            List<String> phones = reminder.getPhones();
+
+            callActionListener.onCallClick(contactName, phones.get(0));
         }
     }
 }

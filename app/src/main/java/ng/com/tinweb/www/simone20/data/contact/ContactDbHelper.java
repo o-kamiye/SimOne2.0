@@ -35,7 +35,7 @@ class ContactDbHelper extends BaseDbHelper implements DataStore {
             values.put(DbContract.ContactSchema.COLUMN_NAME_CONTACT_NAME,
                     contact.getName());
             values.put(DbContract.ContactSchema.COLUMN_NAME_CONTACT_NUMBERS,
-                    contact.getPhones());
+                    contact.getPhonesAsString());
             long row = database.insert(DbContract.ContactSchema.TABLE_NAME, null, values);
             if (row > 0) {
                 successfulInsert++;
