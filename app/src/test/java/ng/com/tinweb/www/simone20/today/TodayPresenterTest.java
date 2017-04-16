@@ -56,12 +56,4 @@ public class TodayPresenterTest {
         verify(todayView).onReminderLoadingError("An unknown error occurred");
     }
 
-    @Test
-    public void testCallContact() {
-        String contactName = "Test Contact";
-        todayPresenter.callContact(contactName);
-
-        verify(todayView).callContact(contactName);
-    }
-
 }
