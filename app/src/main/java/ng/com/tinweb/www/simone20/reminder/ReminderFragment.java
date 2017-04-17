@@ -153,7 +153,8 @@ public class ReminderFragment extends Fragment implements ReminderContract.View,
 
                     }
                 })
-                .setMessage("Do you want to delete " + reminder.getContactName() + "?")
+                .setMessage(getString(R.string.reminder_delete_confirmation,
+                        reminder.getContactName()))
                 .create();
         confirmationDialog.show();
         //reminderPresenter.deleteReminder(contactId);

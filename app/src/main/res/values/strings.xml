@@ -32,6 +32,7 @@
     <string name="update_reminder_success">Reminder updated successfully</string>
     <string name="status_badge"><![CDATA[<big>%1d</big><br/><small>days</small>]]></string>
     <string name="reminder_deleted_message">Reminder deleted successfully</string>
+    <string name="reminder_delete_confirmation">Do you want to delete %1s?</string>
 
     <string-array name="bottomNavMenu">
         <item>Today</item>

@@ -71,12 +71,25 @@ public class ReminderFragmentUITest {
 
     @Test
     public void testDeleteIconClick() {
-        // deleteIcon not implemented yet
+
+        String dialogTextSubstring = "Do you want to delete";
+
+        onView(withId(R.id.weeklyRemindersRecyclerView))
+                .perform(RecyclerViewActions.actionOnItemAtPosition(0,
+                        RecyclerViewAction.clickCallIconImageView(R.id.deleteIconImageView)));
+
+        onView(withId(android.R.id.message))
+                .check(matches(withText(containsString(dialogTextSubstring))));
     }
 
     @Test
     public void testFABClick() {
         // floating action button not implemented yet
+        onView(allOf(withId(R.id.bottom_navigation_container), withChild(withText("Today"))))
+                .perform(click());
+
+        onView(allOf(withId(R.id.bottom_navigation_container), withChild(withText("Reminders"))))
+                .perform(click());
         onView(withId(R.id.remindersFAB)).perform(click());
 
         onView(allOf(isAssignableFrom(EditText.class), withHint(R.string.action_search))).

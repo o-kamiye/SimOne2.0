@@ -15,6 +15,7 @@ import ng.com.tinweb.www.simone20.data.reminder.SimOneReminder;
 
 import static org.mockito.Matchers.anyBoolean;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 /**
  * Created by kamiye on 09/09/2016.
@@ -54,12 +55,17 @@ public class SimOneReminderPresenterTest {
 
     @Test
     public void testDeleteReminder() {
-        String contactId = "23";
-        reminderPresenter.deleteReminder(contactId);
+        int contact1 = 1;
+        int contact2 = 2;
+        when(simOneReminder.remove(contact1)).thenReturn(true);
+        when(simOneReminder.remove(contact2)).thenReturn(false);
 
-        // TODO success call and error call should be separated to separate tests
-        // todo(cont) when implementation is complete
+        reminderPresenter.deleteReminder(contact1);
+
         verify(view).showDeleteSuccessInfo();
+
+        reminderPresenter.deleteReminder(contact2);
+
         verify(view).showDeleteErrorInfo();
     }
 
