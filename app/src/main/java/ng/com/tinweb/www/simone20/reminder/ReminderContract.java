@@ -28,7 +28,7 @@ class ReminderContract {
 
         void loadReminders();
 
-        void deleteReminder(String contactId);
+        void deleteReminder(int contactId);
 
     }
 }
