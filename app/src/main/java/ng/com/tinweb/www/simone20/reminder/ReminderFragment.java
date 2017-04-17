@@ -2,11 +2,14 @@ package ng.com.tinweb.www.simone20.reminder;
 
 import android.app.SearchManager;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.SearchView;
 import android.util.Log;
@@ -15,6 +18,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -27,7 +31,7 @@ import ng.com.tinweb.www.simone20.databinding.FragmentReminderBinding;
 import ng.com.tinweb.www.simone20.util.LinearLayoutDecorator;
 
 /**
- * Created by kamiye on 08/09/2016.
+ * Reminder Fragment class
  */
 public class ReminderFragment extends Fragment implements ReminderContract.View,
         ReminderActionsListener {
@@ -36,8 +40,6 @@ public class ReminderFragment extends Fragment implements ReminderContract.View,
 
     private FragmentReminderBinding fragmentBinding;
     private SearchView searchView;
-    private LinearLayoutManager linearLayoutManager;
-    private LinearLayoutDecorator layoutDecorator;
 
     @Inject
     ReminderPresenter reminderPresenter;
@@ -52,15 +54,6 @@ public class ReminderFragment extends Fragment implements ReminderContract.View,
                 .inject(this);
 
         setHasOptionsMenu(true);
-
-        linearLayoutManager = new LinearLayoutManager(getContext());
-        layoutDecorator = new LinearLayoutDecorator(getContext(), null);
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        this.reminderPresenter = null;
     }
 
     @Override
@@ -82,14 +75,13 @@ public class ReminderFragment extends Fragment implements ReminderContract.View,
                 container, false);
 
         loadReminders();
-        fragmentBinding.weeklyRemindersRecyclerView.setLayoutManager(linearLayoutManager);
-        fragmentBinding.weeklyRemindersRecyclerView.addItemDecoration(layoutDecorator);
+        setupRecyclerView();
         return fragmentBinding.getRoot();
     }
 
     @Override
-    public void onRemindersLoaded(List<SimOneReminder> simOneReminders) {
-        fragmentBinding.weeklyRemindersRecyclerView.setAdapter(new ReminderAdapter(simOneReminders,
+    public void onRemindersLoaded(List<SimOneReminder> reminders) {
+        fragmentBinding.weeklyRemindersRecyclerView.setAdapter(new ReminderAdapter(reminders,
                 this));
         fragmentBinding.remindersFAB.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -101,6 +93,7 @@ public class ReminderFragment extends Fragment implements ReminderContract.View,
 
     @Override
     public void onReminderLoadingError() {
+        // TODO: 17/04/2017 show visual loading error in UI as well
         Log.e("REMINDER_ERROR", "Error loading reminders");
     }
 
@@ -113,36 +106,73 @@ public class ReminderFragment extends Fragment implements ReminderContract.View,
 
     @Override
     public void showDeleteSuccessInfo() {
-        // TODO implement delete successful message here
+        loadReminders();
+        Toast.makeText(getContext(), R.string.reminder_deleted_message, Toast.LENGTH_LONG).show();
     }
 
     @Override
     public void showDeleteErrorInfo() {
-        // TODO implement delete error message here
+        new AlertDialog.Builder(getContext())
+                .setMessage("Error deleting reminder")
+                .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                    }
+                })
+                .create()
+                .show();
     }
 
     @Override
-    public void onEditAction(SimOneReminder simOneReminder) {
-        FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager()
-                .beginTransaction();
-        Fragment prev = getActivity().getSupportFragmentManager()
-                .findFragmentByTag(EDIT_REMINDER_FRAGMENT_TAG);
+    public void onEditAction(SimOneReminder reminder) {
+        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        Fragment prev = fragmentManager.findFragmentByTag(EDIT_REMINDER_FRAGMENT_TAG);
         if (prev != null) {
             fragmentTransaction.remove(prev);
         }
-        ReminderDialogFragment dialogFragment = ReminderDialogFragment.getInstance(simOneReminder);
+        ReminderDialogFragment dialogFragment = ReminderDialogFragment.getInstance(reminder);
         dialogFragment.setEditMode(true);
         fragmentTransaction.add(dialogFragment, EDIT_REMINDER_FRAGMENT_TAG).commitNow();
         //addReminderFragment.show(fragmentTransaction, EDIT_REMINDER_FRAGMENT_TAG);
     }
 
     @Override
-    public void onDeleteAction(SimOneReminder simOneReminder) {
+    public void onDeleteAction(final SimOneReminder reminder) {
+        AlertDialog confirmationDialog = new AlertDialog.Builder(getContext())
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        reminderPresenter.deleteReminder(reminder.getReminderContactId());
+                    }
+                })
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                    }
+                })
+                .setMessage(getString(R.string.reminder_delete_confirmation,
+                        reminder.getContactName()))
+                .create();
+        confirmationDialog.show();
         //reminderPresenter.deleteReminder(contactId);
     }
 
     public void loadReminders() {
         reminderPresenter.loadReminders();
+    }
+
+    private void setupRecyclerView() {
+
+        Context context = fragmentBinding.getRoot().getContext();
+
+        fragmentBinding.weeklyRemindersRecyclerView
+                .setLayoutManager(new LinearLayoutManager(context));
+
+        fragmentBinding.weeklyRemindersRecyclerView
+                .addItemDecoration(new LinearLayoutDecorator(context, null));
     }
 
 

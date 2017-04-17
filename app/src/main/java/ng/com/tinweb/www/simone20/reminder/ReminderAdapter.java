@@ -21,6 +21,8 @@ import ng.com.tinweb.www.simone20.databinding.RemindersListBinding;
  */
 class ReminderAdapter extends RecyclerView.Adapter<ReminderAdapter.ViewHolder> {
 
+    private static final int ANIMATION_DURATION = 5000;
+
     private WeakReference<ReminderActionsListener> reminderActionsListener;
     private List<SimOneReminder> reminders;
     private RemindersListBinding remindersBinding;
@@ -46,17 +48,17 @@ class ReminderAdapter extends RecyclerView.Adapter<ReminderAdapter.ViewHolder> {
 
         Context context = remindersBinding.getRoot().getContext();
 
-        SimOneReminder simOneReminder = reminders.get(position);
-        remindersBinding.contactNameTextView.setText(simOneReminder.getContactName());
-        int daysLeft = simOneReminder.getDaysLeft();
-        int interval = simOneReminder.getInterval();
+        SimOneReminder reminder = reminders.get(position);
+        remindersBinding.contactNameTextView.setText(reminder.getContactName());
+        int daysLeft = reminder.getDaysLeft();
+        int interval = reminder.getInterval();
         int progress = (interval - daysLeft) * 100 / interval;
         if (daysLeft > 6 && isThisWeek) {
             remindersBinding.fartherRemindersTextView.setVisibility(View.VISIBLE);
             isThisWeek = !isThisWeek;
         }
 
-        remindersBinding.circularProgressBar.setProgressWithAnimation(progress, 5000);
+        remindersBinding.circularProgressBar.setProgressWithAnimation(progress, ANIMATION_DURATION);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             remindersBinding.circularInfoTextView.setText(Html
                     .fromHtml(context.getString(R.string.status_badge, daysLeft),
@@ -72,6 +74,16 @@ class ReminderAdapter extends RecyclerView.Adapter<ReminderAdapter.ViewHolder> {
         return reminders.size();
     }
 
+    @Override
+    public long getItemId(int position) {
+        return position;
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        return position;
+    }
+
     class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         ViewHolder(View itemView) {
@@ -83,15 +95,16 @@ class ReminderAdapter extends RecyclerView.Adapter<ReminderAdapter.ViewHolder> {
         @Override
         public void onClick(View view) {
             int position = getAdapterPosition();
-            SimOneReminder simOneReminder = reminders.get(position);
-            if (view.getId() == remindersBinding.editIconImageView.getId()) {
+            int viewId = view.getId();
+            SimOneReminder reminder = reminders.get(position);
+            if (viewId == remindersBinding.editIconImageView.getId()) {
                 if (reminderActionsListener.get() != null) {
-                    reminderActionsListener.get().onEditAction(simOneReminder);
+                    reminderActionsListener.get().onEditAction(reminder);
                 }
             }
-            if (view.getId() == remindersBinding.deleteIconImageView.getId()) {
+            if (viewId == remindersBinding.deleteIconImageView.getId()) {
                 if (reminderActionsListener.get() != null) {
-                    reminderActionsListener.get().onDeleteAction(simOneReminder);
+                    reminderActionsListener.get().onDeleteAction(reminder);
                 }
             }
         }

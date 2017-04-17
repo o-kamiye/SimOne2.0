@@ -10,9 +10,6 @@ import javax.inject.Inject;
 import ng.com.tinweb.www.simone20.data.group.SimOneGroup;
 import ng.com.tinweb.www.simone20.data.reminder.SimOneReminder;
 
-/**
- * Created by kamiye on 08/09/2016.
- */
 class ReminderPresenter implements ReminderContract.Presenter {
 
     private WeakReference<ReminderContract.View> view;
@@ -47,13 +44,15 @@ class ReminderPresenter implements ReminderContract.Presenter {
     }
 
     @Override
-    public void deleteReminder(String contactId) {
-        if (view.get() != null) {
-            // TODO get the simOneReminder from the contactId
-            // TODO call the remove method on the simOneReminder object
-            // TODO if the removal was successful, then call the view's remove successful callback method
+    public void deleteReminder(int contactId) {
+        // TODO call the remove method on the simOneReminder object
+        // TODO if the removal was successful, then call the view's remove successful callback method
+        if (view.get() == null) return;
+
+        if (simOneReminder.remove(contactId)) {
             view.get().showDeleteSuccessInfo();
-            // TODO if the removal was unsuccessful, then call the view's remove unsuccessful callback method
+        }
+        else {
             view.get().showDeleteErrorInfo();
         }
     }
