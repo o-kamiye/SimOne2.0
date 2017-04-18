@@ -21,8 +21,6 @@ public class GroupContract {
 
         void loadGroups();
 
-        void editGroup(String groupId);
-
         void deleteGroup(String groupId);
     }
 }

@@ -1,11 +1,13 @@
 package ng.com.tinweb.www.simone20.group;
 
-/**
- * Created by kamiye on 11/09/2016.
- */
-public interface GroupActionsListener {
+import ng.com.tinweb.www.simone20.data.group.SimOneGroup;
 
-    void onEditAction(String groupId);
+/**
+ * GroupActionsListener - Interface for interacting with group adapter
+ */
+interface GroupActionsListener {
+
+    void onEditAction(SimOneGroup group);
 
     void onDeleteAction(String groupId);
 }

@@ -46,7 +46,7 @@ public class AddGroupPresenterTest {
 
         verify(simOneGroup).setName(groupName);
         verify(simOneGroup).setInterval(groupInterval);
-        verify(simOneGroup).create(callbackArgumentCaptor.capture());
+        verify(simOneGroup).save(callbackArgumentCaptor.capture());
         callbackArgumentCaptor.getValue().onSuccess();
         verify(view).onAddGroupSuccess();
     }
@@ -57,7 +57,7 @@ public class AddGroupPresenterTest {
 
         verify(simOneGroup).setName(groupName);
         verify(simOneGroup).setInterval(groupInterval);
-        verify(simOneGroup).create(callbackArgumentCaptor.capture());
+        verify(simOneGroup).save(callbackArgumentCaptor.capture());
         callbackArgumentCaptor.getValue().onError(GROUP_EXISTS_ERROR);
         verify(view).onAddGroupError("You have a group with the same name already");
     }

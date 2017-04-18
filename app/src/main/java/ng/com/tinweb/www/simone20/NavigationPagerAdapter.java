@@ -62,6 +62,10 @@ class NavigationPagerAdapter extends FragmentPagerAdapter {
         switch (position) {
             case 1:
                 if (reminderFragment != null) reminderFragment.loadReminders();
+                break;
+            case 2:
+                if (groupFragment != null) groupFragment.loadGroups();
+                break;
         }
     }
 }

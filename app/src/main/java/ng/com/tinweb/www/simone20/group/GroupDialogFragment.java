@@ -1,5 +1,6 @@
 package ng.com.tinweb.www.simone20.group;
 
+import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -19,20 +20,30 @@ import ng.com.tinweb.www.simone20.data.group.SimOneGroup;
 import ng.com.tinweb.www.simone20.databinding.FragmentAddGroupBinding;
 
 /**
- * Created by kamiye on 09/10/2016.
+ * GroupDialogFragment - Dialog fragment for creating and editing group
  */
 
 public class GroupDialogFragment extends DialogFragment
         implements View.OnClickListener, DialogFragmentContract.View {
 
-    private FragmentAddGroupBinding fragmentAddGroupBinding;
+    private static final String INPUT_BUNDLE = "group";
+
+    private FragmentAddGroupBinding fragmentBinding;
     private DialogFragmentContract.Presenter fragmentPresenter;
+    private FragmentInteractionListener interactionListener;
+    private boolean isEdit;
+
+    private TextView titleTextView;
 
     @Inject
-    SimOneGroup simOneGroup;
+    SimOneGroup group;
 
-    public static GroupDialogFragment getInstance() {
-        return new GroupDialogFragment();
+    public static GroupDialogFragment getInstance(@Nullable SimOneGroup group) {
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(INPUT_BUNDLE, group);
+        GroupDialogFragment fragment = new GroupDialogFragment();
+        fragment.setArguments(bundle);
+        return fragment;
     }
 
     @Override
@@ -43,7 +54,21 @@ public class GroupDialogFragment extends DialogFragment
                 .getAppComponent()
                 .inject(this);
 
+        group = (SimOneGroup) getArguments().getSerializable(INPUT_BUNDLE);
+
         initialisePresenter();
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof FragmentInteractionListener) {
+            interactionListener = (FragmentInteractionListener) context;
+        }
+        else {
+            throw new RuntimeException(context +
+                    " must implement GroupDialogFragment.FragmentInteractionListener");
+        }
     }
 
     @Override
@@ -55,44 +80,50 @@ public class GroupDialogFragment extends DialogFragment
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        fragmentAddGroupBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_add_group,
+        fragmentBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_add_group,
                 container, false);
         setTitleDimension();
-        fragmentAddGroupBinding.cancelButton.setOnClickListener(this);
-        fragmentAddGroupBinding.saveButton.setOnClickListener(this);
-        return fragmentAddGroupBinding.getRoot();
+        if (group != null) {
+            fillGroupDetails();
+            isEdit = true;
+            fragmentBinding.saveButton.setText(getString(R.string.txt_update));
+        }
+        fragmentBinding.cancelButton.setOnClickListener(this);
+        fragmentBinding.saveButton.setOnClickListener(this);
+        return fragmentBinding.getRoot();
     }
 
     @Override
     public void onClick(View view) {
-        fragmentAddGroupBinding.inputErrorTextView.setVisibility(View.GONE);
-        if (view.getId() == fragmentAddGroupBinding.cancelButton.getId()) {
+        fragmentBinding.inputErrorTextView.setVisibility(View.GONE);
+        if (view.getId() == fragmentBinding.cancelButton.getId()) {
             dismiss();
         }
-        if (view.getId() == fragmentAddGroupBinding.saveButton.getId()) {
+        if (view.getId() == fragmentBinding.saveButton.getId()) {
             // TODO implement saving new group logic here
-            String groupName = fragmentAddGroupBinding.groupNameEditText.getText().toString();
-            String intervalString = fragmentAddGroupBinding.groupIntervalEditText.getText().toString();
+            String groupName = fragmentBinding.groupNameEditText.getText().toString();
+            String intervalString = fragmentBinding.groupIntervalEditText.getText().toString();
             int groupInterval = intervalString.equals("") ? 0 : Integer.valueOf(intervalString);
-            fragmentPresenter.addGroup(groupName, groupInterval);
+            fragmentPresenter.addGroup(groupName, groupInterval, isEdit);
         }
     }
 
     @Override
     public void onAddGroupSuccess() {
+        String message = (isEdit) ? "Group updated successfully" : "New group added successfully";
+        interactionListener.onGroupSet();
+        Toast.makeText(getContext(), message, Toast.LENGTH_LONG).show();
         dismiss();
-        Toast.makeText(getContext(), "New group added successfully",
-                Toast.LENGTH_LONG).show();
     }
 
     @Override
     public void onAddGroupError(String message) {
-        fragmentAddGroupBinding.inputErrorTextView.setText(message);
-        fragmentAddGroupBinding.inputErrorTextView.setVisibility(View.VISIBLE);
+        fragmentBinding.inputErrorTextView.setText(message);
+        fragmentBinding.inputErrorTextView.setVisibility(View.VISIBLE);
     }
 
     private void setTitleDimension() {
-        TextView titleTextView = (TextView) getDialog().findViewById(android.R.id.title);
+        titleTextView = (TextView) getDialog().findViewById(android.R.id.title);
         String title = getString(R.string.new_group_title);
         titleTextView.setText(title);
         titleTextView.setTextColor(ContextCompat.getColor(getContext(), R.color.colorPrimaryDark));
@@ -102,6 +133,17 @@ public class GroupDialogFragment extends DialogFragment
 
     private void initialisePresenter() {
         fragmentPresenter = new GroupPresenter.AddGroupPresenter(this,
-                simOneGroup);
+                group);
+    }
+
+    private void fillGroupDetails() {
+        String title = "Edit " + group.getName();
+        titleTextView.setText(title);
+        fragmentBinding.groupNameEditText.setText(group.getName());
+        fragmentBinding.groupIntervalEditText.setText(group.getInterval());
+    }
+
+    public interface FragmentInteractionListener {
+        void onGroupSet();
     }
 }

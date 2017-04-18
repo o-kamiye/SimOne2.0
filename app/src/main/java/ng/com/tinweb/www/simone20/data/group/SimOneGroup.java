@@ -2,13 +2,14 @@ package ng.com.tinweb.www.simone20.data.group;
 
 import android.content.Context;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by kamiye on 04/10/2016.
  */
 
-public class SimOneGroup {
+public class SimOneGroup implements Serializable {
 
     public static final int DB_INSERT_ERROR = 99;
     public static final int GROUP_EXISTS_ERROR = 98;
@@ -48,8 +49,12 @@ public class SimOneGroup {
         return interval;
     }
 
-    public void create(ActionCallback callback) {
+    public void save(ActionCallback callback) {
         dataStore.save(name, interval, callback);
+    }
+
+    public void update(String oldName, ActionCallback callback) {
+        dataStore.update(oldName, name, interval, callback);
     }
 
     public void getAll(GetAllCallback callback) {
