@@ -80,7 +80,8 @@ class GroupDbHelper extends BaseDbHelper implements DataStore {
                 DbContract.GroupSchema.COLUMN_NAME_GROUP_NAME,
         };
         String selection = DbContract.GroupSchema.COLUMN_NAME_GROUP_NAME + " = ?";
-        String[] selectionArgs = {oldName};
+        String[] selectionArgs = {name};
+        String[] insertArgs = {oldName};
 
         if (!oldName.equals(name)) {
 
@@ -107,7 +108,7 @@ class GroupDbHelper extends BaseDbHelper implements DataStore {
         values.put(DbContract.GroupSchema.COLUMN_NAME_GROUP_INTERVAL, interval);
 
         long count = database.update(DbContract.GroupSchema.TABLE_NAME, values, selection,
-                selectionArgs);
+                insertArgs);
         if (count != 0) {
             callback.onSuccess();
             // TODO: 18/04/2017 run update mechanism for reminders in this group

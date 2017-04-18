@@ -31,6 +31,7 @@ public class GroupDialogFragment extends DialogFragment
     private FragmentAddGroupBinding fragmentBinding;
     private DialogFragmentContract.Presenter fragmentPresenter;
     private FragmentInteractionListener interactionListener;
+    private SimOneGroup simOneGroup;
     private boolean isEdit;
 
     private TextView titleTextView;
@@ -54,7 +55,7 @@ public class GroupDialogFragment extends DialogFragment
                 .getAppComponent()
                 .inject(this);
 
-        group = (SimOneGroup) getArguments().getSerializable(INPUT_BUNDLE);
+        simOneGroup = (SimOneGroup) getArguments().getSerializable(INPUT_BUNDLE);
 
         initialisePresenter();
     }
@@ -83,7 +84,7 @@ public class GroupDialogFragment extends DialogFragment
         fragmentBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_add_group,
                 container, false);
         setTitleDimension();
-        if (group != null) {
+        if (simOneGroup != null) {
             fillGroupDetails();
             isEdit = true;
             fragmentBinding.saveButton.setText(getString(R.string.txt_update));
@@ -133,14 +134,14 @@ public class GroupDialogFragment extends DialogFragment
 
     private void initialisePresenter() {
         fragmentPresenter = new GroupPresenter.AddGroupPresenter(this,
-                group);
+                simOneGroup == null ? group : simOneGroup);
     }
 
     private void fillGroupDetails() {
-        String title = "Edit " + group.getName();
+        String title = "Edit " + simOneGroup.getName();
         titleTextView.setText(title);
-        fragmentBinding.groupNameEditText.setText(group.getName());
-        fragmentBinding.groupIntervalEditText.setText(group.getInterval());
+        fragmentBinding.groupNameEditText.setText(simOneGroup.getName());
+        fragmentBinding.groupIntervalEditText.setText(String.valueOf(simOneGroup.getInterval()));
     }
 
     public interface FragmentInteractionListener {

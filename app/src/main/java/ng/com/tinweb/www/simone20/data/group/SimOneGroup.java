@@ -18,6 +18,7 @@ public class SimOneGroup implements Serializable {
     private DataStore dataStore;
 
     private String name;
+    private String oldName;
     private int interval;
     private int members;
 
@@ -33,6 +34,10 @@ public class SimOneGroup implements Serializable {
         this.name = name;
     }
 
+    public void setOldname(String name) {
+        this.oldName = name;
+    }
+
     public void setMembers(int members) {
         this.members = members;
     }
@@ -45,6 +50,10 @@ public class SimOneGroup implements Serializable {
         return name;
     }
 
+    public String getOldName() {
+        return oldName;
+    }
+
     public int getInterval() {
         return interval;
     }
@@ -53,7 +62,7 @@ public class SimOneGroup implements Serializable {
         dataStore.save(name, interval, callback);
     }
 
-    public void update(String oldName, ActionCallback callback) {
+    public void update(ActionCallback callback) {
         dataStore.update(oldName, name, interval, callback);
     }
 

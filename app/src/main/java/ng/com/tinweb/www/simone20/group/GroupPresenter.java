@@ -64,7 +64,6 @@ class GroupPresenter implements GroupContract.Presenter {
         @Override
         public void addGroup(String name, int interval, boolean isEdit) {
             if (view.get() != null) {
-                // TODO validate group
                 if (name.isEmpty() || interval < 1) {
                     view.get().onAddGroupError("Group name and interval should not be empty");
                     return;
@@ -89,13 +88,13 @@ class GroupPresenter implements GroupContract.Presenter {
                         view.get().onAddGroupError(errorMessage);
                     }
                 };
-                String oldName = "";
                 if (isEdit) {
-                    oldName = group.getName();
+                    String oldName = group.getOldName();
+                    if (oldName == null) group.setOldname(group.getName());
                 }
                 group.setName(name);
                 group.setInterval(interval);
-                if (isEdit) group.update(oldName, callback);
+                if (isEdit) group.update(callback);
                 else group.save(callback);
             }
         }
