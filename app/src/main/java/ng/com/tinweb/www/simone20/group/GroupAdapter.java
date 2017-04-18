@@ -1,5 +1,6 @@
 package ng.com.tinweb.www.simone20.group;
 
+import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.os.Build;
 import android.support.v7.widget.RecyclerView;
@@ -8,64 +9,91 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.List;
+
 import ng.com.tinweb.www.simone20.R;
+import ng.com.tinweb.www.simone20.data.group.SimOneGroup;
 import ng.com.tinweb.www.simone20.databinding.GroupsListBinding;
 
 /**
- * Created by kamiye on 11/09/2016.
+ * GroupAdapter - Adapter for managing groups created by user
  */
-public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolder> {
+class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolder> {
 
-    private GroupsListBinding groupsListBinding;
+    private GroupsListBinding adapterBinding;
     private GroupActionsListener actionsListener;
-    private String[] array = new String[2];
+    private List<SimOneGroup> groups;
 
-    public GroupAdapter(GroupActionsListener actionsListener) {
+    GroupAdapter(List<SimOneGroup> groups, GroupActionsListener actionsListener) {
+        this.groups = groups;
         this.actionsListener = actionsListener;
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        groupsListBinding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()),
+        adapterBinding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()),
                 R.layout.groups_list, parent, false);
 
-        return new ViewHolder(groupsListBinding.getRoot());
+        return new ViewHolder(adapterBinding.getRoot());
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
+
+        Context context = adapterBinding.getRoot().getContext();
+
+        SimOneGroup group = groups.get(position);
+
+        adapterBinding.groupNameTextView.setText(group.getName());
+
+        int interval = group.getInterval();
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            groupsListBinding.groupInfoTextView.setText(Html.fromHtml("<big>4</big>" +  "<br />" +
-                    "<small>days</small>", Html.FROM_HTML_MODE_COMPACT));
+            adapterBinding.groupInfoTextView.setText(Html
+                    .fromHtml(context.getString(R.string.status_badge, interval),
+                            Html.FROM_HTML_MODE_COMPACT));
         }
         else {
-            groupsListBinding.groupInfoTextView.setText(Html.fromHtml("<big>4</big>" +  "<br />" +
-                    "<small>days</small>"));
+            adapterBinding.groupInfoTextView.setText(Html
+                    .fromHtml(context.getString(R.string.status_badge, interval)));
         }
     }
 
     @Override
     public int getItemCount() {
-        return array.length;
+        return groups.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    @Override
+    public long getItemId(int position) {
+        return position;
+    }
 
-        public ViewHolder(View itemView) {
+    @Override
+    public int getItemViewType(int position) {
+        return position;
+    }
+
+    class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+
+        ViewHolder(View itemView) {
             super(itemView);
-            groupsListBinding.editIconImageView.setOnClickListener(this);
-            groupsListBinding.deleteIconImageView.setOnClickListener(this);
+            adapterBinding.editIconImageView.setOnClickListener(this);
+            adapterBinding.deleteIconImageView.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View view) {
             int position = getAdapterPosition();
-            String groupId = "Position " + position;
-            if (view.getId() == groupsListBinding.editIconImageView.getId()) {
-                actionsListener.onEditAction(groupId);
+
+            SimOneGroup group = groups.get(position);
+
+            if (view.getId() == adapterBinding.editIconImageView.getId()) {
+                actionsListener.onEditAction(group);
             }
-            if (view.getId() == groupsListBinding.deleteIconImageView.getId()) {
-                actionsListener.onDeleteAction(groupId);
+            if (view.getId() == adapterBinding.deleteIconImageView.getId()) {
+                actionsListener.onDeleteAction(group.getName());
             }
         }
     }

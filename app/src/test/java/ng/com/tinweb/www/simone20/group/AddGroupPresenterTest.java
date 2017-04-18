@@ -42,29 +42,39 @@ public class AddGroupPresenterTest {
 
     @Test
     public void testAddGroupSuccess() {
-        addGroupPresenter.addGroup(groupName, groupInterval);
+        addGroupPresenter.addGroup(groupName, groupInterval, false);
 
         verify(simOneGroup).setName(groupName);
         verify(simOneGroup).setInterval(groupInterval);
-        verify(simOneGroup).create(callbackArgumentCaptor.capture());
+        verify(simOneGroup).save(callbackArgumentCaptor.capture());
+        callbackArgumentCaptor.getValue().onSuccess();
+        verify(view).onAddGroupSuccess();
+    }
+
+    @Test
+    public void testEditGroup() {
+        addGroupPresenter.addGroup(groupName, groupInterval, true);
+        verify(simOneGroup).setName(groupName);
+        verify(simOneGroup).setInterval(groupInterval);
+        verify(simOneGroup).update(callbackArgumentCaptor.capture());
         callbackArgumentCaptor.getValue().onSuccess();
         verify(view).onAddGroupSuccess();
     }
 
     @Test
     public void testAddGroupError_FromCallback() {
-        addGroupPresenter.addGroup(groupName, groupInterval);
+        addGroupPresenter.addGroup(groupName, groupInterval, false);
 
         verify(simOneGroup).setName(groupName);
         verify(simOneGroup).setInterval(groupInterval);
-        verify(simOneGroup).create(callbackArgumentCaptor.capture());
+        verify(simOneGroup).save(callbackArgumentCaptor.capture());
         callbackArgumentCaptor.getValue().onError(GROUP_EXISTS_ERROR);
         verify(view).onAddGroupError("You have a group with the same name already");
     }
 
     @Test
     public void testAddGroupError_FromInput() {
-        addGroupPresenter.addGroup("", 0);
+        addGroupPresenter.addGroup("", 0, false);
 
         verify(view).onAddGroupError("Group name and interval should not be empty");
     }

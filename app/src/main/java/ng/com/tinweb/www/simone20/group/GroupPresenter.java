@@ -42,15 +42,6 @@ class GroupPresenter implements GroupContract.Presenter {
     }
 
     @Override
-    public void editGroup(String groupId) {
-        if (groupView.get() != null) {
-            // TODO get the group from the groupId
-            // TODO get the view to show the pop up dialog with the group details
-            // TODO figure out the implementation of how this will work
-        }
-    }
-
-    @Override
     public void deleteGroup(String groupId) {
         if (groupView.get() != null) {
             // TODO get the group from the groupId
@@ -62,28 +53,25 @@ class GroupPresenter implements GroupContract.Presenter {
 
     static class AddGroupPresenter implements DialogFragmentContract.Presenter {
 
-        private WeakReference<DialogFragmentContract.View> fragmentView;
-        private SimOneGroup simOneGroup;
+        private WeakReference<DialogFragmentContract.View> view;
+        private SimOneGroup group;
 
-        AddGroupPresenter(DialogFragmentContract.View fragmentView, SimOneGroup simOneGroup) {
-            this.fragmentView = new WeakReference<>(fragmentView);
-            this.simOneGroup = simOneGroup;
+        AddGroupPresenter(DialogFragmentContract.View view, SimOneGroup group) {
+            this.view = new WeakReference<>(view);
+            this.group = group;
         }
 
         @Override
-        public void addGroup(String name, int interval) {
-            if (fragmentView.get() != null) {
-                // TODO validate group
+        public void addGroup(String name, int interval, boolean isEdit) {
+            if (view.get() != null) {
                 if (name.isEmpty() || interval < 1) {
-                    fragmentView.get().onAddGroupError("Group name and interval should not be empty");
+                    view.get().onAddGroupError("Group name and interval should not be empty");
                     return;
                 }
-                simOneGroup.setName(name);
-                simOneGroup.setInterval(interval);
-                simOneGroup.create(new SimOneGroup.ActionCallback() {
+                SimOneGroup.ActionCallback callback = new SimOneGroup.ActionCallback() {
                     @Override
                     public void onSuccess() {
-                        fragmentView.get().onAddGroupSuccess();
+                        view.get().onAddGroupSuccess();
                     }
 
                     @Override
@@ -97,9 +85,17 @@ class GroupPresenter implements GroupContract.Presenter {
                                 errorMessage = "You have a group with the same name already";
                                 break;
                         }
-                        fragmentView.get().onAddGroupError(errorMessage);
+                        view.get().onAddGroupError(errorMessage);
                     }
-                });
+                };
+                if (isEdit) {
+                    String oldName = group.getOldName();
+                    if (oldName == null) group.setOldname(group.getName());
+                }
+                group.setName(name);
+                group.setInterval(interval);
+                if (isEdit) group.update(callback);
+                else group.save(callback);
             }
         }
 

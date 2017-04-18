@@ -1,9 +1,11 @@
 package ng.com.tinweb.www.simone20.group;
 
+import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
@@ -23,14 +25,14 @@ import ng.com.tinweb.www.simone20.databinding.FragmentGroupBinding;
 import ng.com.tinweb.www.simone20.util.LinearLayoutDecorator;
 
 /**
- * Created by kamiye on 11/09/2016.
+ * GroupFragment - Fragment class to show groups tab
  */
 public class GroupFragment extends Fragment implements GroupContract.View,
         GroupActionsListener {
 
     private static final String ADD_GROUP_FRAGMENT_TAG = "add_new_group";
 
-    private FragmentGroupBinding groupBinding;
+    private FragmentGroupBinding fragmentBinding;
 
     @Inject
     GroupPresenter groupPresenter;
@@ -52,44 +54,30 @@ public class GroupFragment extends Fragment implements GroupContract.View,
         super.onCreateOptionsMenu(menu, inflater);
     }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        this.groupPresenter = null;
-    }
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        groupBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_group,
+        fragmentBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_group,
                 container, false);
-        setUpFragment();
-        return groupBinding.getRoot();
+        setUpRecyclerView();
+        loadGroups();
+        return fragmentBinding.getRoot();
     }
 
     @Override
     public void onGroupsLoaded(List<SimOneGroup> groups) {
-        // TODO use groups here to fetch dynamic data
-        groupBinding.totalGroupsTextView.setText(getResources()
+
+        fragmentBinding.totalGroupsTextView.setText(getResources()
                 .getQuantityString(R.plurals.no_of_groups,
                         groups.size(), groups.size()));
 
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
-        groupBinding.groupsRecyclerView.setLayoutManager(layoutManager);
-        groupBinding.groupsRecyclerView.addItemDecoration(new LinearLayoutDecorator(getContext(), null));
-        groupBinding.groupsRecyclerView.setAdapter(new GroupAdapter(this));
+        fragmentBinding.groupsRecyclerView.setAdapter(new GroupAdapter(groups, this));
 
-        groupBinding.groupsFAB.setOnClickListener(new View.OnClickListener() {
+        fragmentBinding.groupsFAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
-                Fragment prev = getActivity().getSupportFragmentManager().findFragmentByTag(ADD_GROUP_FRAGMENT_TAG);
-                if (prev != null) {
-                    fragmentTransaction.remove(prev);
-                }
-                GroupDialogFragment groupDialogFragment = GroupDialogFragment.getInstance();
-                fragmentTransaction.add(groupDialogFragment, ADD_GROUP_FRAGMENT_TAG).commitNow();
+                showGroupDialogFragment(null);
             }
         });
     }
@@ -100,8 +88,8 @@ public class GroupFragment extends Fragment implements GroupContract.View,
     }
 
     @Override
-    public void onEditAction(String groupId) {
-        groupPresenter.editGroup(groupId);
+    public void onEditAction(SimOneGroup group) {
+        showGroupDialogFragment(group);
     }
 
     @Override
@@ -109,7 +97,36 @@ public class GroupFragment extends Fragment implements GroupContract.View,
         groupPresenter.deleteGroup(groupId);
     }
 
-    private void setUpFragment() {
+    /**
+     * Get groups
+     */
+    public void loadGroups() {
         groupPresenter.loadGroups();
+    }
+
+    /**
+     * Show input dialog to save and edit group
+     *
+     * @param group {@code null} if creating group and edit if otherwise
+     */
+    private void showGroupDialogFragment(@Nullable SimOneGroup group) {
+        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        Fragment prev = fragmentManager.findFragmentByTag(ADD_GROUP_FRAGMENT_TAG);
+        if (prev != null) {
+            fragmentTransaction.remove(prev);
+        }
+        GroupDialogFragment groupDialogFragment = GroupDialogFragment.getInstance(group);
+        fragmentTransaction.add(groupDialogFragment, ADD_GROUP_FRAGMENT_TAG).commitNow();
+    }
+
+    /**
+     * Setup recycler view
+     */
+    private void setUpRecyclerView() {
+        Context context = fragmentBinding.getRoot().getContext();
+        fragmentBinding.groupsRecyclerView.setLayoutManager(new LinearLayoutManager(context));
+        fragmentBinding.groupsRecyclerView.addItemDecoration(new LinearLayoutDecorator(context,
+                null));
     }
 }

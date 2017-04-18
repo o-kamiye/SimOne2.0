@@ -59,11 +59,6 @@ public class GroupPresenterTest {
     }
 
     @Test
-    public void testEditGroup() {
-        // TODO add edit group action here when implemented
-    }
-
-    @Test
     public void testDeleteGroup() {
         // TODO add delete group action here when implemented
     }

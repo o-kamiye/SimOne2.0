@@ -15,7 +15,7 @@ public class DialogFragmentContract {
 
     interface Presenter {
 
-        void addGroup(String name, int interval);
+        void addGroup(String name, int interval, boolean isEdit);
     }
 
 }

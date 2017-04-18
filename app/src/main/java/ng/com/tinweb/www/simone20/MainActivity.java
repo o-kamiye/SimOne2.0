@@ -19,10 +19,13 @@ import java.util.List;
 
 import ng.com.tinweb.www.simone20.contact.ContactListDialogFragment;
 import ng.com.tinweb.www.simone20.databinding.ActivityMainBinding;
+import ng.com.tinweb.www.simone20.group.GroupDialogFragment;
 import ng.com.tinweb.www.simone20.reminder.ReminderDialogFragment;
 
 public class MainActivity extends AppCompatActivity implements
-        ViewPager.OnPageChangeListener, ReminderDialogFragment.InteractionListener {
+        ViewPager.OnPageChangeListener,
+        ReminderDialogFragment.InteractionListener,
+        GroupDialogFragment.FragmentInteractionListener{
 
     public static final String CONTACT_LIST_FRAGMENT_TAG = "search_result";
 
@@ -101,6 +104,14 @@ public class MainActivity extends AppCompatActivity implements
         }
     }
 
+    @Override
+    public void onGroupSet() {
+        if (pageTitles != null) {
+            navigationPagerAdapter.refreshPage(pageTitles
+                    .indexOf(getString(R.string.group_fragment_title)));
+        }
+    }
+
     private void setUpViewPager() {
         navigationPagerAdapter =
                 new NavigationPagerAdapter(getSupportFragmentManager(),
@@ -135,5 +146,4 @@ public class MainActivity extends AppCompatActivity implements
             dialogFragment.show(fragmentTransaction, CONTACT_LIST_FRAGMENT_TAG);
         }
     }
-
 }

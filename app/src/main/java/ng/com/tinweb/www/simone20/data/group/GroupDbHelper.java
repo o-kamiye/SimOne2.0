@@ -30,14 +30,14 @@ class GroupDbHelper extends BaseDbHelper implements DataStore {
         SQLiteDatabase database = getWritableDatabase();
 
         // Standardise group name for insertion
-        name = name.substring(0,1).toUpperCase() + name.substring(1).toLowerCase();
+        name = name.substring(0, 1).toUpperCase() + name.substring(1).toLowerCase();
         // CHECK IF GROUP EXISTS
 
         String[] projection = {
                 DbContract.GroupSchema._ID,
                 DbContract.GroupSchema.COLUMN_NAME_GROUP_NAME,
         };
-        String selection = DbContract.GroupSchema.COLUMN_NAME_GROUP_NAME+ " = ?";
+        String selection = DbContract.GroupSchema.COLUMN_NAME_GROUP_NAME + " = ?";
         String[] selectionArgs = {name};
 
         Cursor cursor = database.query(
@@ -49,28 +49,73 @@ class GroupDbHelper extends BaseDbHelper implements DataStore {
                 null,
                 null
         );
-        if (cursor.getCount() == 0) {
-            ContentValues values = new ContentValues();
-            values.put(DbContract.GroupSchema.COLUMN_NAME_GROUP_NAME, name);
-            values.put(DbContract.GroupSchema.COLUMN_NAME_GROUP_INTERVAL, interval);
 
+        ContentValues values = new ContentValues();
+        values.put(DbContract.GroupSchema.COLUMN_NAME_GROUP_NAME, name);
+        values.put(DbContract.GroupSchema.COLUMN_NAME_GROUP_INTERVAL, interval);
+
+        if (cursor.getCount() == 0) {
             long count = database.insert(DbContract.GroupSchema.TABLE_NAME, null, values);
             if (count != 0) {
                 callback.onSuccess();
-            }
-            else {
+            } else {
                 callback.onError(DB_INSERT_ERROR);
             }
-        }
-        else {
+        } else {
             callback.onError(GROUP_EXISTS_ERROR);
             cursor.close();
         }
     }
 
     @Override
-    public boolean update(String name, String members, int interval) {
-        return false;
+    public void update(String oldName, String name, int interval,
+                       SimOneGroup.ActionCallback callback) {
+        SQLiteDatabase database = getWritableDatabase();
+
+        // Standardise group name for insertion
+        name = name.substring(0, 1).toUpperCase() + name.substring(1).toLowerCase();
+
+        String[] projection = {
+                DbContract.GroupSchema._ID,
+                DbContract.GroupSchema.COLUMN_NAME_GROUP_NAME,
+        };
+        String selection = DbContract.GroupSchema.COLUMN_NAME_GROUP_NAME + " = ?";
+        String[] selectionArgs = {name};
+        String[] insertArgs = {oldName};
+
+        if (!oldName.equals(name)) {
+
+            Cursor cursor = database.query(
+                    DbContract.GroupSchema.TABLE_NAME,
+                    projection,
+                    selection,
+                    selectionArgs,
+                    null,
+                    null,
+                    null
+            );
+
+            if (cursor.getCount() > 0) {
+                callback.onError(GROUP_EXISTS_ERROR);
+                cursor.close();
+                return;
+            }
+
+        }
+
+        ContentValues values = new ContentValues();
+        values.put(DbContract.GroupSchema.COLUMN_NAME_GROUP_NAME, name);
+        values.put(DbContract.GroupSchema.COLUMN_NAME_GROUP_INTERVAL, interval);
+
+        long count = database.update(DbContract.GroupSchema.TABLE_NAME, values, selection,
+                insertArgs);
+        if (count != 0) {
+            callback.onSuccess();
+            // TODO: 18/04/2017 run update mechanism for reminders in this group
+        } else {
+            callback.onError(DB_INSERT_ERROR);
+        }
+
     }
 
     @Override
@@ -103,7 +148,7 @@ class GroupDbHelper extends BaseDbHelper implements DataStore {
         if (cursor != null) {
             List<SimOneGroup> groups = new ArrayList<>();
             while (cursor.moveToNext()) {
-                int groupId= cursor.getInt(
+                int groupId = cursor.getInt(
                         cursor.getColumnIndexOrThrow(DbContract.GroupSchema._ID)
                 );
                 String groupName = cursor.getString(
