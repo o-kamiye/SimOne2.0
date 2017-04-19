@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
         android:background="@color/white"
+        android:orientation="horizontal"
         android:padding="5dp">
 
         <TextView
@@ -21,22 +22,22 @@
         <TextView
             android:id="@+id/contactNameTextView"
             android:layout_width="0dp"
-            android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
             android:layout_gravity="center"
-            android:textSize="16sp"
+            android:layout_margin="10dp"
+            android:layout_weight="1"
             android:textColor="@color/defaultTextColour"
-            android:text="Dele Momodu" />
+            android:textSize="16sp"
+            tools:text="Dele Momodu" />
 
         <ImageView
             android:id="@+id/callIconImageView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:contentDescription="@string/call_action"
             android:padding="10dp"
-            android:src="@drawable/ic_call_red"
-            android:contentDescription="@string/call_action" />
+            android:src="@drawable/ic_call_red" />
 
     </LinearLayout>
 </layout>
