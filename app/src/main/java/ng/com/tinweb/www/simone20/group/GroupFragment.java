@@ -6,8 +6,6 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
@@ -33,9 +31,8 @@ import ng.com.tinweb.www.simone20.util.LinearLayoutDecorator;
 public class GroupFragment extends Fragment implements GroupContract.View,
         GroupActionsListener {
 
-    private static final String ADD_GROUP_FRAGMENT_TAG = "add_new_group";
-
     private FragmentGroupBinding fragmentBinding;
+    private FragmentInteractionListener interactionListener;
 
     @Inject
     GroupPresenter groupPresenter;
@@ -55,6 +52,18 @@ public class GroupFragment extends Fragment implements GroupContract.View,
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof FragmentInteractionListener) {
+            interactionListener = (FragmentInteractionListener) context;
+        }
+        else {
+            throw new RuntimeException(context +
+                    " must implement GroupFragment.FragmentInteractionListener");
+        }
     }
 
     @Nullable
@@ -80,7 +89,7 @@ public class GroupFragment extends Fragment implements GroupContract.View,
         fragmentBinding.groupsFAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                showGroupDialogFragment(null);
+                interactionListener.showGroupDialogFragment(null);
             }
         });
     }
@@ -112,7 +121,7 @@ public class GroupFragment extends Fragment implements GroupContract.View,
 
     @Override
     public void onEditAction(SimOneGroup group) {
-        showGroupDialogFragment(group);
+        interactionListener.showGroupDialogFragment(group);
     }
 
     @Override
@@ -144,22 +153,6 @@ public class GroupFragment extends Fragment implements GroupContract.View,
     }
 
     /**
-     * Show input dialog to save and edit group
-     *
-     * @param group {@code null} if creating group and edit if otherwise
-     */
-    private void showGroupDialogFragment(@Nullable SimOneGroup group) {
-        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        Fragment prev = fragmentManager.findFragmentByTag(ADD_GROUP_FRAGMENT_TAG);
-        if (prev != null) {
-            fragmentTransaction.remove(prev);
-        }
-        GroupDialogFragment groupDialogFragment = GroupDialogFragment.getInstance(group);
-        fragmentTransaction.add(groupDialogFragment, ADD_GROUP_FRAGMENT_TAG).commitNow();
-    }
-
-    /**
      * Setup recycler view
      */
     private void setUpRecyclerView() {
@@ -167,5 +160,9 @@ public class GroupFragment extends Fragment implements GroupContract.View,
         fragmentBinding.groupsRecyclerView.setLayoutManager(new LinearLayoutManager(context));
         fragmentBinding.groupsRecyclerView.addItemDecoration(new LinearLayoutDecorator(context,
                 null));
+    }
+
+    public interface FragmentInteractionListener {
+        void showGroupDialogFragment(@Nullable SimOneGroup group);
     }
 }

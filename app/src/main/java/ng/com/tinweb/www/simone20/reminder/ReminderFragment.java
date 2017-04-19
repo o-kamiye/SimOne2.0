@@ -158,7 +158,6 @@ public class ReminderFragment extends Fragment implements ReminderContract.View,
                         reminder.getContactName()))
                 .create();
         confirmationDialog.show();
-        //presenter.deleteReminder(contactId);
     }
 
     public void loadReminders() {
