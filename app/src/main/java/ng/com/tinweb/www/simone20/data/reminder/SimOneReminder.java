@@ -150,7 +150,7 @@ public class SimOneReminder extends SimOneContact {
         }
 
         public Builder setDaysLeft(int daysLeft) {
-            this.daysLeft = interval;
+            this.daysLeft = daysLeft;
             return this;
         }
 
