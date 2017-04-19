@@ -153,7 +153,7 @@ public class ReminderFragment extends Fragment implements ReminderContract.View,
 
                     }
                 })
-                .setMessage(getString(R.string.reminder_delete_confirmation,
+                .setMessage(getString(R.string.delete_confirmation,
                         reminder.getContactName()))
                 .create();
         confirmationDialog.show();

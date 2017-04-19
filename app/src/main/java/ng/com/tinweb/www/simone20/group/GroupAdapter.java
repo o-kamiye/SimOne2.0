@@ -53,8 +53,7 @@ class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolder> {
             adapterBinding.groupInfoTextView.setText(Html
                     .fromHtml(context.getString(R.string.status_badge, interval),
                             Html.FROM_HTML_MODE_COMPACT));
-        }
-        else {
+        } else {
             adapterBinding.groupInfoTextView.setText(Html
                     .fromHtml(context.getString(R.string.status_badge, interval)));
         }

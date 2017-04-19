@@ -1,18 +1,21 @@
 package ng.com.tinweb.www.simone20.group;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -88,13 +91,49 @@ public class GroupFragment extends Fragment implements GroupContract.View,
     }
 
     @Override
+    public void onDeleteSuccess() {
+        groupPresenter.loadGroups();
+        Toast.makeText(getContext(), "Group deleted successfully", Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onDeleteError(int errorCode) {
+        new AlertDialog.Builder(getContext())
+                .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                    }
+                })
+                .setMessage("Error deleting group. Please try again.")
+                .create()
+                .show();
+    }
+
+    @Override
     public void onEditAction(SimOneGroup group) {
         showGroupDialogFragment(group);
     }
 
     @Override
-    public void onDeleteAction(String groupId) {
-        groupPresenter.deleteGroup(groupId);
+    public void onDeleteAction(final String groupName) {
+        String message = getString(R.string.delete_confirmation, groupName);
+        new AlertDialog.Builder(getContext())
+                .setMessage(message)
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                    }
+                })
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        groupPresenter.deleteGroup(groupName);
+                    }
+                })
+                .create()
+                .show();
     }
 
     /**
