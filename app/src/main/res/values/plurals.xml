@@ -12,5 +12,9 @@
         <item quantity="one">You have a total of %d group</item>
         <item quantity="other">You have a total of %d groups</item>
     </plurals>
+    <plurals name="days">
+        <item quantity="one">day</item>
+        <item quantity="other">days</item>
+    </plurals>
 
 </resources>

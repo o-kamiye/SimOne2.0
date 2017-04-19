@@ -49,13 +49,16 @@ class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolder> {
 
         int interval = group.getInterval();
 
+        String dayString = context.getResources()
+                .getQuantityString(R.plurals.days, interval, interval);
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             adapterBinding.groupInfoTextView.setText(Html
-                    .fromHtml(context.getString(R.string.status_badge, interval),
+                    .fromHtml(context.getString(R.string.status_badge, interval, dayString),
                             Html.FROM_HTML_MODE_COMPACT));
         } else {
             adapterBinding.groupInfoTextView.setText(Html
-                    .fromHtml(context.getString(R.string.status_badge, interval)));
+                    .fromHtml(context.getString(R.string.status_badge, interval, dayString)));
         }
     }
 

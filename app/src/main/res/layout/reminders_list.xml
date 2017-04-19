@@ -41,7 +41,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="center"
-                    android:lineSpacingExtra="-3dp"
+                    android:lineSpacingExtra="0dp"
                     android:textColor="@color/progressRedAlert"
                     android:textSize="10sp" />
 

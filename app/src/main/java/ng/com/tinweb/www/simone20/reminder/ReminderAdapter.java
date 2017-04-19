@@ -59,13 +59,15 @@ class ReminderAdapter extends RecyclerView.Adapter<ReminderAdapter.ViewHolder> {
         }
 
         remindersBinding.circularProgressBar.setProgressWithAnimation(progress, ANIMATION_DURATION);
+        String dayString = context.getResources()
+                .getQuantityString(R.plurals.days, daysLeft, daysLeft);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             remindersBinding.circularInfoTextView.setText(Html
-                    .fromHtml(context.getString(R.string.status_badge, daysLeft),
+                    .fromHtml(context.getString(R.string.status_badge, daysLeft, dayString),
                             Html.FROM_HTML_MODE_COMPACT));
         } else {
             remindersBinding.circularInfoTextView.setText(Html
-                    .fromHtml(context.getString(R.string.status_badge, daysLeft)));
+                    .fromHtml(context.getString(R.string.status_badge, daysLeft, dayString)));
         }
     }
 
