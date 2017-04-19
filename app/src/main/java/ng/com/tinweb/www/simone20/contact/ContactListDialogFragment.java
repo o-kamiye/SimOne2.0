@@ -101,7 +101,7 @@ public class ContactListDialogFragment extends DialogFragment
 
     @Override
     public void onClickAdd(SimOneContact contact) {
-        interactionListener.showReminderDialogFragment(contact);
+        interactionListener.showReminderDialogFragment(contact, false);
     }
 
     private void setTitleDimension() {
@@ -126,6 +126,6 @@ public class ContactListDialogFragment extends DialogFragment
     }
 
     public interface FragmentInteractionListener {
-        void showReminderDialogFragment(SimOneContact contact);
+        void showReminderDialogFragment(SimOneContact contact, boolean isEditMode);
     }
 }

@@ -33,6 +33,7 @@ public class MainActivity extends AppCompatActivity implements
     public static final String CONTACT_LIST_FRAGMENT_TAG = "search_result";
 
     private static final String ADD_REMINDER_FRAGMENT_TAG = "add_reminder";
+    private static final String EDIT_REMINDER_FRAGMENT_TAG = "edit_reminder";
 
     private ActivityMainBinding activityBinding;
     private NavigationPagerAdapter pagerAdapter;
@@ -119,15 +120,20 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     @Override
-    public void showReminderDialogFragment(SimOneContact contact) {
+    public void showReminderDialogFragment(SimOneContact contact, boolean isEditMode) {
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        Fragment prev = fragmentManager.findFragmentByTag(ADD_REMINDER_FRAGMENT_TAG);
+        Fragment prev = fragmentManager.findFragmentByTag(isEditMode ? EDIT_REMINDER_FRAGMENT_TAG :
+                ADD_REMINDER_FRAGMENT_TAG);
         if (prev != null) {
             fragmentTransaction.remove(prev);
         }
         fragmentTransaction.addToBackStack(null);
-        ReminderDialogFragment addReminderFragment = ReminderDialogFragment.getInstance(contact);
-        addReminderFragment.show(fragmentTransaction, ADD_REMINDER_FRAGMENT_TAG);
+        ReminderDialogFragment dialogFragment = ReminderDialogFragment.getInstance(contact);
+        dialogFragment.setEditMode(isEditMode);
+
+        dialogFragment.show(fragmentTransaction, isEditMode ? EDIT_REMINDER_FRAGMENT_TAG :
+                ADD_REMINDER_FRAGMENT_TAG);
+        //addReminderFragment.show(fragmentTransaction, EDIT_REMINDER_FRAGMENT_TAG);
     }
 
     private void setUpViewPager() {

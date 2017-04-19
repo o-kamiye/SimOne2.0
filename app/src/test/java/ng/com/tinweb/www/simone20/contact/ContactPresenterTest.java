@@ -12,22 +12,22 @@ import ng.com.tinweb.www.simone20.data.contact.SimOneContact;
 import static org.mockito.Mockito.verify;
 
 /**
- * Created by kamiye on 29/09/2016.
+ * ContactPresenterTest - Test class for {@link ContactPresenter}
  */
-public class PresenterTest {
+public class ContactPresenterTest {
 
     @Mock
-    private IContactView contactView;
+    private DialogFragmentContract.View view;
 
     @Mock
-    private SimOneContact simOneContact;
+    private SimOneContact contact;
 
     private ContactPresenter presenter;
 
     @Before
     public void setUpTest() {
         MockitoAnnotations.initMocks(this);
-        presenter = new ContactPresenter(contactView, simOneContact);
+        presenter = new ContactPresenter(view, contact);
     }
 
     @Test
@@ -35,7 +35,7 @@ public class PresenterTest {
         String query = "contact";
         presenter.fetchContacts(query);
 
-        verify(contactView).loadContacts(new ArrayList<SimOneContact>());
+        verify(view).loadContacts(new ArrayList<SimOneContact>());
     }
 
 }
