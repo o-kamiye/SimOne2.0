@@ -9,7 +9,7 @@ import static ng.com.tinweb.www.simone20.data.group.SimOneGroup.DB_INSERT_ERROR;
 import static ng.com.tinweb.www.simone20.data.group.SimOneGroup.GROUP_EXISTS_ERROR;
 
 /**
- * GroupPresenter - Presenter to interact with group model
+ * GroupPresenter - ContactPresenter to interact with group model
  */
 class GroupPresenter implements GroupContract.Presenter {
 

@@ -22,12 +22,12 @@ public class PresenterTest {
     @Mock
     private SimOneContact simOneContact;
 
-    private Presenter presenter;
+    private ContactPresenter presenter;
 
     @Before
     public void setUpTest() {
         MockitoAnnotations.initMocks(this);
-        presenter = new Presenter(contactView, simOneContact);
+        presenter = new ContactPresenter(contactView, simOneContact);
     }
 
     @Test

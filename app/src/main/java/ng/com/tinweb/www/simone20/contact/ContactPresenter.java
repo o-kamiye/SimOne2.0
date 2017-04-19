@@ -9,21 +9,21 @@ import ng.com.tinweb.www.simone20.data.contact.SimOneContact;
  * Created by kamiye on 28/09/2016.
  */
 
-public class Presenter implements IContactPresenter {
+class ContactPresenter implements DialogFragmentContract.Presenter {
 
-    private WeakReference<IContactView> contactView;
+    private WeakReference<DialogFragmentContract.View> view;
     private SimOneContact contact;
 
-    public Presenter(IContactView contactView, SimOneContact contact) {
-        this.contactView = new WeakReference<>(contactView);
+    ContactPresenter(DialogFragmentContract.View view, SimOneContact contact) {
+        this.view = new WeakReference<>(view);
         this.contact = contact;
     }
 
     @Override
     public void fetchContacts(String searchQuery) {
         List<SimOneContact> contacts = contact.getList(searchQuery);
-        if (contactView.get() != null) {
-            contactView.get().loadContacts(contacts);
+        if (view.get() != null) {
+            view.get().loadContacts(contacts);
         }
     }
 }
