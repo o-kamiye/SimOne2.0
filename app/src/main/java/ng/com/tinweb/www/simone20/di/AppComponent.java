@@ -7,6 +7,7 @@ import ng.com.tinweb.www.simone20.contact.ContactListDialogFragment;
 import ng.com.tinweb.www.simone20.group.GroupDialogFragment;
 import ng.com.tinweb.www.simone20.group.GroupComponent;
 import ng.com.tinweb.www.simone20.group.GroupModule;
+import ng.com.tinweb.www.simone20.group.GroupRemindersFragment;
 import ng.com.tinweb.www.simone20.reminder.ReminderComponent;
 import ng.com.tinweb.www.simone20.reminder.ReminderDialogFragment;
 import ng.com.tinweb.www.simone20.reminder.ReminderModule;
@@ -28,6 +29,7 @@ public interface AppComponent {
     GroupComponent subComponent(GroupModule module);
 
     void inject(ReminderDialogFragment dialogFragment);
-    void inject(ContactListDialogFragment dialogFragment);
+    void inject(ContactListDialogFragment fragment);
     void inject(GroupDialogFragment dialogFragment);
+    void inject(GroupRemindersFragment fragment);
 }

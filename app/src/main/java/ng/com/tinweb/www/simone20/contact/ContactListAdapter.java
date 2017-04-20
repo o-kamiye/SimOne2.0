@@ -13,52 +13,52 @@ import ng.com.tinweb.www.simone20.data.contact.SimOneContact;
 import ng.com.tinweb.www.simone20.databinding.ContactListBinding;
 
 /**
- * Created by kamiye on 27/09/2016.
+ * ContactListAdapter
  */
 
 class ContactListAdapter extends RecyclerView.Adapter<ContactListAdapter.ViewHolder> {
 
-    private List<SimOneContact> contactList;
-    private ContactListBinding contactListBinding;
-    private ContactActionListener contactActionListener;
+    private List<SimOneContact> contacts;
+    private ContactListBinding adapterBinding;
+    private ContactActionListener actionListener;
 
-    ContactListAdapter(List<SimOneContact> contactList,
-                              ContactActionListener contactActionListener) {
-        this.contactList = contactList;
-        this.contactActionListener = contactActionListener;
+    ContactListAdapter(List<SimOneContact> contacts,
+                              ContactActionListener actionListener) {
+        this.contacts = contacts;
+        this.actionListener = actionListener;
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        contactListBinding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()),
+        adapterBinding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()),
                 R.layout.contact_list, parent, false);
 
-        return new ViewHolder(contactListBinding.getRoot());
+        return new ViewHolder(adapterBinding.getRoot());
     }
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         // TODO save the first letter here
-        String name = contactList.get(position).getName();
+        String name = contacts.get(position).getName();
 
-        contactListBinding.contactNameTextView.setText(name);
+        adapterBinding.contactNameTextView.setText(name);
     }
 
     @Override
     public int getItemCount() {
-        return contactList.size();
+        return contacts.size();
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
 
         ViewHolder(View itemView) {
             super(itemView);
-            contactListBinding.addIconImageView.setOnClickListener(new View.OnClickListener() {
+            adapterBinding.addIconImageView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     int position = getAdapterPosition();
-                    SimOneContact contact = contactList.get(position);
-                    contactActionListener.onClickAdd(contact);
+                    SimOneContact contact = contacts.get(position);
+                    actionListener.onClickAdd(contact);
                 }
             });
         }

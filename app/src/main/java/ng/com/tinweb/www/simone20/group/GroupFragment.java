@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
@@ -35,7 +36,7 @@ public class GroupFragment extends Fragment implements GroupContract.View,
     private FragmentInteractionListener interactionListener;
 
     @Inject
-    GroupPresenter groupPresenter;
+    GroupPresenter presenter;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -101,7 +102,7 @@ public class GroupFragment extends Fragment implements GroupContract.View,
 
     @Override
     public void onDeleteSuccess() {
-        groupPresenter.loadGroups();
+        presenter.loadGroups();
         Toast.makeText(getContext(), "Group deleted successfully", Toast.LENGTH_LONG).show();
     }
 
@@ -138,18 +139,23 @@ public class GroupFragment extends Fragment implements GroupContract.View,
                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        groupPresenter.deleteGroup(groupName);
+                        presenter.deleteGroup(groupName);
                     }
                 })
                 .create()
                 .show();
     }
 
+    @Override
+    public void onSelectInfo(String name) {
+        interactionListener.showGroupMembersFragment(name);
+    }
+
     /**
      * Get groups
      */
     public void loadGroups() {
-        groupPresenter.loadGroups();
+        presenter.loadGroups();
     }
 
     /**
@@ -164,5 +170,6 @@ public class GroupFragment extends Fragment implements GroupContract.View,
 
     public interface FragmentInteractionListener {
         void showGroupDialogFragment(@Nullable SimOneGroup group);
+        void showGroupMembersFragment(@NonNull String groupName);
     }
 }

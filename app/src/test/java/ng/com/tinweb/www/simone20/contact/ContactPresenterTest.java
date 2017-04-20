@@ -35,7 +35,7 @@ public class ContactPresenterTest {
         String query = "contact";
         presenter.fetchContacts(query);
 
-        verify(view).loadContacts(new ArrayList<SimOneContact>());
+        verify(view).onContactsLoaded(new ArrayList<SimOneContact>());
     }
 
 }

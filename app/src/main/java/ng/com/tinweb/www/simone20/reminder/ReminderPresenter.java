@@ -26,9 +26,9 @@ class ReminderPresenter implements ReminderContract.Presenter {
         simOneReminder.getAll(false, new SimOneReminder.GetAllCallback() {
             @Override
             public void onSuccess(HashMap<String, String> metaData,
-                                  List<SimOneReminder> simOneReminders) {
+                                  List<SimOneReminder> reminders) {
                 if (view.get() != null) {
-                    view.get().onRemindersLoaded(simOneReminders);
+                    view.get().onRemindersLoaded(reminders);
                     int totalDueThisWeek = Integer.valueOf(metaData.get("dueWeekly"));
                     view.get().setWeekReminderTextView(totalDueThisWeek);
                 }

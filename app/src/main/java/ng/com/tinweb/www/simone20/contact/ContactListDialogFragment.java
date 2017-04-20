@@ -81,6 +81,12 @@ public class ContactListDialogFragment extends DialogFragment
         }
     }
 
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        interactionListener = null;
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
@@ -95,7 +101,7 @@ public class ContactListDialogFragment extends DialogFragment
     }
 
     @Override
-    public void loadContacts(List<SimOneContact> contacts) {
+    public void onContactsLoaded(List<SimOneContact> contacts) {
         fragmentBinding.contactListRecyclerView.setAdapter(new ContactListAdapter(contacts, this));
     }
 

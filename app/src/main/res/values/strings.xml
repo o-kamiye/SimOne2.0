@@ -10,6 +10,8 @@
     <string name="reminder_fragment_title">Manage Reminders</string>
     <string name="group_fragment_title">Manage Groups</string>
     <string name="call_action">Call action</string>
+    <string name="delete_action">Delete action</string>
+    <string name="add_action">Add action</string>
     <string name="some_calls_coming_up">Some calls coming up</string>
     <string name="today_fragment_icon">Today Fragment Icon</string>
     <string name="reminder_fragment_icon">Reminder Fragment Icon</string>
@@ -44,5 +46,8 @@
         <item>@string/reminder_fragment_title</item>
         <item>@string/group_fragment_title</item>
     </string-array>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>

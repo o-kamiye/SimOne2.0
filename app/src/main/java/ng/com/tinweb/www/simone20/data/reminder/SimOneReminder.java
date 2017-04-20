@@ -89,6 +89,10 @@ public class SimOneReminder extends SimOneContact {
         this.daysLeft = daysLeft;
     }
 
+    public void getGroupReminders(String groupName, GetAllCallback callback) {
+        dataStore.getMultipleInGroup(groupName, callback);
+    }
+
     private void initialiseDataStore(Context context) {
         dataStore = new ReminderDbHelper(context);
     }
@@ -104,7 +108,7 @@ public class SimOneReminder extends SimOneContact {
     }
 
     public interface GetAllCallback {
-        void onSuccess(HashMap<String, String> metaData, List<SimOneReminder> simOneReminders);
+        void onSuccess(HashMap<String, String> metaData, List<SimOneReminder> reminders);
         void onError(int errorCode);
     }
 

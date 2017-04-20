@@ -22,4 +22,11 @@ interface GroupActionsListener {
      * @param groupName Name of group to delete
      */
     void onDeleteAction(String groupName);
+
+    /**
+     * Method to call group is clicked to see the group info
+     *
+     * @param name Name of group selected
+     */
+    void onSelectInfo(String name);
 }

@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -25,6 +26,7 @@ import ng.com.tinweb.www.simone20.data.group.SimOneGroup;
 import ng.com.tinweb.www.simone20.databinding.ActivityMainBinding;
 import ng.com.tinweb.www.simone20.group.GroupDialogFragment;
 import ng.com.tinweb.www.simone20.group.GroupFragment;
+import ng.com.tinweb.www.simone20.group.GroupRemindersFragment;
 import ng.com.tinweb.www.simone20.reminder.ReminderDialogFragment;
 
 public class MainActivity extends AppCompatActivity implements
@@ -32,13 +34,15 @@ public class MainActivity extends AppCompatActivity implements
         ReminderDialogFragment.InteractionListener,
         GroupDialogFragment.FragmentInteractionListener,
         ContactListDialogFragment.FragmentInteractionListener,
-        GroupFragment.FragmentInteractionListener {
+        GroupFragment.FragmentInteractionListener,
+        GroupRemindersFragment.FragmentInteractionListener {
 
     public static final String CONTACT_LIST_FRAGMENT_TAG = "search_result";
 
     private static final String ADD_REMINDER_FRAGMENT_TAG = "add_reminder";
     private static final String EDIT_REMINDER_FRAGMENT_TAG = "edit_reminder";
     private static final String ADD_GROUP_FRAGMENT_TAG = "add_new_group";
+    private static final String GROUP_MEMBERS_TAG = "group_members_tag";
 
     private ActivityMainBinding activityBinding;
     private NavigationPagerAdapter pagerAdapter;
@@ -125,6 +129,11 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     @Override
+    public void onDeleteGroupReminder() {
+        Toast.makeText(this, "Reminder removed", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
     public void showReminderDialogFragment(SimOneContact contact, boolean isEditMode) {
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         Fragment prev = fragmentManager.findFragmentByTag(isEditMode ? EDIT_REMINDER_FRAGMENT_TAG :
@@ -150,6 +159,17 @@ public class MainActivity extends AppCompatActivity implements
         }
         GroupDialogFragment groupDialogFragment = GroupDialogFragment.getInstance(group);
         fragmentTransaction.add(groupDialogFragment, ADD_GROUP_FRAGMENT_TAG).commitNow();
+    }
+
+    @Override
+    public void showGroupMembersFragment(@NonNull String groupName) {
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        Fragment prev = fragmentManager.findFragmentByTag(GROUP_MEMBERS_TAG);
+        if (prev != null) {
+            fragmentTransaction.remove(prev);
+        }
+        GroupRemindersFragment fragment = GroupRemindersFragment.newInstance(groupName);
+        fragmentTransaction.add(fragment, GROUP_MEMBERS_TAG).commitNow();
     }
 
     private void setUpViewPager() {

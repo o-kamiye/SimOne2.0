@@ -20,7 +20,7 @@ import ng.com.tinweb.www.simone20.data.BaseDbHelper;
 import ng.com.tinweb.www.simone20.data.DbContract;
 
 /**
- * Created by kamiye on 20/09/2016.
+ * ReminderDbHelper - Helper class to access Reminder Db methods
  */
 
 class ReminderDbHelper extends BaseDbHelper implements DataStore {
@@ -107,7 +107,8 @@ class ReminderDbHelper extends BaseDbHelper implements DataStore {
                     cursor.getColumnIndexOrThrow(DbContract.ContactSchema.COLUMN_NAME_CONTACT_NAME)
             );
             int interval = cursor.getInt(
-                    cursor.getColumnIndexOrThrow(DbContract.ContactSchema.COLUMN_NAME_REMINDER_INTERVAL)
+                    cursor.getColumnIndexOrThrow(
+                            DbContract.ContactSchema.COLUMN_NAME_REMINDER_INTERVAL)
             );
             String dueDate = cursor.getString(
                     cursor.getColumnIndexOrThrow(DbContract.ContactSchema.COLUMN_NAME_DATE_DUE)
@@ -212,6 +213,71 @@ class ReminderDbHelper extends BaseDbHelper implements DataStore {
                 reminders.add(reminder);
             }
             remindersMetaData.put("dueWeekly", String.valueOf(dueWeekly));
+            callback.onSuccess(remindersMetaData, reminders);
+            cursor.close();
+        } else {
+            callback.onError(UNKNOWN_ERROR);
+        }
+    }
+
+    @Override
+    public void getMultipleInGroup(String groupName, SimOneReminder.GetAllCallback callback) {
+        SQLiteDatabase database = getReadableDatabase();
+
+        String[] projection = {
+                DbContract.ContactSchema._ID,
+                DbContract.ContactSchema.COLUMN_NAME_CONTACT_NAME,
+                DbContract.ContactSchema.COLUMN_NAME_CONTACT_GROUP,
+                DbContract.ContactSchema.COLUMN_NAME_CONTACT_NUMBERS,
+                DbContract.ContactSchema.COLUMN_NAME_REMINDER_INTERVAL
+        };
+
+        String selection = DbContract.ContactSchema.COLUMN_NAME_CONTACT_GROUP + " = ?";
+        String[] selectionArgs = {groupName};
+
+        String sortOrder = DbContract.ContactSchema.COLUMN_NAME_CONTACT_GROUP + " ASC";
+
+        Cursor cursor = database.query(
+                DbContract.ContactSchema.TABLE_NAME,
+                projection,
+                selection,
+                selectionArgs,
+                null,
+                null,
+                sortOrder
+        );
+        if (cursor != null) {
+            List<SimOneReminder> reminders = new ArrayList<>();
+            HashMap<String, String> remindersMetaData = new HashMap<>();
+            while (cursor.moveToNext()) {
+                int contactId = cursor.getInt(
+                        cursor.getColumnIndexOrThrow(DbContract.ContactSchema._ID)
+                );
+                String contactName = cursor.getString(
+                        cursor.getColumnIndexOrThrow(
+                                DbContract.ContactSchema.COLUMN_NAME_CONTACT_NAME)
+                );
+                String contactGroup = cursor.getString(
+                        cursor.getColumnIndexOrThrow(
+                                DbContract.ContactSchema.COLUMN_NAME_CONTACT_GROUP)
+                );
+                String contactNumbers = cursor.getString(
+                        cursor.getColumnIndexOrThrow(
+                                DbContract.ContactSchema.COLUMN_NAME_CONTACT_NUMBERS)
+                );
+                int interval = cursor.getInt(
+                        cursor.getColumnIndexOrThrow(
+                                DbContract.ContactSchema.COLUMN_NAME_REMINDER_INTERVAL)
+                );
+                SimOneReminder reminder = new SimOneReminder.Builder(context)
+                        .setContactId(contactId)
+                        .setContactName(contactName)
+                        .setContactGroup(contactGroup)
+                        .setContactNumbers(contactNumbers)
+                        .setInterval(interval)
+                        .create();
+                reminders.add(reminder);
+            }
             callback.onSuccess(remindersMetaData, reminders);
             cursor.close();
         } else {
