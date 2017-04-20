@@ -49,6 +49,16 @@ class ContactListAdapter extends RecyclerView.Adapter<ContactListAdapter.ViewHol
         return contacts.size();
     }
 
+    @Override
+    public long getItemId(int position) {
+        return position;
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        return position;
+    }
+
     class ViewHolder extends RecyclerView.ViewHolder {
 
         ViewHolder(View itemView) {

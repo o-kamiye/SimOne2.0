@@ -3,11 +3,13 @@ package ng.com.tinweb.www.simone20.group;
 import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import android.support.v4.app.DialogFragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import java.util.List;
 
@@ -22,7 +24,7 @@ import ng.com.tinweb.www.simone20.util.LinearLayoutDecorator;
 /**
  * GroupRemindersFragment - Fragment class to show group contact list
  */
-public class GroupRemindersFragment extends Fragment implements
+public class GroupRemindersFragment extends DialogFragment implements
         GroupRemindersContract.View, GroupRemindersActionListener {
 
     private static final String GROUP_NAME = "group_name";
@@ -66,6 +68,7 @@ public class GroupRemindersFragment extends Fragment implements
         fragmentBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_group_contacts,
                 container, false);
 
+        setTitleDimension();
         setupRecyclerView();
         fetchGroupReminders();
         return fragmentBinding.getRoot();
@@ -101,6 +104,15 @@ public class GroupRemindersFragment extends Fragment implements
     @Override
     public void onClickDelete(SimOneReminder reminder) {
         interactionListener.onDeleteGroupReminder();
+    }
+
+    private void setTitleDimension() {
+        TextView titleTextView = (TextView) getDialog().findViewById(android.R.id.title);
+//        getDialog().setTitle(title);
+        titleTextView.setText(groupName);
+        titleTextView.setTextColor(ContextCompat.getColor(getContext(), R.color.colorPrimaryDark));
+        titleTextView.setTextSize(16);
+        titleTextView.setPadding(40,40,0,5);
     }
 
     private void setupRecyclerView() {

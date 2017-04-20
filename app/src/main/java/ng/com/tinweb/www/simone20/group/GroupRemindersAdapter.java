@@ -38,7 +38,7 @@ class GroupRemindersAdapter extends RecyclerView.Adapter<GroupRemindersAdapter.V
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
 
-        String name = reminders.get(position).getName();
+        String name = reminders.get(position).getContactName();
 
         adapterBinding.contactNameTextView.setText(name);
     }
