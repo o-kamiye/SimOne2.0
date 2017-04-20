@@ -11,12 +11,13 @@ import java.util.List;
 import ng.com.tinweb.www.simone20.data.BaseDbHelper;
 import ng.com.tinweb.www.simone20.data.DbContract;
 
+import static ng.com.tinweb.www.simone20.data.group.SimOneGroup.DB_DELETE_ERROR;
 import static ng.com.tinweb.www.simone20.data.group.SimOneGroup.DB_INSERT_ERROR;
 import static ng.com.tinweb.www.simone20.data.group.SimOneGroup.GROUP_EXISTS_ERROR;
 import static ng.com.tinweb.www.simone20.data.group.SimOneGroup.UNKNOWN_ERROR;
 
 /**
- * Created by kamiye on 20/09/2016.
+ * GroupDbHelper - Database helper for group model
  */
 
 class GroupDbHelper extends BaseDbHelper implements DataStore {
@@ -173,10 +174,20 @@ class GroupDbHelper extends BaseDbHelper implements DataStore {
         }
     }
 
-
     @Override
-    public boolean delete() {
-        return false;
+    public void delete(String name, SimOneGroup.ActionCallback callback) {
+        SQLiteDatabase database = getWritableDatabase();
+        String selection = DbContract.GroupSchema.COLUMN_NAME_GROUP_NAME + " = ?";
+        String[] selectionArgs = {name};
+
+        long count = database.delete(DbContract.GroupSchema.TABLE_NAME, selection,
+                selectionArgs);
+
+        // TODO: 19/04/2017 perform clean up task for all reminders with the group
+
+        if (count != 0) callback.onSuccess();
+
+        else callback.onError(DB_DELETE_ERROR);
     }
 
     @Override

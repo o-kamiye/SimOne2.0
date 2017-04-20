@@ -9,46 +9,51 @@ import static ng.com.tinweb.www.simone20.data.group.SimOneGroup.DB_INSERT_ERROR;
 import static ng.com.tinweb.www.simone20.data.group.SimOneGroup.GROUP_EXISTS_ERROR;
 
 /**
- * Created by kamiye on 11/09/2016.
+ * GroupPresenter - ContactPresenter to interact with group model
  */
 class GroupPresenter implements GroupContract.Presenter {
 
-    private WeakReference<GroupContract.View> groupView;
-    private SimOneGroup simOneGroup;
+    private WeakReference<GroupContract.View> view;
+    private SimOneGroup group;
 
-    GroupPresenter(SimOneGroup simOneGroup, GroupContract.View groupView) {
-        this.groupView = new WeakReference<>(groupView);
-        this.simOneGroup = simOneGroup;
+    GroupPresenter(SimOneGroup group, GroupContract.View view) {
+        this.view = new WeakReference<>(view);
+        this.group = group;
     }
 
     @Override
     public void loadGroups() {
-        simOneGroup.getAll(new SimOneGroup.GetAllCallback() {
+        group.getAll(new SimOneGroup.GetAllCallback() {
             @Override
             public void onSuccess(List<SimOneGroup> groups) {
-                if (groupView.get() != null) {
-                    groupView.get().onGroupsLoaded(groups);
+                if (view.get() != null) {
+                    view.get().onGroupsLoaded(groups);
                 }
             }
 
             @Override
             public void onError(int errorCode) {
                 String message = "An unknown error occurred";
-                if (groupView.get() != null) {
-                    groupView.get().onGroupsLoadingError(message);
+                if (view.get() != null) {
+                    view.get().onGroupsLoadingError(message);
                 }
             }
         });
     }
 
     @Override
-    public void deleteGroup(String groupId) {
-        if (groupView.get() != null) {
-            // TODO get the group from the groupId
-            // TODO call the remove method on the group object
-            // TODO if the removal was successful, then call the view's remove successful callback method
-            // TODO if the removal was unsuccessful, then call the view's remove unsuccessful callback method
-        }
+    public void deleteGroup(String groupName) {
+        group.delete(groupName, new SimOneGroup.ActionCallback() {
+            @Override
+            public void onSuccess() {
+                if (view.get() != null) view.get().onDeleteSuccess();
+            }
+
+            @Override
+            public void onError(int errorCode) {
+                if (view.get() != null) view.get().onDeleteError(errorCode);
+            }
+        });
     }
 
     static class AddGroupPresenter implements DialogFragmentContract.Presenter {

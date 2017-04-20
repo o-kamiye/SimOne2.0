@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -15,7 +16,6 @@
             android:layout_margin="5dp"
             android:background="@drawable/group_badge"
             android:gravity="center"
-            android:lineSpacingExtra="-3dp"
             android:textColor="@color/white"
             android:textSize="10sp" />
 
@@ -31,10 +31,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:text="Dele Momodu"
                 android:paddingRight="15dp"
                 android:textColor="@color/defaultTextColour"
-                android:textSize="16sp" />
+                android:textSize="16sp"
+                tools:text="Family" />
 
             <TextView
                 android:id="@+id/groupMembersTextView"
@@ -42,8 +42,8 @@
                 android:layout_height="wrap_content"
                 android:layout_alignEnd="@id/groupNameTextView"
                 android:layout_alignRight="@id/groupNameTextView"
-                android:textColor="@color/colorPrimary"
                 android:text="12"
+                android:textColor="@color/colorPrimary"
                 android:textSize="12sp" />
 
         </RelativeLayout>

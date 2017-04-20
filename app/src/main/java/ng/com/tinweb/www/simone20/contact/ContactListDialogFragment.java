@@ -1,11 +1,10 @@
 package ng.com.tinweb.www.simone20.contact;
 
+import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
@@ -21,25 +20,26 @@ import ng.com.tinweb.www.simone20.R;
 import ng.com.tinweb.www.simone20.SimOne;
 import ng.com.tinweb.www.simone20.data.contact.SimOneContact;
 import ng.com.tinweb.www.simone20.databinding.FragmentContactListBinding;
-import ng.com.tinweb.www.simone20.reminder.ReminderDialogFragment;
 import ng.com.tinweb.www.simone20.util.LinearLayoutDecorator;
 
 /**
- * Created by kamiye on 28/09/2016.
+ * ContactListDialogFragment - Dialog fragment to manage contact list
+ * from search option
  */
 
 public class ContactListDialogFragment extends DialogFragment
-        implements IContactView, ContactActionListener {
+        implements DialogFragmentContract.View,
+        ContactActionListener {
 
     private static final String BUNDLE_KEY = "query";
-    private static final String ADD_REMINDER_FRAGMENT_TAG = "add_reminder";
 
     private FragmentContactListBinding fragmentBinding;
-    private IContactPresenter contactPresenter;
+    private FragmentInteractionListener interactionListener;
+    private DialogFragmentContract.Presenter presenter;
     private String searchQuery;
 
     @Inject
-    SimOneContact simOneContact;
+    SimOneContact contact;
 
     public static ContactListDialogFragment getInstance(String searchQuery) {
         ContactListDialogFragment dialogFragment = new ContactListDialogFragment();
@@ -66,7 +66,19 @@ public class ContactListDialogFragment extends DialogFragment
     @Override
     public void onResume() {
         super.onResume();
-        contactPresenter.fetchContacts(searchQuery);
+        presenter.fetchContacts(searchQuery);
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof FragmentInteractionListener) {
+            interactionListener = (FragmentInteractionListener) context;
+        }
+        else {
+            throw new RuntimeException(context +
+                    " must implement ContactListDialogFragment.FragmentInteractionListener");
+        }
     }
 
     @Nullable
@@ -76,35 +88,24 @@ public class ContactListDialogFragment extends DialogFragment
         fragmentBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_contact_list,
                 container, false);
 
-        TextView titleTextView = (TextView) getDialog().findViewById(android.R.id.title);
-        setTitleDimension(titleTextView);
-
-        contactPresenter.fetchContacts(searchQuery);
+        setTitleDimension();
+        setupRecyclerView();
+        presenter.fetchContacts(searchQuery);
         return fragmentBinding.getRoot();
     }
 
     @Override
     public void loadContacts(List<SimOneContact> contacts) {
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
-        fragmentBinding.contactListRecyclerView.setLayoutManager(linearLayoutManager);
-        fragmentBinding.contactListRecyclerView.addItemDecoration(new LinearLayoutDecorator(getContext(), null));
         fragmentBinding.contactListRecyclerView.setAdapter(new ContactListAdapter(contacts, this));
     }
 
     @Override
     public void onClickAdd(SimOneContact contact) {
-
-        FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
-        Fragment prev = getActivity().getSupportFragmentManager().findFragmentByTag(ADD_REMINDER_FRAGMENT_TAG);
-        if (prev != null) {
-            fragmentTransaction.remove(prev);
-        }
-        fragmentTransaction.addToBackStack(null);
-        ReminderDialogFragment addReminderFragment = ReminderDialogFragment.getInstance(contact);
-        addReminderFragment.show(fragmentTransaction, ADD_REMINDER_FRAGMENT_TAG);
+        interactionListener.showReminderDialogFragment(contact, false);
     }
 
-    private void setTitleDimension(TextView titleTextView) {
+    private void setTitleDimension() {
+        TextView titleTextView = (TextView) getDialog().findViewById(android.R.id.title);
         String title = getString(R.string.contact_search_title, searchQuery);
 //        getDialog().setTitle(title);
         titleTextView.setText(title);
@@ -114,6 +115,17 @@ public class ContactListDialogFragment extends DialogFragment
     }
 
     private void initialisePresenter() {
-        this.contactPresenter = new Presenter(this, simOneContact);
+        this.presenter = new ContactPresenter(this, contact);
+    }
+
+    private void setupRecyclerView() {
+        Context context = fragmentBinding.getRoot().getContext();
+        fragmentBinding.contactListRecyclerView.setLayoutManager(new LinearLayoutManager(context));
+        fragmentBinding.contactListRecyclerView.addItemDecoration(new LinearLayoutDecorator(context,
+                null));
+    }
+
+    public interface FragmentInteractionListener {
+        void showReminderDialogFragment(SimOneContact contact, boolean isEditMode);
     }
 }

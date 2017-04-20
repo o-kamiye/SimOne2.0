@@ -1,7 +1,7 @@
 package ng.com.tinweb.www.simone20.data.group;
 
 /**
- * Created by kamiye on 20/09/2016.
+ * DataStore - Interface that group database must implement
  */
 
 interface DataStore {
@@ -10,7 +10,7 @@ interface DataStore {
     void update(String oldName, String name, int interval, SimOneGroup.ActionCallback callback);
     void getSingle(String name, SimOneGroup.ActionCallback callback);
     void getMultiple(SimOneGroup.GetAllCallback callback);
-    boolean delete();
+    void delete(String name, SimOneGroup.ActionCallback callback);
     int getInterval(String groupName);
 
 }

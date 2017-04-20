@@ -47,13 +47,15 @@ class TodayAdapter extends RecyclerView.Adapter<TodayAdapter.ViewHolder> {
         adapterBinding.contactNameTextView.setText(reminder.getContactName());
         int interval = reminder.getInterval();
 
+        String dayString = context.getResources()
+                .getQuantityString(R.plurals.days, interval, interval);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             adapterBinding.contactInfoTextView.setText(Html
-                    .fromHtml(context.getString(R.string.status_badge, interval),
+                    .fromHtml(context.getString(R.string.status_badge, interval, dayString),
                             Html.FROM_HTML_MODE_COMPACT));
         } else {
             adapterBinding.contactInfoTextView.setText(Html
-                    .fromHtml(context.getString(R.string.status_badge, interval)));
+                    .fromHtml(context.getString(R.string.status_badge, interval, dayString)));
         }
     }
 

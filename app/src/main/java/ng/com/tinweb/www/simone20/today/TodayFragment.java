@@ -71,16 +71,15 @@ public class TodayFragment extends Fragment implements TodayContract.View,
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
 
         if (requestCode == CALL_PERMISSION_CODE
                 && grantResults.length > 0
                 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 
             callContact(contactName, phoneNumber);
-
         }
-
     }
 
     @Override
@@ -110,13 +109,10 @@ public class TodayFragment extends Fragment implements TodayContract.View,
 
         Context context = fragmentBinding.getRoot().getContext();
 
-        LinearLayoutManager layoutManager = new LinearLayoutManager(context);
+        fragmentBinding.todayCallsRecyclerView.setLayoutManager(new LinearLayoutManager(context));
 
-        LinearLayoutDecorator layoutDecorator = new LinearLayoutDecorator(context, null);
-
-        fragmentBinding.todayCallsRecyclerView.setLayoutManager(layoutManager);
-
-        fragmentBinding.todayCallsRecyclerView.addItemDecoration(layoutDecorator);
+        fragmentBinding.todayCallsRecyclerView.addItemDecoration(new LinearLayoutDecorator(context,
+                null));
     }
 
     private void callContact(String contactName, String phoneNumber) {
@@ -140,8 +136,7 @@ public class TodayFragment extends Fragment implements TodayContract.View,
             }
             this.contactName = contactName;
             this.phoneNumber = phoneNumber;
-        }
-        else {
+        } else {
 
             getActivity().startActivity(new Intent(Intent.ACTION_CALL, number));
 
