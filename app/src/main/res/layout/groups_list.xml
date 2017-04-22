@@ -17,14 +17,17 @@
             android:background="@drawable/group_badge"
             android:gravity="center"
             android:textColor="@color/white"
-            android:textSize="10sp" />
+            android:textSize="10sp"
+            tools:text="A" />
 
         <RelativeLayout
+            android:id="@+id/groupInfoLayout"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_gravity="center"
             android:layout_margin="10dp"
-            android:layout_weight="1">
+            android:layout_weight="1"
+            android:clickable="true">
 
             <TextView
                 android:id="@+id/groupNameTextView"
@@ -48,7 +51,6 @@
 
         </RelativeLayout>
 
-
         <ImageView
             android:id="@+id/editIconImageView"
             android:layout_width="wrap_content"
@@ -63,9 +65,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:contentDescription="@string/call_action"
+            android:contentDescription="@string/delete_action"
             android:padding="10dp"
             android:src="@drawable/ic_delete_grey" />
 
     </LinearLayout>
+
 </layout>

@@ -29,7 +29,7 @@ public class GroupDialogFragment extends DialogFragment
     private static final String INPUT_BUNDLE = "group";
 
     private FragmentAddGroupBinding fragmentBinding;
-    private DialogFragmentContract.Presenter fragmentPresenter;
+    private DialogFragmentContract.Presenter presenter;
     private FragmentInteractionListener interactionListener;
     private SimOneGroup simOneGroup;
     private boolean isEdit;
@@ -105,7 +105,7 @@ public class GroupDialogFragment extends DialogFragment
             String groupName = fragmentBinding.groupNameEditText.getText().toString();
             String intervalString = fragmentBinding.groupIntervalEditText.getText().toString();
             int groupInterval = intervalString.equals("") ? 0 : Integer.valueOf(intervalString);
-            fragmentPresenter.addGroup(groupName, groupInterval, isEdit);
+            presenter.addGroup(groupName, groupInterval, isEdit);
         }
     }
 
@@ -133,7 +133,7 @@ public class GroupDialogFragment extends DialogFragment
     }
 
     private void initialisePresenter() {
-        fragmentPresenter = new GroupPresenter.AddGroupPresenter(this,
+        presenter = new GroupPresenter.AddGroupPresenter(this,
                 simOneGroup == null ? group : simOneGroup);
     }
 

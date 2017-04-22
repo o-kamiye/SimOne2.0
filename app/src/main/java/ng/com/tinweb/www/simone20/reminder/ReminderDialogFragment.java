@@ -38,7 +38,7 @@ public class ReminderDialogFragment extends DialogFragment
 
     private static final String INPUT_BUNDLE = "input_fragment";
 
-    private DialogFragmentContract.Presenter fragmentPresenter;
+    private DialogFragmentContract.Presenter presenter;
     private FragmentAddReminderBinding fragmentAddReminderBinding;
     private SimOneContact contact;
     private Map<String, Integer> groupsMap;
@@ -47,10 +47,10 @@ public class ReminderDialogFragment extends DialogFragment
     private InteractionListener interactionListener;
 
     @Inject
-    SimOneReminder simOneReminder;
+    SimOneReminder reminder;
 
     @Inject
-    SimOneGroup simOneGroup;
+    SimOneGroup group;
 
     public static ReminderDialogFragment getInstance(SimOneContact contact) {
         ReminderDialogFragment inputFragment = new ReminderDialogFragment();
@@ -77,7 +77,7 @@ public class ReminderDialogFragment extends DialogFragment
     @Override
     public void onDestroy() {
         super.onDestroy();
-        this.fragmentPresenter = null;
+        presenter = null;
     }
 
     @Override
@@ -87,7 +87,7 @@ public class ReminderDialogFragment extends DialogFragment
             interactionListener = (InteractionListener) context;
         }
         else {
-            throw new RuntimeException(context +
+            throw new RuntimeException(context.toString() +
                     " must implement ReminderDialogFragment.InteractionListener");
         }
     }
@@ -158,7 +158,7 @@ public class ReminderDialogFragment extends DialogFragment
                 }
                 else {
                     int interval = Integer.parseInt(intervalInput);
-                    fragmentPresenter.setReminder(null, interval, isEditMode);
+                    presenter.setReminder(null, interval, isEditMode);
                 }
             }
             else if (checkedId == fragmentAddReminderBinding.groupRadioButton.getId()) {
@@ -167,7 +167,7 @@ public class ReminderDialogFragment extends DialogFragment
                 if (groupName == null)
                     fragmentAddReminderBinding.inputErrorTextView.setVisibility(View.VISIBLE);
                 else
-                    fragmentPresenter.setReminder(groupName, groupsMap.get(groupName), isEditMode);
+                    presenter.setReminder(groupName, groupsMap.get(groupName), isEditMode);
             }
         }
     }
@@ -192,30 +192,30 @@ public class ReminderDialogFragment extends DialogFragment
         int id = (isEditMode) ? ((SimOneReminder) contact).getReminderContactId() : contact.getId();
         String name = (isEditMode) ? ((SimOneReminder) contact).getContactName() : contact.getName();
 
-        simOneReminder.setContactId(id);
-        simOneReminder.setContactName(name);
+        reminder.setContactId(id);
+        reminder.setContactName(name);
 
-        this.fragmentPresenter = new ReminderPresenter.SetReminderPresenter(this,
-                simOneReminder, simOneGroup);
+        this.presenter = new ReminderPresenter.SetReminderPresenter(this,
+                reminder, group);
     }
 
     private void populateGroupListSpinner() {
-        fragmentPresenter.loadGroupNames();
+        presenter.loadGroupNames();
     }
 
     private void populateFormFields() {
-        SimOneReminder simOneReminder = (SimOneReminder) contact;
-        if (simOneReminder.getContactGroup() == null) {
+        SimOneReminder reminder = (SimOneReminder) contact;
+        if (reminder.getContactGroup() == null || reminder.getContactGroup().equals("")) {
             fragmentAddReminderBinding.intervalRadioButton.setChecked(true);
             fragmentAddReminderBinding.intervalEditText
-                    .setText(String.valueOf(simOneReminder.getInterval()));
+                    .setText(String.valueOf(reminder.getInterval()));
         }
         else {
             fragmentAddReminderBinding.groupRadioButton.setChecked(true);
             fragmentAddReminderBinding.intervalEditText.setVisibility(View.GONE);
             fragmentAddReminderBinding.groupListSpinner.setVisibility(View.VISIBLE);
             fragmentAddReminderBinding.groupListSpinner.setSelection(
-                    groupListAdapter.getPosition(simOneReminder.getContactGroup())
+                    groupListAdapter.getPosition(reminder.getContactGroup())
             );
         }
         fragmentAddReminderBinding.saveButton.setText(R.string.txt_update);

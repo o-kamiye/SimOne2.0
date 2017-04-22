@@ -6,7 +6,7 @@ import java.util.List;
 import ng.com.tinweb.www.simone20.data.contact.SimOneContact;
 
 /**
- * Created by kamiye on 28/09/2016.
+ * ContactPresenter - contact package presenter class
  */
 
 class ContactPresenter implements DialogFragmentContract.Presenter {
@@ -23,7 +23,7 @@ class ContactPresenter implements DialogFragmentContract.Presenter {
     public void fetchContacts(String searchQuery) {
         List<SimOneContact> contacts = contact.getList(searchQuery);
         if (view.get() != null) {
-            view.get().loadContacts(contacts);
+            view.get().onContactsLoaded(contacts);
         }
     }
 }

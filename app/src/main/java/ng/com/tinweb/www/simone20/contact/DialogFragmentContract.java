@@ -12,7 +12,7 @@ import ng.com.tinweb.www.simone20.data.contact.SimOneContact;
 class DialogFragmentContract {
 
     interface View {
-        void loadContacts(List<SimOneContact> contacts);
+        void onContactsLoaded(List<SimOneContact> contacts);
     }
 
     interface Presenter {

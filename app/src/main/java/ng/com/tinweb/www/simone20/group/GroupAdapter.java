@@ -83,19 +83,26 @@ class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolder> {
             super(itemView);
             adapterBinding.editIconImageView.setOnClickListener(this);
             adapterBinding.deleteIconImageView.setOnClickListener(this);
+            adapterBinding.groupInfoLayout.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View view) {
+
+            int id = view.getId();
+
             int position = getAdapterPosition();
 
             SimOneGroup group = groups.get(position);
 
-            if (view.getId() == adapterBinding.editIconImageView.getId()) {
+            if (id == adapterBinding.editIconImageView.getId()) {
                 actionsListener.onEditAction(group);
             }
-            if (view.getId() == adapterBinding.deleteIconImageView.getId()) {
+            if (id == adapterBinding.deleteIconImageView.getId()) {
                 actionsListener.onDeleteAction(group.getName());
+            }
+            if (id == adapterBinding.groupInfoLayout.getId()) {
+                actionsListener.onSelectInfo(group.getName());
             }
         }
     }

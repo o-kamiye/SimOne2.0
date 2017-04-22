@@ -1,4 +1,4 @@
-package ng.com.tinweb.www.simone20.contact;
+package ng.com.tinweb.www.simone20.group;
 
 import android.databinding.DataBindingUtil;
 import android.support.v7.widget.RecyclerView;
@@ -9,44 +9,43 @@ import android.view.ViewGroup;
 import java.util.List;
 
 import ng.com.tinweb.www.simone20.R;
-import ng.com.tinweb.www.simone20.data.contact.SimOneContact;
-import ng.com.tinweb.www.simone20.databinding.ContactListBinding;
+import ng.com.tinweb.www.simone20.data.reminder.SimOneReminder;
+import ng.com.tinweb.www.simone20.databinding.GroupRemindersListBinding;
 
 /**
- * ContactListAdapter
+ * GroupRemindersAdapter -
  */
+class GroupRemindersAdapter extends RecyclerView.Adapter<GroupRemindersAdapter.ViewHolder> {
 
-class ContactListAdapter extends RecyclerView.Adapter<ContactListAdapter.ViewHolder> {
+    private List<SimOneReminder> reminders;
+    private GroupRemindersListBinding adapterBinding;
+    private GroupRemindersActionListener actionListener;
 
-    private List<SimOneContact> contacts;
-    private ContactListBinding adapterBinding;
-    private ContactActionListener actionListener;
-
-    ContactListAdapter(List<SimOneContact> contacts,
-                              ContactActionListener actionListener) {
-        this.contacts = contacts;
+    GroupRemindersAdapter(List<SimOneReminder> reminders,
+                       GroupRemindersActionListener actionListener) {
+        this.reminders = reminders;
         this.actionListener = actionListener;
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         adapterBinding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()),
-                R.layout.contact_list, parent, false);
+                R.layout.group_reminders_list, parent, false);
 
         return new ViewHolder(adapterBinding.getRoot());
     }
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        // TODO save the first letter here
-        String name = contacts.get(position).getName();
+
+        String name = reminders.get(position).getContactName();
 
         adapterBinding.contactNameTextView.setText(name);
     }
 
     @Override
     public int getItemCount() {
-        return contacts.size();
+        return reminders.size();
     }
 
     @Override
@@ -63,16 +62,15 @@ class ContactListAdapter extends RecyclerView.Adapter<ContactListAdapter.ViewHol
 
         ViewHolder(View itemView) {
             super(itemView);
-            adapterBinding.addIconImageView.setOnClickListener(new View.OnClickListener() {
+            adapterBinding.deleteIconImageView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     int position = getAdapterPosition();
-                    SimOneContact contact = contacts.get(position);
-                    actionListener.onClickAdd(contact);
+                    SimOneReminder reminder = reminders.get(position);
+                    actionListener.onClickDelete(reminder);
                 }
             });
         }
 
     }
-
 }
