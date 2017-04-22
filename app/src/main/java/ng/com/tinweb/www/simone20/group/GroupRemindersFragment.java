@@ -107,6 +107,16 @@ public class GroupRemindersFragment extends DialogFragment implements
     @Override
     public void onError(int errorCode) {
         // TODO: 21/04/2017 show user an error message here
+        new AlertDialog.Builder(getContext())
+                .setMessage("Ooops! An error occurred. Please try again.")
+                .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                    }
+                })
+                .create()
+                .show();
     }
 
     @Override
@@ -123,7 +133,7 @@ public class GroupRemindersFragment extends DialogFragment implements
                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        presenter.removeContact(reminder.getContactId());
+                        presenter.removeContact(reminder.getReminderContactId());
                     }
                 })
                 .create()
