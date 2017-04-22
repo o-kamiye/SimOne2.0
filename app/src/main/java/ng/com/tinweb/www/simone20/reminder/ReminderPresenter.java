@@ -13,17 +13,17 @@ import ng.com.tinweb.www.simone20.data.reminder.SimOneReminder;
 class ReminderPresenter implements ReminderContract.Presenter {
 
     private WeakReference<ReminderContract.View> view;
-    private SimOneReminder simOneReminder;
+    private SimOneReminder reminder;
 
     @Inject
-    ReminderPresenter(SimOneReminder simOneReminder, ReminderContract.View view) {
-        this.simOneReminder = simOneReminder;
+    ReminderPresenter(SimOneReminder reminder, ReminderContract.View view) {
+        this.reminder = reminder;
         this.view = new WeakReference<>(view);
     }
 
     @Override
     public void loadReminders() {
-        simOneReminder.getAll(false, new SimOneReminder.GetAllCallback() {
+        reminder.getAll(false, new SimOneReminder.GetAllCallback() {
             @Override
             public void onSuccess(HashMap<String, String> metaData,
                                   List<SimOneReminder> reminders) {
@@ -45,11 +45,11 @@ class ReminderPresenter implements ReminderContract.Presenter {
 
     @Override
     public void deleteReminder(int contactId) {
-        // TODO call the remove method on the simOneReminder object
+        // TODO call the remove method on the reminder object
         // TODO if the removal was successful, then call the view's remove successful callback method
         if (view.get() == null) return;
 
-        if (simOneReminder.remove(contactId)) {
+        if (reminder.remove(contactId)) {
             view.get().showDeleteSuccessInfo();
         }
         else {

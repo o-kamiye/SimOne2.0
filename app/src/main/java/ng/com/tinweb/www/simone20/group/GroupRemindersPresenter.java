@@ -29,7 +29,22 @@ public class GroupRemindersPresenter implements GroupRemindersContract.Presenter
 
             @Override
             public void onError(int errorCode) {
-                if (view.get() != null) view.get().onRemindersLoadingError(errorCode);
+                if (view.get() != null) view.get().onError(errorCode);
+            }
+        });
+    }
+
+    @Override
+    public void removeContact(long contactId) {
+        reminder.removeFromGroup(contactId, new SimOneReminder.ActionCallback() {
+            @Override
+            public void onSuccess() {
+                if (view.get() != null) view.get().onReminderRemoved();
+            }
+
+            @Override
+            public void onError(int errorCode) {
+                if (view.get() != null) view.get().onError(errorCode);
             }
         });
     }

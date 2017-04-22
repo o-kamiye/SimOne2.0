@@ -130,7 +130,7 @@ public class MainActivity extends AppCompatActivity implements
 
     @Override
     public void onDeleteGroupReminder() {
-        Toast.makeText(this, "Reminder removed", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Reminder removed from group", Toast.LENGTH_SHORT).show();
     }
 
     @Override

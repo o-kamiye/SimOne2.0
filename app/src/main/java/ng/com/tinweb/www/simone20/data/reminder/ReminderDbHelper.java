@@ -235,7 +235,7 @@ class ReminderDbHelper extends BaseDbHelper implements DataStore {
         String selection = DbContract.ContactSchema.COLUMN_NAME_CONTACT_GROUP + " = ?";
         String[] selectionArgs = {groupName};
 
-        String sortOrder = DbContract.ContactSchema.COLUMN_NAME_CONTACT_GROUP + " ASC";
+        String sortOrder = DbContract.ContactSchema.COLUMN_NAME_CONTACT_NAME + " ASC";
 
         Cursor cursor = database.query(
                 DbContract.ContactSchema.TABLE_NAME,
@@ -303,5 +303,22 @@ class ReminderDbHelper extends BaseDbHelper implements DataStore {
                 values, selection, selectionArgs);
 
         return count != 0;
+    }
+
+    @Override
+    public void deleteFromGroup(long contactId, SimOneReminder.ActionCallback callback) {
+        SQLiteDatabase database = getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(DbContract.ContactSchema.COLUMN_NAME_CONTACT_GROUP, "");
+
+        String selection = DbContract.ContactSchema._ID + " = ?";
+        String[] selectionArgs = {String.valueOf(contactId)};
+
+        int count = database.update(DbContract.ContactSchema.TABLE_NAME,
+                values, selection, selectionArgs);
+
+        if (count != 0) callback.onSuccess();
+        else callback.onError(UNKNOWN_ERROR);
     }
 }

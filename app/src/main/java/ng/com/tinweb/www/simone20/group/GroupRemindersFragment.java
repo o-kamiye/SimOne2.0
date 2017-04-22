@@ -1,10 +1,12 @@
 package ng.com.tinweb.www.simone20.group;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -97,13 +99,35 @@ public class GroupRemindersFragment extends DialogFragment implements
     }
 
     @Override
-    public void onRemindersLoadingError(int errorCode) {
+    public void onReminderRemoved() {
+        interactionListener.onDeleteGroupReminder();
+        fetchGroupReminders();
+    }
+
+    @Override
+    public void onError(int errorCode) {
         // TODO: 21/04/2017 show user an error message here
     }
 
     @Override
-    public void onClickDelete(SimOneReminder reminder) {
-        interactionListener.onDeleteGroupReminder();
+    public void onClickDelete(final SimOneReminder reminder) {
+        new AlertDialog.Builder(getContext())
+                .setMessage("Do you want to remove "
+                        + reminder.getContactName() + " from " + groupName + "?")
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                    }
+                })
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        presenter.removeContact(reminder.getContactId());
+                    }
+                })
+                .create()
+                .show();
     }
 
     private void setTitleDimension() {

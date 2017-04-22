@@ -97,6 +97,10 @@ public class SimOneReminder extends SimOneContact {
         dataStore = new ReminderDbHelper(context);
     }
 
+    public void removeFromGroup(long contactId, ActionCallback callback) {
+        dataStore.deleteFromGroup(contactId, callback);
+    }
+
     public interface ActionCallback {
         void onSuccess();
         void onError(int errorCode);

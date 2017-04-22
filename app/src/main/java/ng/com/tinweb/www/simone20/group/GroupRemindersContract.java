@@ -16,13 +16,14 @@ public class GroupRemindersContract {
          */
         void onRemindersLoaded(List<SimOneReminder> reminders);
 
+        void onReminderRemoved();
+
         /**
-         * Method to notify view of reminder loading error
+         * Method to notify view of an error
          *
          * @param errorCode Error code
          */
-        void onRemindersLoadingError(int errorCode);
-
+        void onError(int errorCode);
     }
 
     interface Presenter {
@@ -33,5 +34,12 @@ public class GroupRemindersContract {
          * @param groupName Group name
          */
         void loadGroupReminders(String groupName);
+
+        /**
+         * Method to remove reminder from a group
+         *
+         * @param contactId reminder's contact id
+         */
+        void removeContact(long contactId);
     }
 }

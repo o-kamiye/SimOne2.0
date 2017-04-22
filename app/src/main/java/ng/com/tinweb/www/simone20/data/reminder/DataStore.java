@@ -11,4 +11,5 @@ interface DataStore {
     void getMultiple(boolean isToday, SimOneReminder.GetAllCallback callback);
     void getMultipleInGroup(String groupName, SimOneReminder.GetAllCallback callback);
     boolean delete(int contactId);
+    void deleteFromGroup(long contactId, SimOneReminder.ActionCallback callback);
 }
